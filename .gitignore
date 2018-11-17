@@ -1,0 +1,12 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Maven template
+target/
+node_modules/
+/.idea/
+/.classpath
+/.project
+/job-service.iml
+/JobService.iml
+*/target/
+logs/
+*.log
