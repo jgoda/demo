@@ -1,8 +1,102 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.text-center {
+    text-align: center;
 }
 
-a {
-  color: #00B7FF;
+.category {
+    background: transparent;
+    border: 1px solid #efefef;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button.category {
+    width: 100%;
+}
+
+button.category span {
+    float: left;
+    font-size: 14px;
+}
+
+button.category i {
+    float: right;
+    font-size: 15px;
+}
+
+button:focus {
+    outline: none !important;
+    background: none !important;
+}
+
+.switch label {
+    float: right;
+}
+
+.optionContainer {
+    padding: 5px 0 5px 15px;
+}
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (max-width: 576px) {
+    .heading-margin {
+        margin-top: 50px;
+    }
+
+    .categoryContainer {
+        width: 100%;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+    .heading-margin {
+        margin-top: 80px;
+    }
+
+    .categoryContainer {
+        width: 100%;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+    .heading-margin {
+        margin-top: 110px;
+    }
+
+    .categoryContainer {
+        width: 90%;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+    .heading-margin {
+        margin-top: 110px;
+    }
+
+    .categoryContainer {
+        width: 80%;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+    .heading-margin {
+        margin-top: 110px;
+    }
+
+    .categoryContainer {
+        width: 70%;
+        margin: 0 auto;
+        display: block;
+    }
 }
