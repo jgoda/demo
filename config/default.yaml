@@ -2,3 +2,7 @@ ENV:
   PORT: '3000'
   HOST: '0.0.0.0'
   ENV_NAME: 'dev'
+
+WEB3:
+  HOST: 'http://localhost:8545'
+  CONTRACT_ADDRESS: '0x393008e52c3e51a57b9bee377a4453945d5e66e2'

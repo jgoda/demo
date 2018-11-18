@@ -17,7 +17,7 @@
                 <div class="switch">
                     All UCC categories
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="allUccCategory">
                         <span class="lever"></span>
 
                     </label>
@@ -25,10 +25,10 @@
                 <div class="clearfix"></div>
             </div>
             <div class="optionContainer">
-                <div class="switch ">
+                <div class="switch">
                     Banking/Insurance/Financial products/Credit cards
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="insurance">
                         <span class="lever"></span>
 
                     </label>
@@ -39,7 +39,7 @@
                 <div class="switch ">
                     Real Estate
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="realState">
                         <span class="lever"></span>
 
                     </label>
@@ -51,7 +51,7 @@
                 <div class="switch">
                     Education
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="education">
                         <span class="lever"></span>
 
                     </label>
@@ -62,7 +62,7 @@
                 <div class="switch">
                     Health
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="health">
                         <span class="lever"></span>
 
                     </label>
@@ -73,7 +73,7 @@
                 <div class="switch">
                     Consumer goods and automobiles
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="goods">
                         <span class="lever"></span>
 
                     </label>
@@ -84,7 +84,7 @@
                 <div class="switch">
                     Communication/Broadcasting/Entertainment/IT
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="ent">
                         <span class="lever"></span>
 
                     </label>
@@ -95,7 +95,7 @@
                 <div class="switch">
                     Tourism and Leisure
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="tourism">
                         <span class="lever"></span>
 
                     </label>
@@ -106,13 +106,15 @@
                 <div class="switch">
                     Food and Beverages
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="food">
                         <span class="lever"></span>
 
                     </label>
                 </div>
                 <div class="clearfix"></div>
             </div>
+            <a class="waves-effect waves-light btn" onclick="updateTypeUcc()">update</a>
+
         </div>
 
     </div>
@@ -131,7 +133,7 @@
                 <div class="switch">
                     All modes
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="allModeCommunication">
                         <span class="lever"></span>
 
                     </label>
@@ -142,7 +144,7 @@
                 <div class="switch ">
                     Voice call
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="voice">
                         <span class="lever"></span>
 
                     </label>
@@ -153,7 +155,7 @@
                 <div class="switch ">
                     SMS
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="sms">
                         <span class="lever"></span>
 
                     </label>
@@ -165,7 +167,7 @@
                 <div class="switch">
                     Auto-Dialer call with pre-recorded announcement
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="ADrec">
                         <span class="lever"></span>
 
                     </label>
@@ -176,7 +178,7 @@
                 <div class="switch">
                     Auto-dialer call with connectivity to live agent
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="ADlive">
                         <span class="lever"></span>
 
                     </label>
@@ -187,14 +189,17 @@
                 <div class="switch">
                     Robo calls
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="robo">
                         <span class="lever"></span>
 
                     </label>
                 </div>
                 <div class="clearfix"></div>
             </div>
+            <a class="waves-effect waves-light btn" onclick="updateModeOfCommunication()">update</a>
+
         </div>
+
 
     </div>
     <div class="categoryContainer">
@@ -211,7 +216,7 @@
                 <div class="switch">
                     All time bands
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="allBand">
                         <span class="lever"></span>
 
                     </label>
@@ -222,7 +227,7 @@
                 <div class="switch ">
                     00:00 hrs to 06:00 hrs
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="t1">
                         <span class="lever"></span>
 
                     </label>
@@ -233,7 +238,7 @@
                 <div class="switch ">
                     06:00 hrs to 08:00 hrs
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="t2">
                         <span class="lever"></span>
 
                     </label>
@@ -245,7 +250,7 @@
                 <div class="switch">
                     08:00 hrs to 10:00 hrs
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="t3">
                         <span class="lever"></span>
 
                     </label>
@@ -256,7 +261,7 @@
                 <div class="switch">
                     10:00 hrs to 12:00 hrs
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="t4">
                         <span class="lever"></span>
 
                     </label>
@@ -267,7 +272,7 @@
                 <div class="switch">
                     12:00 hrs to 14:00 hrs
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="t5">
                         <span class="lever"></span>
 
                     </label>
@@ -278,7 +283,7 @@
                 <div class="switch">
                     14:00 hrs to 16:00 hrs
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="t6">
                         <span class="lever"></span>
 
                     </label>
@@ -289,7 +294,7 @@
                 <div class="switch">
                     16:00 hrs to 18:00 hrs
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="t7">
                         <span class="lever"></span>
 
                     </label>
@@ -300,7 +305,7 @@
                 <div class="switch">
                     18:00 hrs to 21:00 hrs
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="t8">
                         <span class="lever"></span>
 
                     </label>
@@ -311,13 +316,15 @@
                 <div class="switch">
                     21:00 hrs to 24:00 hrs
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="t9">
                         <span class="lever"></span>
 
                     </label>
                 </div>
                 <div class="clearfix"></div>
             </div>
+            <a class="waves-effect waves-light btn" onclick="updateBand()">update</a>
+
         </div>
 
     </div>
@@ -335,7 +342,7 @@
                 <div class="switch">
                     All day types
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="allDay">
                         <span class="lever"></span>
 
                     </label>
@@ -346,7 +353,7 @@
                 <div class="switch ">
                     Monday
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="mon">
                         <span class="lever"></span>
 
                     </label>
@@ -357,7 +364,7 @@
                 <div class="switch ">
                     Tuesday
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="tue">
                         <span class="lever"></span>
 
                     </label>
@@ -369,7 +376,7 @@
                 <div class="switch">
                     Wednesday
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="wed">
                         <span class="lever"></span>
 
                     </label>
@@ -380,7 +387,7 @@
                 <div class="switch">
                     Thursday
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="thus">
                         <span class="lever"></span>
 
                     </label>
@@ -391,7 +398,7 @@
                 <div class="switch">
                     Friday
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="fri">
                         <span class="lever"></span>
 
                     </label>
@@ -402,7 +409,7 @@
                 <div class="switch">
                     Saturday
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="sat">
                         <span class="lever"></span>
 
                     </label>
@@ -413,7 +420,7 @@
                 <div class="switch">
                     Sunday
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="sun">
                         <span class="lever"></span>
 
                     </label>
@@ -424,13 +431,15 @@
                 <div class="switch">
                     Public holiday and national holiday
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" id="nat">
                         <span class="lever"></span>
 
                     </label>
                 </div>
                 <div class="clearfix"></div>
             </div>
+
+            <a class="waves-effect waves-light btn" onclick="updateDay()">update</a>
         </div>
 
     </div>

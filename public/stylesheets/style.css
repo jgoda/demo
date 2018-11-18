@@ -13,6 +13,12 @@ button.category {
     width: 100%;
 }
 
+a.waves-effect.waves-light.btn {
+    float: right;
+    margin: 10px 15px;
+    color: white;
+}
+
 button.category span {
     float: left;
     font-size: 14px;
