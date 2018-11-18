@@ -263,7 +263,7 @@ contract Users {
     
     
     //get list of commercial numbers to which subscriber has given consent to make calls
-    function getUserConsentlist(uint128 _mobno) returns (uint128[])
+    function getUserConsentlist(uint128 _mobno) constant returns (uint128[])
     {
         var currentSubscriber = subscribers[_mobno];
         uint consentslength = currentSubscriber.consentnos.length;
