@@ -9,6 +9,13 @@
     margin-bottom: 10px;
 }
 
+.register, .register:focus, .register:hover {
+    float: right;
+    margin-top: 15px;
+    color: #2bbbad;
+    text-decoration: none;
+}
+
 button.category {
     width: 100%;
 }

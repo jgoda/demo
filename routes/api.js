@@ -9,6 +9,8 @@ router.post('/uccType', apiHandler.userProcessor.updateTypeUcc);
 router.post('/uccMode', apiHandler.userProcessor.updateModeOfCommunication);
 router.post('/uccTime', apiHandler.userProcessor.updateBand);
 router.post('/uccDay', apiHandler.userProcessor.updateDay);
+router.post('/setting', apiHandler.userProcessor.getUserSettings);
+router.post('/login', apiHandler.userProcessor.login);
 
 
 module.exports = router;

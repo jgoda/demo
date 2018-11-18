@@ -1,4 +1,4 @@
-module.exports.userContract= [
+module.exports.userContract = [
     {
         "constant": false,
         "inputs": [
@@ -39,25 +39,6 @@ module.exports.userContract= [
             {
                 "name": "success",
                 "type": "bool"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "_mobno",
-                "type": "uint128"
-            }
-        ],
-        "name": "getUserConsentlist",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint128[]"
             }
         ],
         "payable": false,
@@ -281,6 +262,44 @@ module.exports.userContract= [
         ],
         "payable": false,
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "_mobno",
+                "type": "uint128"
+            }
+        ],
+        "name": "doesUserExist",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "_mobno",
+                "type": "uint128"
+            }
+        ],
+        "name": "getUserConsentlist",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint128[]"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
         "type": "function"
     },
     {

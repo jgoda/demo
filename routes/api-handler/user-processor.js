@@ -3,6 +3,7 @@
 /*Local Imports*/
 let logManager = require('../../utils/log-manager.js');
 let chainManager = require('../../server/chain/chain.js');
+let processor = require('../../server/processor');
 
 
 /*Global Vars*/
@@ -20,12 +21,15 @@ exports.updateTypeUcc = function (req, res) {
     let tourism = req.body.tourism;
     let food = req.body.food;
 
-    let flag = chainManager.updateTypeUcc(Number(phone), insurance, realState, education, health, goods, ent, tourism, food);
-    if (flag === true) {
-        res.send({success: true, message: 'Settings Updated'});
-    } else {
-        res.send({success: false, message: 'User does not exists'});
-    }
+    chainManager.updateTypeUcc(phone, insurance, realState, education, health, goods, ent, tourism, food, function (err, flag) {
+        console.log(err, flag);
+        if (flag === true) {
+            res.send({success: true, message: 'Settings Updated'});
+        } else {
+            res.send({success: false, message: 'User does not exists'});
+        }
+
+    });
 
 };
 
@@ -38,12 +42,14 @@ exports.updateModeOfCommunication = function (req, res) {
     let ADlive = req.body.ADlive;
     let robo = req.body.robo;
 
-    let flag = chainManager.updateModeOfCommunication(Number(phone), voice, sms, ADrec, ADlive, robo);
-    if (flag === true) {
-        res.send({success: true, message: 'Settings Updated'});
-    } else {
-        res.send({success: false, message: 'User does not exists'});
-    }
+    chainManager.updateModeOfCommunication(Number(phone), voice, sms, ADrec, ADlive, robo, function (err, flag) {
+        if (flag === true) {
+            res.send({success: true, message: 'Settings Updated'});
+        } else {
+            res.send({success: false, message: 'User does not exists'});
+        }
+
+    });
 
 };
 exports.updateBand = function (req, res) {
@@ -59,12 +65,14 @@ exports.updateBand = function (req, res) {
     let t8 = req.body.t8;
     let t9 = req.body.t9;
 
-    let flag = chainManager.updateBand(Number(phone), t1, t2, t3, t4, t5, t6, t7, t8, t9);
-    if (flag === true) {
-        res.send({success: true, message: 'Settings Updated'});
-    } else {
-        res.send({success: false, message: 'User does not exists'});
-    }
+    chainManager.updateBand(Number(phone), t1, t2, t3, t4, t5, t6, t7, t8, t9, function (err, flag) {
+        if (flag === true) {
+            res.send({success: true, message: 'Settings Updated'});
+        } else {
+            res.send({success: false, message: 'User does not exists'});
+        }
+
+    });
 
 };
 
@@ -80,23 +88,48 @@ exports.updateDay = function (req, res) {
     let sun = req.body.sun;
     let nat = req.body.nat;
 
-    let flag = chainManager.updateDay(Number(phone), mon, tue, wed, thus, fri, sat, sun, nat);
-    if (flag === true) {
-        res.send({success: true, message: 'Settings Updated'});
-    } else {
-        res.send({success: false, message: 'User does not exists'});
-    }
+    chainManager.updateDay(Number(phone), mon, tue, wed, thus, fri, sat, sun, nat, function (err, flag) {
+        if (flag === true) {
+            res.send({success: true, message: 'Settings Updated'});
+        } else {
+            res.send({success: false, message: 'User does not exists'});
+        }
+
+    });
 };
 
 exports.addUser = function (req, res) {
     let phone = req.body.phone;
     let name = req.body.name;
 
-    let flag = chainManager.addUser(name, Number(phone));
+    chainManager.addUser(name, Number(phone), function (err, flag) {
+        console.log(flag);
+        if (flag === true) {
+            res.send({success: true, message: 'User Added Successfully'});
+        } else {
+            res.send({success: false, message: 'User already exists'});
+        }
+    });
+
+
+};
+
+exports.getUserSettings = function (req, res) {
+    let phone = req.body.phone;
+
+    processor.user.getUserSettings(phone, function (err, data) {
+        res.send(data);
+    })
+
+};
+
+exports.login = function (req, res) {
+    let phone = req.body.phone;
+    let flag = chainManager.doesUserExist(phone);
     if (flag === true) {
-        res.send({success: true, message: 'User Added Successfully'});
+        res.send({success: true, message: 'User already exists'});
     } else {
-        res.send({success: false, message: 'User already exists'});
+        res.send({success: false, message: 'User does not exists'});
     }
 
 };
