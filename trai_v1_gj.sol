@@ -36,6 +36,10 @@ contract Users {
         bool blocksat;
         bool blocksun;
         bool blocknational;
+        bool unreadUCCType;
+        bool unreadUCCMode;
+        bool unreadUCCTime;
+        bool unreadUCCDay;
         uint128[] consentnos;
         mapping (uint128 => bool) consentsmap;
     }
@@ -106,7 +110,7 @@ contract Users {
             subscribers[_mobno].blockent = _blockent;
             subscribers[_mobno].blocktourism = _blocktourism;
             subscribers[_mobno].blockfood = _blockfood;
-            
+            subscribers[_mobno].unreadUCCType = true;
             return(true);
         }
         else
@@ -125,6 +129,7 @@ contract Users {
             subscribers[_mobno].blockADrec = _blockADrec;
             subscribers[_mobno].blockADlive = _blockADlive;
             subscribers[_mobno].blockrobo = _blockrobo;
+            subscribers[_mobno].unreadUCCMode = true;
             return(true);
         }
         else
@@ -147,6 +152,7 @@ contract Users {
             subscribers[_mobno].blockt7 = _blockt7;
             subscribers[_mobno].blockt8 = _blockt8;
             subscribers[_mobno].blockt9 = _blockt9;
+            subscribers[_mobno].unreadUCCTime = true;
             return(true);
         }
         else
@@ -168,12 +174,18 @@ contract Users {
             subscribers[_mobno].blocksat = _blocksat;
             subscribers[_mobno].blocksun = _blocksun;
             subscribers[_mobno].blocknational = _blocknational;
+            subscribers[_mobno].unreadUCCDay = true;
             return(true);
         }
         else
         {
             return(false);
         }
+    }
+    
+    function doesUserExist(uint128 _mobno) constant returns(bool)
+    {
+        return(subscribers[_mobno].useradded);
     }
     
     //Retrive user preferences for types of UCC calls
