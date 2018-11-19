@@ -47,7 +47,10 @@ exports.updateTypeUcc = function (phone, insurance, realState, education, health
         if (exists === false) {
             return cb(null, false);
         }
-        user.updateUserUCCType(phone, insurance, realState, education, health, goods, ent, tourism, food,{from: web3.eth.accounts[1], gas: 3000000});
+        user.updateUserUCCType(phone, insurance, realState, education, health, goods, ent, tourism, food, {
+            from: web3.eth.accounts[1],
+            gas: 3000000
+        });
         return cb(null, true);
     })
 
@@ -76,7 +79,7 @@ exports.updateModeOfCommunication = function (phone, voice, sms, ADrec, ADlive, 
         if (exists === false) {
             return cb(null, false);
         }
-        user.updateUserUCCMode(phone, voice, sms, ADrec, ADlive, robo,{from: web3.eth.accounts[1], gas: 3000000});
+        user.updateUserUCCMode(phone, voice, sms, ADrec, ADlive, robo, {from: web3.eth.accounts[1], gas: 3000000});
         return cb(null, true);
     })
 
@@ -93,7 +96,7 @@ exports.updateBand = function (phone, t1, t2, t3, t4, t5, t6, t7, t8, t9, cb) {
         if (exists === false) {
             return cb(null, false);
         }
-        user.updateUserUCCTime(phone, t1, t2, t3, t4, t5, t6, t7, t8, t9,{from: web3.eth.accounts[1], gas: 3000000});
+        user.updateUserUCCTime(phone, t1, t2, t3, t4, t5, t6, t7, t8, t9, {from: web3.eth.accounts[1], gas: 3000000});
         return cb(null, true);
     })
 };
@@ -120,7 +123,10 @@ exports.updateDay = function (phone, mon, tue, wed, thus, fri, sat, sun, nat, cb
         if (exists === false) {
             return cb(null, false);
         }
-        user.updateUserUCCDay(phone, mon, tue, wed, thus, fri, sat, sun, nat,{from: web3.eth.accounts[1], gas: 3000000});
+        user.updateUserUCCDay(phone, mon, tue, wed, thus, fri, sat, sun, nat, {
+            from: web3.eth.accounts[1],
+            gas: 3000000
+        });
         return cb(null, true);
     })
 };
@@ -139,3 +145,19 @@ exports.getUserUCCDay = function (phone, cb) {
         })
     })
 };
+
+exports.lodgeComplaint = function (phone, UCCcaller, status, usrComment, cb) {
+
+    user.doesUserExist.call(phone, function (err, exists) {
+        console.log(err, exists);
+        if (exists === false) {
+            return cb(null, false);
+        }
+        user.lodgeComplaint(UCCcaller, phone, status, usrComment, {
+            from: web3.eth.accounts[1],
+            gas: 3000000
+        });
+        return cb(null, true);
+    })
+
+}

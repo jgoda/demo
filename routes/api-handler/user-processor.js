@@ -133,3 +133,44 @@ exports.login = function (req, res) {
     }
 
 };
+
+exports.fileComplaint = function (req, res) {
+
+    let UCCcaller = req.body.UCCcaller;
+    let phone = req.body.phone;
+    let complaint = req.body.complaint;
+    let usrComment = req.body.usrComment || "";
+
+    let status = getComplainFlag(complaint);
+    console.log(status);
+
+    chainManager.lodgeComplaint(phone, UCCcaller, status, usrComment, function (err, flag) {
+        if (flag === true) {
+            res.send({success: true, message: 'Complaint filed successfully'});
+        } else {
+            res.send({success: false, message: 'User does not exists'});
+        }
+    });
+
+};
+
+function getComplainFlag(complaint) {
+    if (complaint === 'noconsent') {
+        return 0;
+    }
+    else if (complaint === 'typewpref') {
+        return 1;
+    }
+    else if (complaint === 'modewpref') {
+        return 2;
+    }
+    else if (complaint === 'dtwpref') {
+        return 3;
+    }
+    else if (complaint === 'behavior') {
+        return 4;
+    }
+    else if (complaint === 'others') {
+        return 5;
+    }
+}

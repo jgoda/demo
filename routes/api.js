@@ -11,6 +11,7 @@ router.post('/uccTime', apiHandler.userProcessor.updateBand);
 router.post('/uccDay', apiHandler.userProcessor.updateDay);
 router.post('/setting', apiHandler.userProcessor.getUserSettings);
 router.post('/login', apiHandler.userProcessor.login);
+router.post('/complaint', apiHandler.userProcessor.fileComplaint);
 
 
 module.exports = router;

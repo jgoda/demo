@@ -190,5 +190,22 @@ function register() {
 
 function submitComplaint() {
 
+    let complaintPhone = $('#complaintPhone').val();
+    let phone = $.jStorage.get("phone");
+    let option = $("input[name='group1']:checked").val();
+    this.makeAjaxCall('/api/complaint', {
+        phone: phone, UCCcaller: complaintPhone, complaint: option
+    }, function (data) {
+
+        if (data['success']) {
+            M.toast({html: 'Complaint Registered Successfully'});
+            setTimeout(() => {
+                window.location.href = '/setting';
+            }, 1000);
+
+        }
+        else
+            M.toast({html: 'User already exists'})
+    })
 }
 
