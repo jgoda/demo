@@ -43,6 +43,15 @@ contract trai {
         uint128[] consentnos;
         mapping (uint128 => bool) consentsmap;
     }
+
+    struct complaint {
+        uint128 complainant;
+        uint16 complaint_type;
+        string user_desc;
+    }
+    
+    mapping (uint128 => complaint[]) recCom;
+
     
     //define mapping between mobile numbers and subscribers
     mapping (uint128 => Participant) subscribers;
@@ -291,5 +300,42 @@ contract trai {
             }
         }
         return returnconsentlist;
+    }
+    
+    function lodgeComplaint(uint128 _UCCcaller, uint128 _complainant, uint16 _type, string _desc) public
+    {
+        complaint memory newComplaint;
+        newComplaint.complainant = _complainant;
+        newComplaint.complaint_type = _type;
+        newComplaint.user_desc = _desc;
+        recCom[_UCCcaller].push(newComplaint);
+        
+    }
+    
+    function getComplaintslist(uint128 _UCCcaller) public constant returns(uint128[], uint16[])
+    {
+        var complaintslength = recCom[_UCCcaller].length;
+        uint128[] memory complainantslist = new uint128[](complaintslength);
+        uint16[] memory complaint_type_list = new uint16[](complaintslength);
+        for(uint i=0; i<complaintslength; i++)
+        {
+            complainantslist[i] = recCom[_UCCcaller][i].complainant;
+            complaint_type_list[i] = recCom[_UCCcaller][i].complaint_type;
+        }
+        
+        return(complainantslist,complaint_type_list);
+    }
+    
+    function getComplaintdesc(uint128 _UCCcaller, uint128 _complainant) public constant returns(string)
+    {
+        for(uint j=0; j<recCom[_UCCcaller].length; j++)
+        {
+            if(recCom[_UCCcaller][j].complainant == _complainant)
+            {
+                return(recCom[_UCCcaller][j].user_desc);
+            }
+        }
+        
+        return("No Description added");
     }
 }
