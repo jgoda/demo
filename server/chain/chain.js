@@ -65,7 +65,7 @@ exports.getUserUCCtype = function (phone, cb) {
             goods: data[4],
             ent: data[5],
             tourism: data[6],
-            food: data[8]
+            food: data[7]
         });
     })
 };

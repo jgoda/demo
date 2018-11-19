@@ -148,29 +148,23 @@ exports.registerComplaint = function (req, res) {
     let behavior = req.body.behavior;
     let others = req.body.others;
     let usrComment = req.body.usrComment
-    if(noconsent)
-    {
-        chainManager.lodgeComplaint(phone,UCCcaller,0,usrComment);
+    if (noconsent) {
+        chainManager.lodgeComplaint(phone, UCCcaller, 0, usrComment);
     }
-    else if(typewpref)
-    {
-        chainManager.lodgeComplaint(phone,UCCcaller,1,usrComment);
+    else if (typewpref) {
+        chainManager.lodgeComplaint(phone, UCCcaller, 1, usrComment);
     }
-    else if(modewpref)
-    {
-        chainManager.lodgeComplaint(phone,UCCcaller,2,usrComment);
+    else if (modewpref) {
+        chainManager.lodgeComplaint(phone, UCCcaller, 2, usrComment);
     }
-    else if(dtwpref)
-    {
-        chainManager.lodgeComplaint(phone,UCCcaller,3,usrComment);
+    else if (dtwpref) {
+        chainManager.lodgeComplaint(phone, UCCcaller, 3, usrComment);
     }
-    else if(behavior)
-    {
-        chainManager.lodgeComplaint(phone,UCCcaller,4,usrComment);
+    else if (behavior) {
+        chainManager.lodgeComplaint(phone, UCCcaller, 4, usrComment);
     }
-    else if(others)
-    {
-        chainManager.lodgeComplaint(phone,UCCcaller,5,usrComment);
+    else if (others) {
+        chainManager.lodgeComplaint(phone, UCCcaller, 5, usrComment);
     }
 
 };

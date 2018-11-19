@@ -161,7 +161,7 @@ function login() {
 
         if (data['success']) {
             $.jStorage.set("phone", phone);
-            window.location.href='/setting'
+            window.location.href = '/setting'
         }
         else
             M.toast({html: 'User does not exists'})
@@ -176,12 +176,19 @@ function register() {
     }, function (data) {
 
         if (data['success']) {
-            M.toast({html: 'Registered Successfully'})
-            window.location.href = '/login';
+            M.toast({html: 'Registered Successfully'});
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 1000);
+
         }
         else
             M.toast({html: 'User already exists'})
     })
+
+}
+
+function submitComplaint() {
 
 }
 

@@ -36,6 +36,10 @@ button.category i {
     font-size: 15px;
 }
 
+.colorBlack {
+    color: black;
+}
+
 button:focus {
     outline: none !important;
     background: none !important;

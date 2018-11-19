@@ -19,5 +19,9 @@ router.get('/register', function (req, res) {
     res.render('register', {});
 
 });
+router.get('/complaint', function (req, res) {
+    res.render('complaints', {});
+
+});
 
 module.exports = router;
