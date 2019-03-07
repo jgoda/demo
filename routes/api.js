@@ -1,6 +1,6 @@
 'use-strict'
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 let apiHandler = require('./api-handler');
 
@@ -12,6 +12,6 @@ router.post('/uccDay', apiHandler.userProcessor.updateDay);
 router.post('/setting', apiHandler.userProcessor.getUserSettings);
 router.post('/login', apiHandler.userProcessor.login);
 router.post('/complaint', apiHandler.userProcessor.fileComplaint);
-
+router.post('/scrubFile', apiHandler.fileProcessor.parseFile);
 
 module.exports = router;

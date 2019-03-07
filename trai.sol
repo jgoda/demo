@@ -49,13 +49,13 @@ contract trai {
         uint16 complaint_type;
         string user_desc;
     }
-    
+
     mapping (uint128 => complaint[]) recCom;
 
-    
+
     //define mapping between mobile numbers and subscribers
     mapping (uint128 => Participant) subscribers;
-    
+
 
     //add a new user
     function addUser(string _userName, uint128 _mobno ) public returns (bool success) {
@@ -64,8 +64,8 @@ contract trai {
             var newsubscriber = subscribers[_mobno]; //add new user
             newsubscriber.name = _userName; //assign username
             newsubscriber.useradded = true; //set user exists flag to true
-            
-            
+
+
             //set default preferences
             newsubscriber.blockfin = false;
             newsubscriber.block_real_estate= false;
@@ -104,7 +104,7 @@ contract trai {
             return(false);
         }
     }
-    
+
     //update type of UCC communication blocked by user
     //Allow user to add preferences for types of commercial calls that may be made
     function updateUserUCCType(uint128 _mobno, bool _blockfin, bool _block_real_estate, bool _blockedu, bool _blockhealth, bool _blockgoods, bool _blockent, bool _blocktourism, bool _blockfood) returns(bool success)
@@ -127,7 +127,7 @@ contract trai {
             return(false);
         }
     }
-    
+
     //Allow user to add preferences for modes in which commercial calls may be made
     function updateUserUCCMode(uint128 _mobno, bool _blockvoice, bool _blocksms, bool _blockADrec, bool _blockADlive, bool _blockrobo) returns(bool success)
     {
@@ -146,7 +146,7 @@ contract trai {
             return(false);
         }
     }
-    
+
     //Allow user to add preferences for time at which commercial calls may be made
     function updateUserUCCTime(uint128 _mobno, bool _blockt1, bool _blockt2, bool _blockt3, bool _blockt4, bool _blockt5, bool _blockt6, bool _blockt7, bool _blockt8, bool _blockt9) returns(bool success)
     {
@@ -169,7 +169,7 @@ contract trai {
             return(false);
         }
     }
-    
+
     //Allow user to add preferences for days on which commercial calls may be made
     function updateUserUCCDay(uint128 _mobno, bool _blockmon, bool _blocktue, bool _blockwed, bool _blockthurs, bool _blockfri, bool _blocksat, bool _blocksun, bool _blocknational) returns(bool success)
     {
@@ -191,12 +191,12 @@ contract trai {
             return(false);
         }
     }
-    
+
     function doesUserExist(uint128 _mobno) constant returns(bool)
     {
         return(subscribers[_mobno].useradded);
     }
-    
+
     //Retrive user preferences for types of UCC calls
     function getUserUCCtype(uint128 _mobno) constant returns (bool, bool, bool, bool, bool, bool, bool, bool)
     {
@@ -210,7 +210,7 @@ contract trai {
             subscriberdet.blocktourism,
             subscriberdet.blockfood);
     }
-    
+
     //Retrive user preferences for modes of UCC calls
     function getUserUCCMode(uint128 _mobno) constant returns (bool, bool, bool, bool, bool)
     {
@@ -221,7 +221,7 @@ contract trai {
             subscriberdet.blockADlive,
             subscriberdet.blockrobo);
     }
-    
+
     //Retrive user preferences for timings of UCC calls
     function getUserUCCTime(uint128 _mobno) constant returns (bool, bool, bool, bool, bool, bool, bool, bool, bool)
     {
@@ -236,21 +236,27 @@ contract trai {
             subscriberdet.blockt8,
             subscriberdet.blockt9);
     }
-    
+
     //Retrive user preferences for days of UCC calls
     function getUserUCCDay(uint128 _mobno) constant returns (bool, bool, bool, bool, bool, bool, bool, bool)
     {
-        var subscriberdet = subscribers[_mobno]; 
-        return(subscriberdet.blockmon, 
-            subscriberdet.blocktue, 
-            subscriberdet.blockwed, 
-            subscriberdet.blockthurs, 
-            subscriberdet.blockfri, 
-            subscriberdet.blocksat, 
-            subscriberdet.blocksun, 
+        var subscriberdet = subscribers[_mobno];
+        return(subscriberdet.blockmon,
+            subscriberdet.blocktue,
+            subscriberdet.blockwed,
+            subscriberdet.blockthurs,
+            subscriberdet.blockfri,
+            subscriberdet.blocksat,
+            subscriberdet.blocksun,
             subscriberdet.blocknational);
     }
-    
+
+    function scrubbing_getUserConsent(uint128 _mobno, uint128 _consentno) constant returns (bool)
+    {
+        var subscriberdet = subscribers[_mobno];
+        return(subscriberdet.consentsmap[_consentno]);
+    }
+
     //Allow user to add consent to commercial number
     function addUserConsent(uint128 _mobno, uint128 _consentno) returns(bool success)
     {
@@ -265,12 +271,12 @@ contract trai {
             return(false);
         }
     }
-    
-    
+
+
     //Allow subscriber to revoke consent to commercial number
     function revokeUserConsent(uint128 _mobno, uint128 _consentno) returns (bool success)
     {
-        
+
         if(subscribers[_mobno].useradded)
         {
             subscribers[_mobno].consentsmap[_consentno] = false;
@@ -281,8 +287,8 @@ contract trai {
             return(false);
         }
     }
-    
-    
+
+
     //get list of commercial numbers to which subscriber has given consent to make calls
     function getUserConsentlist(uint128 _mobno) constant returns (uint128[])
     {
@@ -290,7 +296,7 @@ contract trai {
         uint consentslength = currentSubscriber.consentnos.length;
         uint128[] memory returnconsentlist = new uint128[](consentslength);
         uint j=0;
-        
+
         for(uint i=0; i<consentslength; i++)
         {
             if(currentSubscriber.consentsmap[currentSubscriber.consentnos[i]])
@@ -301,7 +307,7 @@ contract trai {
         }
         return returnconsentlist;
     }
-    
+
     function lodgeComplaint(uint128 _UCCcaller, uint128 _complainant, uint16 _type, string _desc) public
     {
         complaint memory newComplaint;
@@ -309,9 +315,9 @@ contract trai {
         newComplaint.complaint_type = _type;
         newComplaint.user_desc = _desc;
         recCom[_UCCcaller].push(newComplaint);
-        
+
     }
-    
+
     function getComplaintslist(uint128 _UCCcaller) public constant returns(uint128[], uint16[])
     {
         var complaintslength = recCom[_UCCcaller].length;
@@ -322,10 +328,10 @@ contract trai {
             complainantslist[i] = recCom[_UCCcaller][i].complainant;
             complaint_type_list[i] = recCom[_UCCcaller][i].complaint_type;
         }
-        
+
         return(complainantslist,complaint_type_list);
     }
-    
+
     function getComplaintdesc(uint128 _UCCcaller, uint128 _complainant) public constant returns(string)
     {
         for(uint j=0; j<recCom[_UCCcaller].length; j++)
@@ -335,7 +341,7 @@ contract trai {
                 return(recCom[_UCCcaller][j].user_desc);
             }
         }
-        
+
         return("No Description added");
     }
 }

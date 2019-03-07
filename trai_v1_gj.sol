@@ -273,6 +273,43 @@ contract Users {
         }
     }
     
+    //return bool data in required format to make token
+    function tokendata(uint128 _mobno, uint128 _consentno) constant returns (bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool)
+    {
+        var currentSubscriber = subscribers[_mobno];
+        return(currentSubscriber.useradded, 
+            (currentSubscriber.consentsmap[_consentno]),
+            currentSubscriber.blockfin,
+            currentSubscriber.block_real_estate,
+            currentSubscriber.blockedu,
+            currentSubscriber.blockhealth,
+            currentSubscriber.blockgoods,
+            currentSubscriber.blockent,
+            currentSubscriber.blocktourism,
+            currentSubscriber.blockfood,
+            currentSubscriber.blockvoice,
+            currentSubscriber.blocksms,
+            currentSubscriber.blockADrec,
+            currentSubscriber.blockADlive,
+            currentSubscriber.blockrobo,
+            currentSubscriber.blockt1,
+            currentSubscriber.blockt2,
+            currentSubscriber.blockt3,
+            currentSubscriber.blockt4,
+            currentSubscriber.blockt5,
+            currentSubscriber.blockt6,
+            currentSubscriber.blockt7,
+            currentSubscriber.blockt8,
+            currentSubscriber.blockt9,
+            currentSubscriber.blockmon,
+            currentSubscriber.blocktue,
+            currentSubscriber.blockwed,
+            currentSubscriber.blockthurs,
+            currentSubscriber.blockfri,
+            currentSubscriber.blocksat,
+            currentSubscriber.blocksun,
+            currentSubscriber.blocknational);
+    }
     
     //get list of commercial numbers to which subscriber has given consent to make calls
     function getUserConsentlist(uint128 _mobno) constant returns (uint128[])

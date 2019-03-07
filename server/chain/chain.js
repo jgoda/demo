@@ -160,4 +160,8 @@ exports.lodgeComplaint = function (phone, UCCcaller, status, usrComment, cb) {
         return cb(null, true);
     })
 
-}
+};
+
+exports.scrubbing_getUserConsent = function (phone, UCCCaller) {
+    return user.scrubbing_getUserConsent(phone, UCCCaller);
+};
