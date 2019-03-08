@@ -63,37 +63,31 @@ function readFile(filePath, cb) {
 function processFile(index, xlData, todaystr, result, cb) {
     let dow = new Date().getDay();
     let _next_dow = [];
+    let _month = ['mon', 'tue', 'wed', 'thus', 'fri', 'sat', 'sun', 'nat'];
 
     console.log(index, xlData.length);
     if (index < xlData.length) {
         let phone = xlData[index]['numbers'];
+        if (chainManager.doesUserExist(phone) /*&& chainManager.scrubbing_getUserConsent(phone, 1)*/) {
+            chainManager.getUserUCCDay(phone, function (err, uccData) {
 
-        /*
-                if (chainManager.doesUserExist(phone) && chainManager.scrubbing_getUserConsent(phone, 1)) {
-                    chainManager.getUserUCCDay(phone, function (err, uccData) {
-                        _next_dow[0] = uccData[dow];
-                        _next_dow[2] = uccData[7];
-                        if (dow < 6) {
-                            _next_dow[1] = uccData[dow + 1]
-                        }
-                        else {
-                            _next_dow[1] = uccData[0];
-                        }
-                        if (_next_dow[0] || _next_dow[1]) {
-                            record['phone'] = todaystr.concat(phone);
-                            record['dow'] = _next_dow;
-                            result.push(record);
-                        }
-                        index++;
-                        processFile(index, xlData, todaystr, result, cb);
-
-                    });
-                } else {
-
+                console.log(uccData);
+                _next_dow[0] = uccData[_month[dow]];
+                _next_dow[2] = uccData[_month[7]];
+                if (dow < 6) {
+                    _next_dow[1] = uccData[_month[dow + 1]];
                 }
-        */
+                else {
+                    _next_dow[1] = uccData[_month[0]];
+                }
+                console.log(_next_dow);
+                if (_next_dow[0] || _next_dow[1]) {
+                    result.push([todaystr.concat(phone), _next_dow, 23, 34]);
+                }
+                console.log(result);
+            });
+        }
         index++;
-        result.push([todaystr.concat(phone), 1, 23, 45]);
         processFile(index, xlData, todaystr, result, cb);
     } else {
         cb(null, result);
