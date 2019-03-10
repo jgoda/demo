@@ -22,6 +22,12 @@ router.get('/scrubFile', function (req, res) {
 
 });
 
+router.get('/bulkPref', function (req, res) {
+    let success = req.query.success || false;
+    res.render('prefUpload', {success: success});
+
+});
+
 router.get('/register', function (req, res) {
     res.render('register', {});
 

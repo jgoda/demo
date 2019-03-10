@@ -49,6 +49,29 @@ module.exports.userContract = [
         "constant": false,
         "inputs": [
             {
+                "name": "_mobno",
+                "type": "uint128"
+            },
+            {
+                "name": "_prefs",
+                "type": "bool[]"
+            }
+        ],
+        "name": "bulkupdateUCC",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "type": "function",
+        "stateMutability": "nonpayable"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
                 "name": "_UCCcaller",
                 "type": "uint128"
             },

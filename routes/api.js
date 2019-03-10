@@ -12,6 +12,7 @@ router.post('/uccDay', apiHandler.userProcessor.updateDay);
 router.post('/setting', apiHandler.userProcessor.getUserSettings);
 router.post('/login', apiHandler.userProcessor.login);
 router.post('/complaint', apiHandler.userProcessor.fileComplaint);
-router.post('/scrubFile', apiHandler.fileProcessor.parseFile);
+router.post('/scrubFile', apiHandler.fileProcessor.parseScrubFile);
+router.post('/prefUpdate', apiHandler.fileProcessor.parsePreferencesFile);
 
 module.exports = router;

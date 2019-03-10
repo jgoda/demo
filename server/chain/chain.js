@@ -165,3 +165,12 @@ exports.lodgeComplaint = function (phone, UCCcaller, status, usrComment, cb) {
 exports.scrubbing_getUserConsent = function (phone, UCCCaller) {
     return user.scrubbing_getUserConsent(phone, UCCCaller);
 };
+
+
+exports.bulkupdateUCC = function (phone, pref) {
+
+    return user.bulkupdateUCC(phone, pref, {
+        from: web3.eth.accounts[1],
+        gas: 3000000
+    });
+};
