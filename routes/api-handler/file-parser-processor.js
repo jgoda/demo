@@ -90,22 +90,25 @@ function processPreferencesFile(index, xlData, cb) {
         logger.info('[processPreferencesFile]', phone);
 
         let subscriberRequestObject = {
-            url: 'http://localhost:3000/subscriber/' + phone,
+            url: 'http://localhost:3000/api/subscriber/' + phone,
             headers: {
-                'Content-Type': 'application/json'
-            },
-            json: true
+		'Accept': 'application/json'
+            }
+            
         };
 
         subscriberRequestObject['method'] = 'GET';
 
-        request.fetchData(subscriberRequestObject, function (err, subscriberDetail) {
-            if (err) {
+        request.makeGetCall(subscriberRequestObject['url'], function (err, subscriberDetail) {
+	console.log('[getsubscriberRequest]',err,subscriberDetail);
+            if (subscriberDetail['error'] && subscriberDetail['error']['statusCode']==404) {
+		// make POST call here
                 index++;
                 processPreferencesFile(index, xlData, cb);
             } else {
                 let participant = {
                     $class: 'org.example.biznet.subscriber',
+		    'mobno': phone,
                     'uccInsurance': xlData[index]['uccInsurance'] === '1',
                     'uccRealstate': xlData[index]['uccRealstate'] === '1',
                     'uccEducation': xlData[index]['uccEducation'] === '1',
@@ -140,7 +143,9 @@ function processPreferencesFile(index, xlData, cb) {
                 };
                 subscriberRequestObject['method'] = 'PUT';
                 subscriberRequestObject['body'] = participant;
+		subscriberRequestObject['json'] = true;
                 request.fetchData(subscriberRequestObject, function (err, response) {
+		console.log('[updatesubscriberRequest]',err,response);
                     index++;
                     processPreferencesFile(index, xlData, cb);
                 })

@@ -34,7 +34,7 @@ function makeRequest(url, cb) {
     /** Recording current time for performance */
 
     request({
-        uri: url,
+        url: options.url,
         method: options.method || 'GET', /** By default pick the method GET */
         timeout: options.timeout || 10000, /** Request timeout set to be 10,000 ms */
         headers: options.headers || {},
@@ -56,4 +56,11 @@ function makeRequest(url, cb) {
  */
 exports.fetchData = function (url, cb) {
     makeRequest(url, cb);
+};
+
+
+exports.makeGetCall = function (url, cb) {
+    request.get(url, {}, function (err, res, body) {
+        cb(err, body)
+    });
 };

@@ -8,11 +8,11 @@ var userContract = require('../../contract/User.js').userContract;
 
 /*Global Vars*/
 
-var web3 = new Web3(new Web3.providers.HttpProvider(config.WEB3.HOST));
-web3.eth.defaultAccount = web3.eth.accounts[0];
+//var web3 = new Web3(new Web3.providers.HttpProvider(config.WEB3.HOST));
+//web3.eth.defaultAccount = web3.eth.accounts[0];
 
-var CoursetroContract = web3.eth.contract(userContract);
-var user = CoursetroContract.at(config.WEB3.CONTRACT_ADDRESS);
+//var CoursetroContract = web3.eth.contract(userContract);
+//var user = CoursetroContract.at(config.WEB3.CONTRACT_ADDRESS);
 
 
 exports.getAddress = function () {
