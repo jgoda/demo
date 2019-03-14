@@ -2,7 +2,7 @@
 
 /*Local Imports*/
 let logManager = require('../../utils/log-manager.js');
-let chainManager = require('../../server/chain/chain.js');
+//let chainManager = require('../../server/chain/chain.js');
 let processor = require('../../server/processor');
 let uploadDir = __dirname + "/../../scrubFolder/";
 let excelProcessor = require('../../utils/excel-parser.js');
@@ -22,7 +22,7 @@ exports.parseScrubFile = function (req, res) {
         let todayDateStr = utils.todayDateString();
 
         processScrubFile(0, xlData, todayDateStr, [], function (err, result) {
-            excelProcessor.createExcel(uploadDir, 'scrubbing-output.xlsx', 'Sheet1', result);
+            excelProcessor.createExcelFromJson(uploadDir, 'scrubbing-output.xlsx', 'Sheet1', result);
         });
         console.log('end');
         res.redirect('/scrubFile?success=true');
@@ -37,31 +37,49 @@ function processScrubFile(index, xlData, todaystr, result, cb) {
     console.log(index, xlData.length);
     if (index < xlData.length) {
         let phone = xlData[index]['numbers'];
-        if (chainManager.doesUserExist(phone) /*&& chainManager.scrubbing_getUserConsent(phone, 1)*/) {
-            chainManager.getUserUCCDay(phone, function (err, uccData) {
 
-                console.log(uccData);
-                _next_dow[0] = uccData[_month[dow]];
-                _next_dow[2] = uccData[_month[7]];
-                if (dow < 6) {
-                    _next_dow[1] = uccData[_month[dow + 1]];
-                }
-                else {
-                    _next_dow[1] = uccData[_month[0]];
-                }
-                console.log(_next_dow);
-                if (_next_dow[0] || _next_dow[1]) {
-                    result.push([todaystr.concat(phone), _next_dow, 23, 34]);
-                }
-                console.log(result);
-                index++;
-                processScrubFile(index, xlData, todaystr, result, cb);
-            });
-        } else {
+        let url = 'http://localhost:3000/api/subscriber/' + phone;
+
+        request.makeGetCall(url, function (err, subscriberDetail) {
+            if (!subscriberDetail['error']) {
+                let cell = {
+                    'phone': todaystr.concat(phone),
+                    'uccInsurance': subscriberDetail['uccInsurance'],
+                    'uccRealstate': subscriberDetail['uccRealstate'],
+                    'uccEducation': subscriberDetail['uccEducation'],
+                    'uccHealth': subscriberDetail['uccHealth'],
+                    'uccGood': subscriberDetail['uccGood'],
+                    'uccEnt': subscriberDetail['uccEnt'],
+                    'uccTourism': subscriberDetail['uccTourism'],
+                    'uccFood': subscriberDetail['uccFood'],
+                    'mocVoice': subscriberDetail['mocVoice'],
+                    'mocSMS': subscriberDetail['mocSMS'],
+                    'mocADrec': subscriberDetail['mocADrec'],
+                    'mocADlive': subscriberDetail['mocADlive'],
+                    'mocRobo': subscriberDetail['mocRobo'],
+                    'bandT1': subscriberDetail['bandT1'],
+                    'bandT2': subscriberDetail['bandT2'],
+                    'bandT3': subscriberDetail['bandT3'],
+                    'bandT4': subscriberDetail['bandT4'],
+                    'bandT5': subscriberDetail['bandT5'],
+                    'bandT6': subscriberDetail['bandT6'],
+                    'bandT7': subscriberDetail['bandT7'],
+                    'bandT8': subscriberDetail['bandT8'],
+                    'bandT9': subscriberDetail['bandT9'],
+                    'dayMon': subscriberDetail['dayMon'],
+                    'dayTue': subscriberDetail['dayTue'],
+                    'dayWed': subscriberDetail['dayWed'],
+                    'dayThus': subscriberDetail['dayThus'],
+                    'dayFri': subscriberDetail['dayFri'],
+                    'daySat': subscriberDetail['daySat'],
+                    'daySun': subscriberDetail['daySun'],
+                    'datNat': subscriberDetail['datNat']
+                };
+                result.push(cell);
+            }
             index++;
             processScrubFile(index, xlData, todaystr, result, cb);
-        }
-
+        });
     } else {
         cb(null, result);
     }
@@ -92,23 +110,23 @@ function processPreferencesFile(index, xlData, cb) {
         let subscriberRequestObject = {
             url: 'http://localhost:3000/api/subscriber/' + phone,
             headers: {
-		'Accept': 'application/json'
+                'Accept': 'application/json'
             }
-            
+
         };
 
         subscriberRequestObject['method'] = 'GET';
 
         request.makeGetCall(subscriberRequestObject['url'], function (err, subscriberDetail) {
-	console.log('[getsubscriberRequest]',err,subscriberDetail);
-            if (subscriberDetail['error'] && subscriberDetail['error']['statusCode']==404) {
-		// make POST call here
+            console.log('[getsubscriberRequest]', err, subscriberDetail);
+            if (subscriberDetail['error'] && subscriberDetail['error']['statusCode'] == 404) {
+                // make POST call here
                 index++;
                 processPreferencesFile(index, xlData, cb);
             } else {
                 let participant = {
                     $class: 'org.example.biznet.subscriber',
-		    'mobno': phone,
+                    'mobno': phone,
                     'uccInsurance': xlData[index]['uccInsurance'] === '1',
                     'uccRealstate': xlData[index]['uccRealstate'] === '1',
                     'uccEducation': xlData[index]['uccEducation'] === '1',
@@ -143,9 +161,9 @@ function processPreferencesFile(index, xlData, cb) {
                 };
                 subscriberRequestObject['method'] = 'PUT';
                 subscriberRequestObject['body'] = participant;
-		subscriberRequestObject['json'] = true;
+                subscriberRequestObject['json'] = true;
                 request.fetchData(subscriberRequestObject, function (err, response) {
-		console.log('[updatesubscriberRequest]',err,response);
+                    console.log('[updatesubscriberRequest]', err, response);
                     index++;
                     processPreferencesFile(index, xlData, cb);
                 })

@@ -8,12 +8,12 @@ exports.parseExcel = function (filePath, sheetIndex) {
     return XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[sheetIndex]]);
 };
 
-exports.createExcel = function (fileDir, fileName, sheetName, dataToWrite) {
+exports.createExcelFromJson = function (fileDir, fileName, sheetName, dataToWrite, headers) {
 
     try {
         let outputFile = fileDir + fileName;
         let wb = XLSX.utils.book_new();
-        let ws = XLSX.utils.aoa_to_sheet(dataToWrite);
+        let ws = XLSX.utils.json_to_sheet(dataToWrite, headers);
         XLSX.utils.book_append_sheet(wb, ws, sheetName);
         XLSX.writeFile(wb, outputFile);
         return true;
