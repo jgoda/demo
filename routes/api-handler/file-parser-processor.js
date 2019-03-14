@@ -9,6 +9,9 @@ let excelProcessor = require('../../utils/excel-parser.js');
 let utils = require('../../utils/utils.js');
 let userProcessor = require('./user-processor.js');
 let request = require('../../server/http-request.js');
+let crypt = require('../../utils/crypt.js');
+
+
 
 /*Global Vars*/
 let logger = logManager.getLogger();
@@ -22,10 +25,12 @@ exports.parseScrubFile = function (req, res) {
         let todayDateStr = utils.todayDateString();
 
         processScrubFile(0, xlData, todayDateStr, [], function (err, result) {
-            excelProcessor.createExcelFromJson(uploadDir, 'scrubbing-output.xlsx', 'Sheet1', result);
+            console.log('data received',result);
+            excelProcessor.createExcelFromJson(uploadDir, 'scrubbing_output.xlsx', 'Sheet1', result,Object.keys(result[0]));
+            console.log('end');
+            res.redirect('/scrubFile?success=true');
         });
-        console.log('end');
-        res.redirect('/scrubFile?success=true');
+        
     })
 };
 
@@ -40,10 +45,13 @@ function processScrubFile(index, xlData, todaystr, result, cb) {
 
         let url = 'http://localhost:3000/api/subscriber/' + phone;
 
-        request.makeGetCall(url, function (err, subscriberDetail) {
-            if (!subscriberDetail['error']) {
+        request.makeFetchCall(url, function (err, subscriberDetail) {
+            console.log("makegetcall",err,subscriberDetail,typeof subscriberDetail);
+            if (subscriberDetail) {
+                subscriberDetail=JSON.parse(subscriberDetail);
+                console.log('adding result');
                 let cell = {
-                    'phone': todaystr.concat(phone),
+                    'phone': crypt.encrypt(todaystr.concat(phone)),
                     'uccInsurance': subscriberDetail['uccInsurance'],
                     'uccRealstate': subscriberDetail['uccRealstate'],
                     'uccEducation': subscriberDetail['uccEducation'],
@@ -76,6 +84,7 @@ function processScrubFile(index, xlData, todaystr, result, cb) {
                     'datNat': subscriberDetail['datNat']
                 };
                 result.push(cell);
+                console.log('added');
             }
             index++;
             processScrubFile(index, xlData, todaystr, result, cb);
@@ -110,60 +119,76 @@ function processPreferencesFile(index, xlData, cb) {
         let subscriberRequestObject = {
             url: 'http://localhost:3000/api/subscriber/' + phone,
             headers: {
-                'Accept': 'application/json'
+		'Accept': 'application/json'
             }
+            
+        };
 
+        let subscriberPostObject = {
+            url: 'http://localhost:3000/api/subscriber/',
+            headers: {
+		'Accept': 'application/json'
+            }
+            
+        };
+
+        console.log(xlData[index]['uccInsurance'],xlData[index]['uccRealstate'],xlData[index]['uccEducation']);
+        let participant = {
+            $class: 'org.example.biznet.subscriber',
+            'mobno': phone,
+            'uccInsurance': String(xlData[index]['uccInsurance']) === '1',
+            'uccRealstate': String(xlData[index]['uccRealstate']) === '1',
+            'uccEducation': String(xlData[index]['uccEducation']) === '1',
+            'uccHealth': String(xlData[index]['uccHealth']) === '1',
+            'uccGood': String(xlData[index]['uccGood']) === '1',
+            'uccEnt': String(xlData[index]['uccEnt']) === '1',
+            'uccTourism': String(xlData[index]['uccTourism']) === '1',
+            'uccFood': String(xlData[index]['uccFood']) === '1',
+            'mocVoice': String(xlData[index]['mocVoice']) === '1',
+            'mocSMS': String(xlData[index]['mocSMS']) === '1',
+            'mocADrec': String(xlData[index]['mocADrec']) === '1',
+            'mocADlive': String(xlData[index]['mocADlive']) === '1',
+            'mocRobo': String(xlData[index]['mocRobo']) === '1',
+            'bandT1': String(xlData[index]['bandT1']) === '1',
+            'bandT2': String(xlData[index]['bandT2']) === '1',
+            'bandT3': String(xlData[index]['bandT3']) === '1',
+            'bandT4': String(xlData[index]['bandT4']) === '1',
+            'bandT5': String(xlData[index]['bandT5']) === '1',
+            'bandT6': String(xlData[index]['bandT6']) === '1',
+            'bandT7': String(xlData[index]['bandT7']) === '1',
+            'bandT8': String(xlData[index]['bandT8']) === '1',
+            'bandT9': String(xlData[index]['bandT9']) === '1',
+            'dayMon': String(xlData[index]['dayMon']) === '1',
+            'dayTue': String(xlData[index]['dayTue']) === '1',
+            'dayWed': String(xlData[index]['dayWed']) === '1',
+            'dayThus': String(xlData[index]['dayThus']) === '1',
+            'dayFri': String(xlData[index]['dayFri']) === '1',
+            'daySat': String(xlData[index]['daySat']) === '1',
+            'daySun': String(xlData[index]['daySun']) === '1',
+            'datNat': String(xlData[index]['datNat']) === '1',
+            'consentnos': []
         };
 
         subscriberRequestObject['method'] = 'GET';
 
-        request.makeGetCall(subscriberRequestObject['url'], function (err, subscriberDetail) {
-            console.log('[getsubscriberRequest]', err, subscriberDetail);
-            if (subscriberDetail['error'] && subscriberDetail['error']['statusCode'] == 404) {
-                // make POST call here
-                index++;
-                processPreferencesFile(index, xlData, cb);
+        request.makeFetchCall(subscriberRequestObject['url'], function (err, subscriberDetail) {
+	    console.log('[getsubscriberRequest]',err,subscriberDetail);
+            if (!subscriberDetail) {
+                subscriberPostObject['method'] = 'POST';
+                subscriberPostObject['body'] = participant;
+                subscriberPostObject['json'] = true;
+                request.fetchData(subscriberPostObject, function (err, response) {
+                    console.log('POST response status: ', response.status);
+                    index++;
+                    processPreferencesFile(index, xlData, cb);
+                });
             } else {
-                let participant = {
-                    $class: 'org.example.biznet.subscriber',
-                    'mobno': phone,
-                    'uccInsurance': xlData[index]['uccInsurance'] === '1',
-                    'uccRealstate': xlData[index]['uccRealstate'] === '1',
-                    'uccEducation': xlData[index]['uccEducation'] === '1',
-                    'uccHealth': xlData[index]['uccHealth'] === '1',
-                    'uccGood': xlData[index]['uccGood'] === '1',
-                    'uccEnt': xlData[index]['uccEnt'] === '1',
-                    'uccTourism': xlData[index]['uccTourism'] === '1',
-                    'uccFood': xlData[index]['uccFood'] === '1',
-                    'mocVoice': xlData[index]['mocVoice'] === '1',
-                    'mocSMS': xlData[index]['mocSMS'] === '1',
-                    'mocADrec': xlData[index]['mocADrec'] === '1',
-                    'mocADlive': xlData[index]['mocADlive'] === '1',
-                    'mocRobo': xlData[index]['mocRobo'] === '1',
-                    'bandT1': xlData[index]['bandT1'] === '1',
-                    'bandT2': xlData[index]['bandT2'] === '1',
-                    'bandT3': xlData[index]['bandT3'] === '1',
-                    'bandT4': xlData[index]['bandT4'] === '1',
-                    'bandT5': xlData[index]['bandT5'] === '1',
-                    'bandT6': xlData[index]['bandT6'] === '1',
-                    'bandT7': xlData[index]['bandT7'] === '1',
-                    'bandT8': xlData[index]['bandT8'] === '1',
-                    'bandT9': xlData[index]['bandT9'] === '1',
-                    'dayMon': xlData[index]['dayMon'] === '1',
-                    'dayTue': xlData[index]['dayTue'] === '1',
-                    'dayWed': xlData[index]['dayWed'] === '1',
-                    'dayThus': xlData[index]['dayThus'] === '1',
-                    'dayFri': xlData[index]['dayFri'] === '1',
-                    'daySat': xlData[index]['daySat'] === '1',
-                    'daySun': xlData[index]['daySun'] === '1',
-                    'datNat': xlData[index]['datNat'] === '1',
-                    'consentnos': subscriberDetail['consentnos']
-                };
+                participant['consentnos']=subscriberDetail['consentnos'];
                 subscriberRequestObject['method'] = 'PUT';
                 subscriberRequestObject['body'] = participant;
-                subscriberRequestObject['json'] = true;
+		        subscriberRequestObject['json'] = true;
                 request.fetchData(subscriberRequestObject, function (err, response) {
-                    console.log('[updatesubscriberRequest]', err, response);
+		            console.log('[updatesubscriberRequest]',err,response);
                     index++;
                     processPreferencesFile(index, xlData, cb);
                 })

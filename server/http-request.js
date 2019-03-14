@@ -64,3 +64,16 @@ exports.makeGetCall = function (url, cb) {
         cb(err, body)
     });
 };
+exports.makeFetchCall = function (url, cb) {
+    let options={
+        headers:{
+            "Accept":"application/json"
+        }
+    };
+    request.get(url, options, function (err, response, body) {
+        if(response && response.statusCode==200){
+            return cb(null,body);
+        }
+        return cb(err, null);
+    });
+};

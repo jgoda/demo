@@ -39,7 +39,7 @@ router.get('/complaint', function (req, res) {
 
 router.get('/download', function (req, res) {
 
-    let outputFile = uploadDir + 'scrubbed_output.xlsx';
+    let outputFile = uploadDir + 'scrubbing_output.xlsx';
     res.download(outputFile);
 
 });
