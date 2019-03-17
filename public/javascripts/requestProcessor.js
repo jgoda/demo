@@ -221,3 +221,14 @@ function registerEntity() {
 
 }
 
+function saveHeader() {
+    let header = $('#saveHeader').val();
+    this.makeAjaxCall('/api/header', {
+        header
+    }, function (data) {
+
+        M.toast({html: data['message']});
+    })
+
+}
+

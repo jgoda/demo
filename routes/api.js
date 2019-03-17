@@ -14,5 +14,6 @@ router.post('/login', apiHandler.userProcessor.login);
 router.post('/complaint', apiHandler.userProcessor.fileComplaint);
 router.post('/scrubFile', apiHandler.fileProcessor.parseScrubFile);
 router.post('/prefUpdate', apiHandler.fileProcessor.parsePreferencesFile);
+router.post('/header', apiHandler.headerProcessor.saveHeader);
 
 module.exports = router;

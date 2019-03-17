@@ -68,6 +68,36 @@ exports.getHeadersForEntity = function (entity, cb) {
     return cb(null, headers);
 };
 
+exports.getHeaderByHeaderName = function (header, cb) {
+
+    let url = 'http://localhost:3000/headers/' + header;
+
+    request.makeGetCall(url, function (err, data) {
+        cb(err, data);
+    })
+
+};
+
+exports.saveHeader = function (header, cb) {
+    let data = {
+        "headerstr": header,
+        "contentTemplates": [],
+        "consentTemplates": [],
+    };
+    let saveHeader = {
+        url: 'http://localhost:3000/api/headers',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        data: data,
+        json: true
+    };
+    request.fetchData(data, function (err, data) {
+        return cb(err, data);
+    })
+};
+
 exports.getTemplatesForHeader = function (header, cb) {
 
     let templates = [
