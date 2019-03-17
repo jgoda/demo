@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="text-center heading-margin">
+        <p>&nbsp;</p>
+    </div>
+
+    <div class="categoryContainer">
+        <ul class="collection with-header noBorder">
+            <li class="collection-header noBorder"><h4>Headers</h4></li>
+            <div class="greyBorder">
+                {{#each headers}}
+                    <li class="collection-item">
+                        <div>{{this.headerstr}}<a href="/templates/{{this.headerstr}}" class="secondary-content"><i
+                                class="material-icons">send</i></a>
+                        </div>
+                    </li>
+
+                {{/each}}
+            </div>
+        </ul>
+    </div>
+
+
+</div>
+

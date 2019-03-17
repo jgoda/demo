@@ -20,10 +20,18 @@ button.category {
     width: 100%;
 }
 
+.greyBorder {
+    border: 1px solid #e0e0e0;
+}
+
 a.waves-effect.waves-light.btn {
     float: right;
     margin: 10px 15px;
     color: white;
+}
+
+.floatRight {
+    float: right;
 }
 
 button.category span {
@@ -38,6 +46,11 @@ button.category i {
 
 .colorBlack {
     color: black;
+}
+
+.noBorder {
+    border: none !important;
+    outline: none !important;
 }
 
 button:focus {

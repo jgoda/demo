@@ -44,4 +44,31 @@ router.get('/download', function (req, res) {
 
 });
 
+router.get('/entity/register', function (req, res) {
+    res.render('entityRegister', {});
+
+});
+router.get('/entity/login', function (req, res) {
+    res.render('entityLogin', {});
+
+});
+router.get('/entity', function (req, res) {
+    res.render('entity', {});
+
+});
+router.get('/headers/:entity', function (req, res) {
+    let entity = req.params.entity;
+    chain.getHeadersForEntity(entity, function (err, headers) {
+        res.render('headers', {headers});
+    })
+});
+
+router.get('/templates/:header', function (req, res) {
+    let header = req.params.header;
+    chain.getTemplatesForHeader(header, function (err, templates) {
+        res.render('templates', {templates});
+    })
+});
+
+
 module.exports = router;

@@ -209,3 +209,15 @@ function submitComplaint() {
     })
 }
 
+function registerEntity() {
+    let name = $('#name').val();
+    let companyType = $('#companyType').val();
+    let gst = $('#gst').val();
+    let pan = $('#pan').val();
+    let kyc = $('#kyc').val();
+
+    console.log({name, companyType, gst, pan, kyc});
+
+
+}
+
