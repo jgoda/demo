@@ -10,89 +10,193 @@ let processor = require('../../server/processor');
 let logger = logManager.getLogger();
 
 exports.updateTypeUcc = function (req, res) {
-
     let phone = req.body.phone;
-    let insurance = req.body.insurance;
-    let realState = req.body.realState;
-    let education = req.body.education;
-    let health = req.body.health;
-    let goods = req.body.goods;
-    let ent = req.body.ent;
-    let tourism = req.body.tourism;
-    let food = req.body.food;
+    let subscriberDets = {
+        $class: 'org.example.biznet.subscriber',
+        'uccInsurance': req.body.insurance,
+        'uccRealstate': req.body.realState,
+        'uccEducation': req.body.education,
+        'uccHealth': req.body.health,
+        'uccGood': req.body.goods,
+        'uccEnt': req.body.ent,
+        'uccTourism': req.body.tourism,
+        'uccFood': req.body.food,
+        'mocVoice': req.body.voice,
+        'mocSMS': req.body.sms,
+        'mocADrec': req.body.ADrec,
+        'mocADlive': req.body.ADlive,
+        'mocRobo': req.body.robo,
+        'bandT1': req.body.t1,
+        'bandT2': req.body.t2,
+        'bandT3': req.body.t3,
+        'bandT4': req.body.t4,
+        'bandT5': req.body.t5,
+        'bandT6': req.body.t6,
+        'bandT7': req.body.t7,
+        'bandT8': req.body.t8,
+        'bandT9': req.body.t9,
+        'dayMon': req.body.mon,
+        'dayTue': req.body.tue,
+        'dayWed': req.body.wed,
+        'dayThus': req.body.thus,
+        'dayFri': req.body.fri,
+        'daySat': req.body.sat,
+        'daySun': req.body.sun,
+        'datNat': req.body.nat,
+        'consentnos': []
+    };
 
-    chainManager.updateTypeUcc(phone, insurance, realState, education, health, goods, ent, tourism, food, function (err, flag) {
-        console.log(err, flag);
+    var number = 1;
+    chainManager.updateSubscriberDetails(phone,subscriberDets, number, function (err, flag) {
         if (flag === true) {
-            res.send({success: true, message: 'Settings Updated'});
+            res.send({ success: true, message: 'Settings Updated' });
         } else {
-            res.send({success: false, message: 'User does not exists'});
+            res.send({ success: false, message: 'User does not exists' });
         }
 
     });
-
 };
 
 exports.updateModeOfCommunication = function (req, res) {
-
     let phone = req.body.phone;
-    let voice = req.body.voice;
-    let sms = req.body.sms;
-    let ADrec = req.body.ADrec;
-    let ADlive = req.body.ADlive;
-    let robo = req.body.robo;
+    let subscriberDets = {
+        $class: 'org.example.biznet.subscriber',
+        'uccInsurance': req.body.insurance,
+        'uccRealstate': req.body.realState,
+        'uccEducation': req.body.education,
+        'uccHealth': req.body.health,
+        'uccGood': req.body.goods,
+        'uccEnt': req.body.ent,
+        'uccTourism': req.body.tourism,
+        'uccFood': req.body.food,
+        'mocVoice': req.body.voice,
+        'mocSMS': req.body.sms,
+        'mocADrec': req.body.ADrec,
+        'mocADlive': req.body.ADlive,
+        'mocRobo': req.body.robo,
+        'bandT1': req.body.t1,
+        'bandT2': req.body.t2,
+        'bandT3': req.body.t3,
+        'bandT4': req.body.t4,
+        'bandT5': req.body.t5,
+        'bandT6': req.body.t6,
+        'bandT7': req.body.t7,
+        'bandT8': req.body.t8,
+        'bandT9': req.body.t9,
+        'dayMon': req.body.mon,
+        'dayTue': req.body.tue,
+        'dayWed': req.body.wed,
+        'dayThus': req.body.thus,
+        'dayFri': req.body.fri,
+        'daySat': req.body.sat,
+        'daySun': req.body.sun,
+        'datNat': req.body.nat,
+        'consentnos': []
+    };
 
-    chainManager.updateModeOfCommunication(Number(phone), voice, sms, ADrec, ADlive, robo, function (err, flag) {
+    var number = 2;
+    console.log(subscriberDets);
+    chainManager.updateSubscriberDetails(phone,subscriberDets, number, function (err, flag) {
         if (flag === true) {
-            res.send({success: true, message: 'Settings Updated'});
+            res.send({ success: true, message: 'Settings Updated' });
         } else {
-            res.send({success: false, message: 'User does not exists'});
+            res.send({ success: false, message: 'User does not exists' });
         }
 
     });
-
 };
+
 exports.updateBand = function (req, res) {
-
     let phone = req.body.phone;
-    let t1 = req.body.t1;
-    let t2 = req.body.t2;
-    let t3 = req.body.t3;
-    let t4 = req.body.t4;
-    let t5 = req.body.t5;
-    let t6 = req.body.t6;
-    let t7 = req.body.t7;
-    let t8 = req.body.t8;
-    let t9 = req.body.t9;
+    let subscriberDets = {
+        $class: 'org.example.biznet.subscriber',
+        'uccInsurance': req.body.insurance,
+        'uccRealstate': req.body.realState,
+        'uccEducation': req.body.education,
+        'uccHealth': req.body.health,
+        'uccGood': req.body.goods,
+        'uccEnt': req.body.ent,
+        'uccTourism': req.body.tourism,
+        'uccFood': req.body.food,
+        'mocVoice': req.body.voice,
+        'mocSMS': req.body.sms,
+        'mocADrec': req.body.ADrec,
+        'mocADlive': req.body.ADlive,
+        'mocRobo': req.body.robo,
+        'bandT1': req.body.t1,
+        'bandT2': req.body.t2,
+        'bandT3': req.body.t3,
+        'bandT4': req.body.t4,
+        'bandT5': req.body.t5,
+        'bandT6': req.body.t6,
+        'bandT7': req.body.t7,
+        'bandT8': req.body.t8,
+        'bandT9': req.body.t9,
+        'dayMon': req.body.mon,
+        'dayTue': req.body.tue,
+        'dayWed': req.body.wed,
+        'dayThus': req.body.thus,
+        'dayFri': req.body.fri,
+        'daySat': req.body.sat,
+        'daySun': req.body.sun,
+        'datNat': req.body.nat,
+        'consentnos': []
+    };
 
-    chainManager.updateBand(Number(phone), t1, t2, t3, t4, t5, t6, t7, t8, t9, function (err, flag) {
+    var number = 3;
+    chainManager.updateSubscriberDetails(phone,subscriberDets, number, function (err, flag) {
         if (flag === true) {
-            res.send({success: true, message: 'Settings Updated'});
+            res.send({ success: true, message: 'Settings Updated' });
         } else {
-            res.send({success: false, message: 'User does not exists'});
+            res.send({ success: false, message: 'User does not exists' });
         }
 
     });
-
 };
 
 exports.updateDay = function (req, res) {
-
     let phone = req.body.phone;
-    let mon = req.body.mon;
-    let tue = req.body.tue;
-    let wed = req.body.wed;
-    let thus = req.body.thus;
-    let fri = req.body.fri;
-    let sat = req.body.sat;
-    let sun = req.body.sun;
-    let nat = req.body.nat;
+    let subscriberDets = {
+        $class: 'org.example.biznet.subscriber',
+        'uccInsurance': req.body.insurance,
+        'uccRealstate': req.body.realState,
+        'uccEducation': req.body.education,
+        'uccHealth': req.body.health,
+        'uccGood': req.body.goods,
+        'uccEnt': req.body.ent,
+        'uccTourism': req.body.tourism,
+        'uccFood': req.body.food,
+        'mocVoice': req.body.voice,
+        'mocSMS': req.body.sms,
+        'mocADrec': req.body.ADrec,
+        'mocADlive': req.body.ADlive,
+        'mocRobo': req.body.robo,
+        'bandT1': req.body.t1,
+        'bandT2': req.body.t2,
+        'bandT3': req.body.t3,
+        'bandT4': req.body.t4,
+        'bandT5': req.body.t5,
+        'bandT6': req.body.t6,
+        'bandT7': req.body.t7,
+        'bandT8': req.body.t8,
+        'bandT9': req.body.t9,
+        'dayMon': req.body.mon,
+        'dayTue': req.body.tue,
+        'dayWed': req.body.wed,
+        'dayThus': req.body.thus,
+        'dayFri': req.body.fri,
+        'daySat': req.body.sat,
+        'daySun': req.body.sun,
+        'datNat': req.body.nat,
+        'consentnos': []
+    };
 
-    chainManager.updateDay(Number(phone), mon, tue, wed, thus, fri, sat, sun, nat, function (err, flag) {
+    var number = 4;
+    chainManager.updateSubscriberDetails(phone,subscriberDets, number, function (err, flag) {
         if (flag === true) {
-            res.send({success: true, message: 'Settings Updated'});
+            res.send({ success: true, message: 'Settings Updated' });
         } else {
-            res.send({success: false, message: 'User does not exists'});
+            res.send({ success: false, message: 'User does not exists' });
         }
 
     });
@@ -105,19 +209,36 @@ exports.addUser = function (req, res) {
     chainManager.addUser(name, Number(phone), function (err, flag) {
         console.log(flag);
         if (flag === true) {
-            res.send({success: true, message: 'User Added Successfully'});
+            res.send({ success: true, message: 'User Added Successfully' });
         } else {
-            res.send({success: false, message: 'User already exists'});
+            res.send({ success: false, message: 'User already exists' });
         }
     });
 
 
 };
 
+exports.getConsents = function(reg, res) {
+    let phone = req.body.phone;
+    let conTable = req.body.consentsTable;
+
+    chainManager.getConsentList(phone, function(err, data){
+        var consentindex =0;
+        while(consentindex<data.length)
+        {
+            var row = table.insertRow(consentindex);
+            var cell1 = row.insertCell(0);
+            cell1.innerHTML = data[consentindex];
+            consentindex++
+        }
+    })
+}
+
 exports.getUserSettings = function (req, res) {
     let phone = req.body.phone;
 
-    processor.user.getUserSettings(phone, function (err, data) {
+    chainManager.getSubscriberDetails(phone, function (err, data) {
+        console.log("Subscriber details got", data);
         res.send(data);
     })
 
@@ -125,13 +246,13 @@ exports.getUserSettings = function (req, res) {
 
 exports.login = function (req, res) {
     let phone = req.body.phone;
-    let flag = chainManager.doesUserExist(phone);
-    if (flag === true) {
-        res.send({success: true, message: 'User already exists'});
-    } else {
-        res.send({success: false, message: 'User does not exists'});
-    }
-
+    chainManager.doesUserExist(phone, function (err, flag) {
+        if (flag === true) {
+            res.send({ success: true, message: 'User already exists' });
+        } else {
+            res.send({ success: false, message: 'User does not exists' });
+        }
+    })
 };
 
 exports.fileComplaint = function (req, res) {
@@ -146,9 +267,9 @@ exports.fileComplaint = function (req, res) {
 
     chainManager.lodgeComplaint(phone, UCCcaller, status, usrComment, function (err, flag) {
         if (flag === true) {
-            res.send({success: true, message: 'Complaint filed successfully'});
+            res.send({ success: true, message: 'Complaint filed successfully' });
         } else {
-            res.send({success: false, message: 'User does not exists'});
+            res.send({ success: false, message: 'User does not exists' });
         }
     });
 

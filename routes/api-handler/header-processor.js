@@ -7,6 +7,8 @@ let processor = require('../../server/processor');
 
 exports.saveHeader = function (req, res) {
 
+    console.log("saveHeader");
+
     let header = req.body.header;
 
     chainManager.getHeaderByHeaderName(header, function (err, data) {

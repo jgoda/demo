@@ -7,7 +7,6 @@ let processor = require('../../server/processor');
 let uploadDir = __dirname + "/../../scrubFolder/";
 let excelProcessor = require('../../utils/excel-parser.js');
 let utils = require('../../utils/utils.js');
-let userProcessor = require('./user-processor.js');
 let request = require('../../server/http-request.js');
 let crypt = require('../../utils/crypt.js');
 
@@ -19,14 +18,29 @@ let logger = logManager.getLogger();
 exports.parseScrubFile = function (req, res) {
     let file = req.files.scrubFile;
 
+    let food_scrub = [];
+    let entertainment_scrub = [];
+    let tourism_scrub = [];
+    let health_scrub = [];
+    let insurance_scrub = [];
+    let real_estate_scrub = [];
+    let education_scrub = [];
+    let goods_scrub = [];
+
     file.mv(uploadDir + file.name, function (err, data) {
 
         let xlData = excelProcessor.parseExcel(uploadDir + file.name, 0);
         let todayDateStr = utils.todayDateString();
-
-        processScrubFile(0, xlData, todayDateStr, [], function (err, result) {
+        processScrubFile(0, xlData, todayDateStr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub, [], function (err, result) {
             console.log('data received',result);
-            excelProcessor.createExcelFromJson(uploadDir, 'scrubbing_output.xlsx', 'Sheet1', result,Object.keys(result[0]));
+            excelProcessor.createExcelFromJson(uploadDir, 'insurance_scrubbing_output.xlsx', 'Insurance', insurance_scrub,Object.keys(insurance_scrub[0]));
+            excelProcessor.createExcelFromJson(uploadDir, 'realEstate_scrubbing_output.xlsx', 'RealEstate', real_estate_scrub,Object.keys(real_estate_scrub[0]));
+            excelProcessor.createExcelFromJson(uploadDir, 'education_scrubbing_output.xlsx', 'Education', education_scrub,Object.keys(education_scrub[0]));
+            excelProcessor.createExcelFromJson(uploadDir, 'health_scrubbing_output.xlsx', 'Health', health_scrub,Object.keys(health_scrub[0]));
+            excelProcessor.createExcelFromJson(uploadDir, 'consumerGoodsscrubbing_output.xlsx', 'ConsumerGoods', goods_scrub,Object.keys(goods_scrub[0]));
+            excelProcessor.createExcelFromJson(uploadDir, 'tourism_scrubbing_output.xlsx', 'Tourism', tourism_scrub,Object.keys(tourism_scrub[0]));
+            excelProcessor.createExcelFromJson(uploadDir, 'entertainment_scrubbing_output.xlsx', 'Entertainment', entertainment_scrub,Object.keys(entertainment_scrub[0]));
+            excelProcessor.createExcelFromJson(uploadDir, 'food_scrubbing_output.xlsx', 'Food', food_scrub,Object.keys(food_scrub[0]));
             console.log('end');
             res.redirect('/scrubFile?success=true');
         });
@@ -34,7 +48,7 @@ exports.parseScrubFile = function (req, res) {
     })
 };
 
-function processScrubFile(index, xlData, todaystr, result, cb) {
+function processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub,result, cb) {
     let dow = new Date().getDay();
     let _next_dow = [];
     let _month = ['mon', 'tue', 'wed', 'thus', 'fri', 'sat', 'sun', 'nat'];
@@ -50,16 +64,9 @@ function processScrubFile(index, xlData, todaystr, result, cb) {
             if (subscriberDetail) {
                 subscriberDetail=JSON.parse(subscriberDetail);
                 console.log('adding result');
+                var encryptedphnum = crypt.encrypt(todaystr.concat(phone));
                 let cell = {
-                    'phone': crypt.encrypt(todaystr.concat(phone)),
-                    'uccInsurance': subscriberDetail['uccInsurance'],
-                    'uccRealstate': subscriberDetail['uccRealstate'],
-                    'uccEducation': subscriberDetail['uccEducation'],
-                    'uccHealth': subscriberDetail['uccHealth'],
-                    'uccGood': subscriberDetail['uccGood'],
-                    'uccEnt': subscriberDetail['uccEnt'],
-                    'uccTourism': subscriberDetail['uccTourism'],
-                    'uccFood': subscriberDetail['uccFood'],
+                    'phone': encryptedphnum,
                     'mocVoice': subscriberDetail['mocVoice'],
                     'mocSMS': subscriberDetail['mocSMS'],
                     'mocADrec': subscriberDetail['mocADrec'],
@@ -83,11 +90,44 @@ function processScrubFile(index, xlData, todaystr, result, cb) {
                     'daySun': subscriberDetail['daySun'],
                     'datNat': subscriberDetail['datNat']
                 };
+
+                if(subscriberDetail['uccInsurance'])
+                {
+                    insurance_scrub.push(cell);
+                }
+                if(subscriberDetail['uccRealstate'])
+                {
+                    real_estate_scrub.push(cell);
+                }
+                if(subscriberDetail['uccEducation'])
+                {
+                    education_scrub.push(cell);
+                }
+                if(subscriberDetail['uccHealth'])
+                {
+                    health_scrub.push(cell);
+                }
+                if(subscriberDetail['uccGood'])
+                {
+                    goods_scrub.push(cell);
+                }
+                if(subscriberDetail['uccEnt'])
+                {
+                    entertainment_scrub.push(cell);
+                }
+                if(subscriberDetail['uccTourism'])
+                {
+                    tourism_scrub.push(cell);
+                }
+                if(subscriberDetail['uccFood'])
+                {
+                    food_scrub.push(cell);
+                }
                 result.push(cell);
                 console.log('added');
             }
             index++;
-            processScrubFile(index, xlData, todaystr, result, cb);
+            processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub,result, cb);
         });
     } else {
         cb(null, result);
@@ -172,7 +212,8 @@ function processPreferencesFile(index, xlData, cb) {
         subscriberRequestObject['method'] = 'GET';
 
         request.makeFetchCall(subscriberRequestObject['url'], function (err, subscriberDetail) {
-	    console.log('[getsubscriberRequest]',err,subscriberDetail);
+        console.log('[getsubscriberRequest]',err,subscriberDetail);
+        let indvl = JSON.parse(subscriberDetail);
             if (!subscriberDetail) {
                 subscriberPostObject['method'] = 'POST';
                 subscriberPostObject['body'] = participant;
@@ -183,7 +224,7 @@ function processPreferencesFile(index, xlData, cb) {
                     processPreferencesFile(index, xlData, cb);
                 });
             } else {
-                participant['consentnos']=subscriberDetail['consentnos'];
+                participant['consentnos']=indvl['consentnos'];
                 subscriberRequestObject['method'] = 'PUT';
                 subscriberRequestObject['body'] = participant;
 		        subscriberRequestObject['json'] = true;
@@ -199,6 +240,260 @@ function processPreferencesFile(index, xlData, cb) {
     } else {
         cb(null, true);
     }
+}
+
+exports.parseConsentsFile = function (req, res) {
+    let file = req.files.consentFile;
+    //let tmHeaderforConsent = "TD-DIWALI";
+    file.mv(uploadDir + file.name, function (err, data) {
+
+        let xlData = excelProcessor.parseExcel(uploadDir + file.name, 0);
+        console.log(xlData);
+        logger.info('[parseConsentsFile]', xlData);
+
+        processConsentsFile(0, xlData, function (err, result) {
+            res.redirect('/bulkPref?success=true');
+        });
+    });
+};
+
+function processConsentsFile(index, xlData, cb) {
+
+    updateSubscriberConsents(index, xlData, cb);
+  //  updateEntityConsents(index, xlData, cb);
+    logger.info('[processConsentsFile]', index, xlData.length);
+}
+
+function updateEntityConsents(index, xlData, cb) {
+    if(index < xlData.length) {
+        let phone = xlData[index]['phone'];
+        let templtID = xlData[index]['templateID'];
+
+        let templateRequestObject = {
+            url: 'http://localhost:3000/api/contentTemplate/' + templtID,
+            headers: {
+		'Accept': 'application/json'
+            }  
+        };
+
+        templateRequestObject['method'] = 'GET';
+        request.makeFetchCall(templateRequestObject['url'], function (err, templateDetail) {
+            if (!templateDetail) {
+            }
+            else {
+                let indvl = JSON.parse(templateDetail);
+                if(!indvl['subscribersConsent'].includes(String(phone))) {
+                    indvl['subscribersConsent'].push(String(phone));
+                }
+                let participant = {
+                    $class: 'org.example.biznet.contentTemplate',
+                    'contentTemplateMsg': indvl['contentTemplateMsg'],
+                    'subscribersConsent': indvl['subscribersConsent'],
+                    'contentType': indvl['contentType'],
+                    'contentCategory': indvl['contentCategory'],
+                    'header_owner': indvl['header_owner']
+                }
+                templateRequestObject['method'] = 'PUT';
+                templateRequestObject['body'] = participant;
+                templateRequestObject['json'] = true;
+                request.fetchData(templateRequestObject, function (err, response) {
+                console.log('Template PUT response status: ', response.status);
+            });
+            }
+        });
+        index++;
+        processConsentsFile(index, xlData, cb);
+    }
+}
+
+function updateSubscriberConsents(index, xlData, cb) {
+    // console.log("Header value:", tmHeader);
+
+    if(index < xlData.length) {
+        let phone = xlData[index]['phone'];
+        logger.info('[processConsentsFile]', phone);
+
+        let subscriberRequestObject = {
+            url: 'http://localhost:3000/api/subscriber/' + phone,
+            headers: {
+		'Accept': 'application/json'
+            }
+            
+        };
+
+        let subscriberPostObject = {
+            url: 'http://localhost:3000/api/subscriber/',
+            headers: {
+		'Accept': 'application/json'
+            }
+            
+        };
+
+        //add consent details to subscriber account
+        subscriberRequestObject['method'] = 'GET';
+        request.makeFetchCall(subscriberRequestObject['url'], function (err, subscriberDetail) {
+        //console.log('[getsubscriberRequest]',err,subscriberDetail);
+        if (!subscriberDetail) {
+            let participant = {
+                $class: 'org.example.biznet.subscriber',
+                'mobno': phone,
+                'uccInsurance': false,
+                'uccRealstate': false,
+                'uccEducation': false,
+                'uccHealth': false,
+                'uccGood': false,
+                'uccEnt': false,
+                'uccTourism': false,
+                'uccFood': false,
+                'mocVoice': false,
+                'mocSMS': false,
+                'mocADrec': false,
+                'mocADlive': false,
+                'mocRobo': false,
+                'bandT1': false,
+                'bandT2': false,
+                'bandT3': false,
+                'bandT4': false,
+                'bandT5': false,
+                'bandT6': false,
+                'bandT7': false,
+                'bandT8': false,
+                'bandT9': false,
+                'dayMon': false,
+                'dayTue': false,
+                'dayWed': false,
+                'dayThus': false,
+                'dayFri': false,
+                'daySat': false,
+                'daySun': false,
+                'datNat': false,
+                'consentnos': [String(xlData[index]['templateID'])]
+            };
+            subscriberPostObject['method'] = 'POST';
+            subscriberPostObject['body'] = participant;
+            subscriberPostObject['json'] = true;
+            request.fetchData(subscriberPostObject, function (err, response) {
+                console.log('POST response status: ', response.status);
+                updateEntityConsents(index, xlData, cb);
+            });
+        }
+        else {
+            let indvl = JSON.parse(subscriberDetail); 
+            if(!indvl['consentnos'].includes(String(xlData[index]['templateID']))) {
+                indvl['consentnos'].push(String(xlData[index]['templateID']));
+            }
+            let participant = {
+                $class: 'org.example.biznet.subscriber',
+                'uccInsurance': indvl['uccInsurance'],
+                'uccRealstate': indvl['uccRealstate'],
+                'uccEducation': indvl['uccEducation'],
+                'uccHealth': indvl['uccHealth'],
+                'uccGood': indvl['uccGood'],
+                'uccEnt': indvl['uccEnt'],
+                'uccTourism': indvl['uccTourism'],
+                'uccFood': indvl['uccFood'],
+                'mocVoice': indvl['mocVoice'],
+                'mocSMS': indvl['mocSMS'],
+                'mocADrec': indvl['mocADrec'],
+                'mocADlive': indvl['mocADlive'],
+                'mocRobo': indvl['mocRobo'],
+                'bandT1': indvl['bandT1'],
+                'bandT2': indvl['bandT2'],
+                'bandT3': indvl['bandT3'],
+                'bandT4': indvl['bandT4'],
+                'bandT5': indvl['bandT5'],
+                'bandT6': indvl['bandT6'],
+                'bandT7': indvl['bandT7'],
+                'bandT8': indvl['bandT8'],
+                'bandT9': indvl['bandT9'],
+                'dayMon': indvl['dayMon'],
+                'dayTue': indvl['dayTue'],
+                'dayWed': indvl['dayWed'],
+                'dayThus': indvl['dayThus'],
+                'dayFri': indvl['dayFri'],
+                'daySat': indvl['daySat'],
+                'daySun': indvl['daySun'],
+                'datNat': indvl['datNat'],
+                'consentnos': indvl['consentnos']
+            };
+            subscriberRequestObject['method'] = 'PUT';
+            subscriberRequestObject['body'] = participant;
+            subscriberRequestObject['json'] = true;
+            request.fetchData(subscriberRequestObject, function (err, response) {
+                console.log('PUT response status: ', response.status);
+                updateEntityConsents(index, xlData, cb);
+            });
+        }
+        });
+    } else {
+        cb(null, true);
+    }
+}
+
+exports.deScrubFile = function (req, res) {
+    let file = req.files.descrubFile;
+
+    file.mv(uploadDir + file.name, function (err, data) {
+
+        let xlData = excelProcessor.parseExcel(uploadDir + file.name, 0);
+        
+        processdeScrubFile(0, xlData, [], function (err, result) {
+            console.log('data received',result);
+            excelProcessor.createExcelFromJson(uploadDir, 'de_scrubbing_output.xlsx', 'Sheet1', result,Object.keys(result[0]));
+            console.log('end');
+            res.redirect('/deScrub?success=true');
+        });
+        
+    })
+};
+
+function processdeScrubFile(index, xlData, result, cb) {
+    console.log("in descrub function");
+    console.log(index, xlData.length);
+    if (index < xlData.length) {
+        console.log("in loop");
+        let phoneno = crypt.decrypt(xlData[index]['phone']);
+        let cell = {
+           'phone': phoneno.substring(phoneno.length-10),
+           'uccInsurance': xlData[index]['uccInsurance'],
+           'uccRealstate': xlData[index]['uccRealstate'],
+           'uccEducation': xlData[index]['uccEducation'],
+           'uccHealth': xlData[index]['uccHealth'],
+           'uccGood': xlData[index]['uccGood'],
+           'uccEnt': xlData[index]['uccEnt'],
+           'uccTourism': xlData[index]['uccTourism'],
+           'uccFood': xlData[index]['uccFood'],
+           'mocVoice': xlData[index]['mocVoice'],
+           'mocSMS': xlData[index]['mocSMS'],
+           'mocADrec': xlData[index]['mocADrec'],
+           'mocADlive': xlData[index]['mocADlive'],
+           'mocRobo': xlData[index]['mocRobo'],
+           'bandT1': xlData[index]['bandT1'],
+           'bandT2': xlData[index]['bandT2'],
+           'bandT3': xlData[index]['bandT3'],
+           'bandT4': xlData[index]['bandT4'],
+           'bandT5': xlData[index]['bandT5'],
+           'bandT6': xlData[index]['bandT6'],
+           'bandT7': xlData[index]['bandT7'],
+           'bandT8': xlData[index]['bandT8'],
+           'bandT9': xlData[index]['bandT9'],
+           'dayMon': xlData[index]['dayMon'],
+           'dayTue': xlData[index]['dayTue'],
+           'dayWed': xlData[index]['dayWed'],
+           'dayThus': xlData[index]['dayThus'],
+           'dayFri': xlData[index]['dayFri'],
+           'daySat': xlData[index]['daySat'],
+           'daySun': xlData[index]['daySun'],
+           'datNat': xlData[index]['datNat']
+        };
+        result.push(cell);
+        console.log('added');
+        index++;
+        processdeScrubFile(index, xlData, result, cb);
+        }
+        else {
+            cb(null, result);
+        }
 }
 
 function test() {
@@ -250,5 +545,3 @@ function test() {
 
     }
 }
-
-

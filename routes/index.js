@@ -9,7 +9,7 @@ let processor = require('../server/processor');
 
 /* GET home page. */
 router.get('/setting', function (req, res, next) {
-    res.render('index', {title: 'Express'});
+    res.render('subscriber', {title: 'Express'});
 
 });
 router.get('/login', function (req, res) {
@@ -28,10 +28,23 @@ router.get('/bulkPref', function (req, res) {
 
 });
 
+router.get('/bulkConsents', function (req, res) {
+    let success = req.query.success || false;
+    res.render('consentsUpload', {success: success});
+});
+
+router.get('/deScrub', function (req, res) {
+    let success = req.query.success || false;
+    res.render('tmvFunction', {success: success});
+
+});
+
+
 router.get('/register', function (req, res) {
     res.render('register', {});
 
 });
+
 router.get('/complaint', function (req, res) {
     res.render('complaints', {});
 
@@ -40,6 +53,70 @@ router.get('/complaint', function (req, res) {
 router.get('/download', function (req, res) {
 
     let outputFile = uploadDir + 'scrubbing_output.xlsx';
+    res.download(outputFile);
+
+});
+
+
+router.get('/insurancedownload', function (req, res) {
+
+    let outputFile = uploadDir + 'insurance_scrubbing_output.xlsx';
+    res.download(outputFile);
+
+});
+
+router.get('/entertainmentdownload', function (req, res) {
+
+    let outputFile = uploadDir + 'entertainment_scrubbing_output.xlsx';
+    res.download(outputFile);
+
+});
+
+router.get('/tourismdownload', function (req, res) {
+
+    let outputFile = uploadDir + 'tourism_scrubbing_output.xlsx';
+    res.download(outputFile);
+
+});
+
+router.get('/goodsdownload', function (req, res) {
+
+    let outputFile = uploadDir + 'goods_scrubbing_output.xlsx';
+    res.download(outputFile);
+
+});
+
+router.get('/healthdownload', function (req, res) {
+
+    let outputFile = uploadDir + 'health_scrubbing_output.xlsx';
+    res.download(outputFile);
+
+});
+
+router.get('/educationdownload', function (req, res) {
+
+    let outputFile = uploadDir + 'education_scrubbing_output.xlsx';
+    res.download(outputFile);
+
+});
+
+router.get('/realestatedownload', function (req, res) {
+
+    let outputFile = uploadDir + 'realestate_scrubbing_output.xlsx';
+    res.download(outputFile);
+
+});
+
+router.get('/insurancedownload', function (req, res) {
+
+    let outputFile = uploadDir + 'insurance_scrubbing_output.xlsx';
+    res.download(outputFile);
+
+});
+
+router.get('/descrubdownload', function (req, res) {
+
+    let outputFile = uploadDir + 'de_scrubbing_output.xlsx';
     res.download(outputFile);
 
 });
@@ -56,6 +133,13 @@ router.get('/entity', function (req, res) {
     res.render('entity', {});
 
 });
+
+router.get('/landingPage', function (req, res) {
+    res.render('entityLanding', {});
+
+});
+
+
 router.get('/headers/:entity', function (req, res) {
     let entity = req.params.entity;
     chain.getHeadersForEntity(entity, function (err, headers) {
@@ -70,5 +154,43 @@ router.get('/templates/:header', function (req, res) {
     })
 });
 
+router.get('/backToScrubbingPage', function (req, res) {
+    res.render('scrubbing', {});
+
+});
+
+router.get('/scrubbing', function (req, res) {
+    res.render('scrubbing', {});
+});
+
+router.get('/gotoEntity', function (req, res) {
+    res.render('entity', {});
+});
+
+router.get('/mainPage', function (req, res) {
+    res.render('main', {});
+});
+
+router.get('/gotoSubscriber', function (req, res) {
+    res.render('subscriber', {});
+});
+
+router.get('/sender/register', function (req, res) {
+    res.render('senderRegister', {});
+
+});
+
+router.get('/gotoSender', function (req, res) {
+    res.render('sender', {});
+});
+
+router.get('/sender/login', function (req, res) {
+    res.render('senderLogin', {});
+
+});
+router.get('/senderlandingpage', function (req, res) {
+    res.render('senderLandingPage', {});
+
+});
 
 module.exports = router;

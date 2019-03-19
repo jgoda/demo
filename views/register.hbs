@@ -2,8 +2,8 @@
     <div class="text-center heading-margin">
         <p>TRAI Register</p>
     </div>
-
-    <div class="categoryContainer">
+    <form action="/api/addUser" enctype="multipart/form-data" method="post">
+        <div class="categoryContainer">
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">phone</i>
@@ -18,12 +18,8 @@
                 <label for="icon_prefix">Name</label>
             </div>
         </div>
-
-        <a class="waves-effect waves-light btn" onclick="register()">Register</a>
-        <a class="register" href="/login"> Login ?</a>
-
+        <button class="waves-effect waves-light btn" type="submit">Register</button>
     </div>
-
-
+    </form>
 </div>
 

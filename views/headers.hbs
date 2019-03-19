@@ -5,14 +5,15 @@
 
     <div class="categoryContainer">
         <ul class="collection with-header noBorder">
-            <li class="collection-header noBorder"><h4>Headers</h4></li>
+            <li class="collection-header noBorder">
+                <h4>Headers</h4>
+            </li>
             <div class="greyBorder">
                 {{#each headers}}
-                    <li class="collection-item">
-                        <div>{{this.headerstr}}<a href="/templates/{{this.headerstr}}" class="secondary-content"><i
-                                class="material-icons">send</i></a>
-                        </div>
-                    </li>
+                <li class="collection-item">
+                    <div>{{this.headerstr}}<a href="/templates/{{this.headerstr}}" class="secondary-content"><i class="material-icons">send</i></a>
+                    </div>
+                </li>
 
                 {{/each}}
             </div>
@@ -20,17 +21,20 @@
 
         </ul>
 
-        <div class="row">
-            <div class="input-field col s12">
-                <input id="headerName" type="text" class="validate">
-                <label for="icon_prefix">Header</label>
-            </div>
-        </div>
-        <a class="waves-effect waves-light btn" onclick="saveHeader()">Save Header</a>
+        <form action="/api/saveHeader" enctype="multipart/form-data" method="post">
+            <div class="categoryContainer">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="headerName" type="text" class="validate">
+                    </div>
+                </div>
+                <button class="waves-effect waves-light btn">Save Header</button>
 
+
+            </div>
+        </form>
 
     </div>
 
 
 </div>
-
