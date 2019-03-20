@@ -11,7 +11,9 @@
             <div class="greyBorder">
                 {{#each headers}}
                 <li class="collection-item">
-                    <div>{{this.headerstr}}<a href="/templates/{{this.headerstr}}" class="secondary-content"><i class="material-icons">send</i></a>
+                    <div>{{this.headerstr}}
+                        <a href="/header?header={{this.headerstr}}" class="secondary-content"><i class="material-icons">delete</i></a>
+                        <a href="/transferHeaders/{{this.headerstr}}" class="secondary-content"><i class="material-icons">send</i></a><br>
                     </div>
                 </li>
 

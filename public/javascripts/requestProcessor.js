@@ -232,3 +232,14 @@ function saveHeader() {
 
 }
 
+function sendDeleteHeader() {
+    console.log("ajax call");
+    let header = $('#sendDeleteHeader').val();
+    this.makeAjaxCall('/api/sendDeleteHeader', {
+        header
+    }, function (data) {
+
+        M.toast({html: data['message']});
+    })
+
+}

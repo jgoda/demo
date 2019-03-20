@@ -1,0 +1,551 @@
+<div class="container">
+    <header>
+        <h1>Subscriber Account</h1>
+        <p>Welcome. You can use this page to view/manage your consents and preferences and to file a complaint</p>
+    </header>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="nav-item"> <a href="" class="active nav-link" data-toggle="tab" data-target="#tabone">Consents</a>
+                </li>
+                <li class="nav-item"> <a class="nav-link" href="" data-toggle="tab" data-target="#tabtwo">Preferences</a>
+                </li>
+                <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabthree">Complaint</a>
+                </li>
+            </ul>
+            <div class="tab-content mt-2">
+                <div class="tab-pane fade show active" id="tabone" role="tabpanel">
+                    <div id="tabone" class="tabcontent">
+                        <p class="">Please use this to view/revoke your existing consents</p>
+                        <table id="consentsTable">
+                            <tr>
+                                <th>Template ID</th>
+                                <th>Header</th>
+                                <th></th>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="tabtwo" role="tabpanel">
+                    <p class="">Please use this to view/modify your existing preferences</p>
+                    <div id="tabtwo" class="tabcontent">
+
+                        <div class="container">
+                            <div class="text-center heading-margin">
+                                <p>Welcome <span id="user"></span></p>
+                            </div>
+
+                            <div class="categoryContainer">
+                                <button class="category" type="button" data-toggle="collapse" data-target="#typeOfUcc"
+                                    aria-expanded="false" aria-controls="typeOfUcc">
+                                    <span>Type Of UCC</span>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </button>
+
+
+                                <div class="collapse" id="typeOfUcc">
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            All UCC categories
+                                            <label>
+                                                <input type="checkbox" id="allUccCategory">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Banking/Insurance/Financial products/Credit cards
+                                            <label>
+                                                <input type="checkbox" id="insurance">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch ">
+                                            Real Estate
+                                            <label>
+                                                <input type="checkbox" id="realState">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Education
+                                            <label>
+                                                <input type="checkbox" id="education">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Health
+                                            <label>
+                                                <input type="checkbox" id="health">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Consumer goods and automobiles
+                                            <label>
+                                                <input type="checkbox" id="goods">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Communication/Broadcasting/Entertainment/IT
+                                            <label>
+                                                <input type="checkbox" id="ent">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Tourism and Leisure
+                                            <label>
+                                                <input type="checkbox" id="tourism">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Food and Beverages
+                                            <label>
+                                                <input type="checkbox" id="food">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <a class="waves-effect waves-light btn" onclick="updateTypeUcc()">update</a>
+
+                                </div>
+
+                            </div>
+
+                            <div class="categoryContainer">
+                                <button class="category" type="button" data-toggle="collapse" data-target="#uccModeOfCommunication"
+                                    aria-expanded="false" aria-controls="uccModeOfCommunication">
+                                    <span>UCC Mode of communication</span>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </button>
+
+
+                                <div class="collapse" id="uccModeOfCommunication">
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            All modes
+                                            <label>
+                                                <input type="checkbox" id="allModeCommunication">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch ">
+                                            Voice call
+                                            <label>
+                                                <input type="checkbox" id="voice">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch ">
+                                            SMS
+                                            <label>
+                                                <input type="checkbox" id="sms">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Auto-Dialer call with pre-recorded announcement
+                                            <label>
+                                                <input type="checkbox" id="ADrec">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Auto-dialer call with connectivity to live agent
+                                            <label>
+                                                <input type="checkbox" id="ADlive">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Robo calls
+                                            <label>
+                                                <input type="checkbox" id="robo">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <a class="waves-effect waves-light btn" onclick="updateModeOfCommunication()">update</a>
+
+                                </div>
+
+
+                            </div>
+                            <div class="categoryContainer">
+                                <button class="category" type="button" data-toggle="collapse" data-target="#timeBandForCommunication"
+                                    aria-expanded="false" aria-controls="timeBandForCommunication">
+                                    <span>UCC time-band for communication</span>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </button>
+
+
+                                <div class="collapse" id="timeBandForCommunication">
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            All time bands
+                                            <label>
+                                                <input type="checkbox" id="allBand">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch ">
+                                            00:00 hrs to 06:00 hrs
+                                            <label>
+                                                <input type="checkbox" id="t1">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch ">
+                                            06:00 hrs to 08:00 hrs
+                                            <label>
+                                                <input type="checkbox" id="t2">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            08:00 hrs to 10:00 hrs
+                                            <label>
+                                                <input type="checkbox" id="t3">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            10:00 hrs to 12:00 hrs
+                                            <label>
+                                                <input type="checkbox" id="t4">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            12:00 hrs to 14:00 hrs
+                                            <label>
+                                                <input type="checkbox" id="t5">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            14:00 hrs to 16:00 hrs
+                                            <label>
+                                                <input type="checkbox" id="t6">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            16:00 hrs to 18:00 hrs
+                                            <label>
+                                                <input type="checkbox" id="t7">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            18:00 hrs to 21:00 hrs
+                                            <label>
+                                                <input type="checkbox" id="t8">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            21:00 hrs to 24:00 hrs
+                                            <label>
+                                                <input type="checkbox" id="t9">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <a class="waves-effect waves-light btn" onclick="updateBand()">update</a>
+
+                                </div>
+
+                            </div>
+                            <div class="categoryContainer">
+                                <button class="category" type="button" data-toggle="collapse" data-target="#dayTypeForReceivingCommunication"
+                                    aria-expanded="false" aria-controls="dayTypeForReceivingCommunication">
+                                    <span>UCC Day type for receiving communication</span>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </button>
+
+
+                                <div class="collapse" id="dayTypeForReceivingCommunication">
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            All day types
+                                            <label>
+                                                <input type="checkbox" id="allDay">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch ">
+                                            Monday
+                                            <label>
+                                                <input type="checkbox" id="mon">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch ">
+                                            Tuesday
+                                            <label>
+                                                <input type="checkbox" id="tue">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Wednesday
+                                            <label>
+                                                <input type="checkbox" id="wed">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Thursday
+                                            <label>
+                                                <input type="checkbox" id="thus">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Friday
+                                            <label>
+                                                <input type="checkbox" id="fri">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Saturday
+                                            <label>
+                                                <input type="checkbox" id="sat">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Sunday
+                                            <label>
+                                                <input type="checkbox" id="sun">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="optionContainer">
+                                        <div class="switch">
+                                            Public holiday and national holiday
+                                            <label>
+                                                <input type="checkbox" id="nat">
+                                                <span class="lever"></span>
+
+                                            </label>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+
+                                    <a class="waves-effect waves-light btn" onclick="updateDay()">update</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tabthree" role="tabpanel">
+                <div id="tabthree" class="tabcontent">
+                    <p class="">Please use this page to file a complaint</p>
+                    Header from which you received an unwanted commercial call:<br>
+                    <input type="text" name="complaintHeader"><br>
+                    Date and time of call:<br>
+                    <input type="text" name="complaintDateTime">
+                    <p>Choose the nature of your complaint regarding UCC caller:</p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="group1" type="radio" value="opt1" />
+                            <span class="colorBlack">I am not interested in caller’s products and my preferences
+                                reflect it</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="group1" type="radio" value="opt2" />
+                            <span class="colorBlack">I am not interested in caller’s products, please update my
+                                preferences</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="group1" type="radio" value="opt3" />
+                            <span class="colorBlack">Caller contacted via unacceptable mode, my preferences reflect
+                                it</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="group1" type="radio" value="opt4" />
+                            <span class="colorBlack">Caller contacted via unacceptable mode, please update my
+                                preferences</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="group1" type="radio" value="opt5" />
+                            <span class="colorBlack">Called contacted at unacceptable day and time and my
+                                preferences reflect it</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="group1" type="radio" value="opt6" />
+                            <span class="colorBlack">Caller contacted at unacceptable day and time, please update
+                                my preferences</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="group1" type="radio" value="opt7" />
+                            <span class="colorBlack">Caller was rude and unprofessional</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input class="with-gap" name="group1" type="radio" value="opt8" />
+                            <span class="colorBlack">Other</span>
+                        </label>
+                    </p>
+                    <a class="waves-effect waves-light btn" href="/subscriberSubmit">File Complaint</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

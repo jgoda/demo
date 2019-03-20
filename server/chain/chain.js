@@ -199,52 +199,34 @@ exports.saveSubscriberDetails = function (subscriberDetails, cb) {
 };
 
 exports.getHeadersForEntity = function (entity, cb) {
-    let headers = [
-        {
-            "$class": "org.example.biznet.headers",
-            "headerstr": "1",
-            "contentTemplates": [],
-            "consentTemplates": [],
-            "telemarketer_owner": "resource:org.example.biznet.telemarketer#1"
-        },
-        {
-            "$class": "org.example.biznet.headers",
-            "headerstr": "14",
-            "contentTemplates": [],
-            "consentTemplates": [],
-            "telemarketer_owner": "resource:org.example.biznet.telemarketer#14"
-        },
-        {
-            "$class": "org.example.biznet.headers",
-            "headerstr": "2",
-            "contentTemplates": [],
-            "consentTemplates": [],
-            "telemarketer_owner": "resource:org.example.biznet.telemarketer#2"
-        },
-        {
-            "$class": "org.example.biznet.headers",
-            "headerstr": "3",
-            "contentTemplates": [],
-            "consentTemplates": [],
-            "telemarketer_owner": "resource:org.example.biznet.telemarketer#1"
-        },
-        {
-            "$class": "org.example.biznet.headers",
-            "headerstr": "4",
-            "contentTemplates": [],
-            "consentTemplates": [],
-            "telemarketer_owner": "resource:org.example.biznet.telemarketer#1"
-        },
-        {
-            "$class": "org.example.biznet.headers",
-            "headerstr": "5",
-            "contentTemplates": [],
-            "consentTemplates": [],
-            "telemarketer_owner": "resource:org.example.biznet.telemarketer#1"
-        }
-    ];
-    return cb(null, headers);
-};
+    let url = 'http://localhost:3000/api/headers?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%20%22resource%3Aorg.example.biznet.telemarketer%23'+entity+'%22%7D%7D';
+    console.log("url for getting headers by entity: ", url);
+    request.makeFetchCall(url, function (err, headers1) {
+        let headers = JSON.parse(headers1);
+        console.log(headers);
+        cb(null, headers);
+    })
+  };
+
+  exports.getContentForEntity = function (entity, cb) {
+    let url = 'http://localhost:3000/api/contentTemplate?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%22resource%3Aorg.example.biznet.telemarketer%23'+entity+'%22%7D%7D';
+    console.log("url for getting contentTemplates by entity: ", url);
+    request.makeFetchCall(url, function (err, contents1) {
+        let contents = JSON.parse(contents1);
+        console.log(contents);
+        cb(null, contents);
+    })
+  };
+
+  exports.getConsentForEntity = function (entity, cb) {
+    let url = 'http://localhost:3000/api/consentTemplate?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%22resource%3Aorg.example.biznet.telemarketer%23'+entity+'%22%7D%7D';
+    console.log("url for getting consentTemplates by entity: ", url);
+    request.makeFetchCall(url, function (err, consents1) {
+        let consents = JSON.parse(consents1);
+        console.log(consents);
+        cb(null, consents);
+    })
+  };
 
 exports.getHeaderByHeaderName = function (header, cb) {
     console.log("getHeaderbyHeaderName");
@@ -262,8 +244,8 @@ exports.saveHeader = function (header, cb) {
     console.log("saveHeader");
     let data = {
         "headerstr": header,
-        "contentTemplates": [],
-        "consentTemplates": [],
+        "regMobNo": "",
+        "telemarketer_owner": [],
     };
     let saveHeader = {
         url: 'http://localhost:3000/api/headers',
@@ -278,6 +260,23 @@ exports.saveHeader = function (header, cb) {
         return cb(err, data);
     })
 };
+
+exports.sendDeleteHeader = function (header, cb) {
+    console.log("sendDeleteHeader");
+    
+    let sendDeleteHeader = {
+        url: 'http://localhost:3000/api/headers/'+header,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        json: true
+    };
+    request.fetchData(sendDeleteHeader, function (err, data) {
+        return cb(err, data);
+    })
+};
+
 
 exports.getTemplatesForHeader = function (header, cb) {
 
@@ -405,6 +404,13 @@ exports.getUserUCCDay = function (phone, cb) {
         })
     })
 };
+
+exports.transferHeaderTransaction = function(headerTransferRequestObject, cb) {
+    request.fetchData(headerTransferRequestObject, function (err, response) {
+        console.log('header transfer transaction',err,response);
+        cb(err, response);
+    })
+}
 
 exports.updateTypeUcc = function (phone, insurance, realState, education, health, goods, ent, tourism, food, cb) {
 

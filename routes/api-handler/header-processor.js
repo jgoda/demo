@@ -36,3 +36,68 @@ exports.saveHeader = function (req, res) {
         }
     })
 };
+
+exports.sendDeleteHeader = function(req, res) {
+    console.log("delete header");
+    //let header = req.query.headerval;
+    let header = "HDR3";
+    console.log("header in header-processor", header);
+    chainManager.sendDeleteHeader(header, function (err, data) {
+        console.log(data);
+        if(data) {
+            let result = {
+                status: false,
+                message: 'Deletion failed'
+            };
+            res.send(result);
+        }
+        else {
+            let result = {
+                status: true,
+                message: 'Header deleted'
+            };
+            res.send(result);
+        }
+    })
+};
+
+exports.sendTransferHeader = function(req, res) {
+    console.log("transfer header");
+    let header = 'resource:org.example.biznet.headers#'+req.body.headerval;
+    let newOwner = 'resource:org.example.biznet.telemarketer#'+req.body.newEntityID;
+    
+    let transferTransaction = {
+        $class: 'org.example.biznet.headerTransfer',
+        'regHeader': header,
+        'new_tmOwner': newOwner
+    };
+
+    let headerTransferRequestObject = {
+        url: 'http://localhost:3000/api/headerTransfer',
+        headers: {
+		'Accept': 'application/json'
+            }
+    };
+    headerTransferRequestObject['method'] = 'POST';
+    headerTransferRequestObject['body'] = transferTransaction;
+    headerTransferRequestObject['json'] = true;
+    chainManager.transferHeaderTransaction(headerTransferRequestObject, function(err,data){
+        if(data){
+            let result = {
+                status: true,
+                message: 'Header transfer transaction completed'
+            };
+            return res.send(result);
+        }
+        else {
+            let result = {
+                status: false,
+                message: 'Header transfer transaction failed. Please try again'
+            };
+            return res.send(result);
+        }
+    })
+    /*request.fetchData(headerTransferRequestObject, function (err, response) {
+        console.log('header transfer transaction',err,response);
+    })*/
+}

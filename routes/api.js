@@ -18,6 +18,9 @@ router.post('/header', apiHandler.headerProcessor.saveHeader);
 router.post('/saveHeader', apiHandler.headerProcessor.saveHeader);
 router.post('/consentUpdate', apiHandler.fileProcessor.parseConsentsFile);
 router.post('/deScrubFile', apiHandler.fileProcessor.deScrubFile);
+router.post('/sendDeleteHeader', apiHandler.headerProcessor.sendDeleteHeader);
+router.post('/deleteHeader', apiHandler.headerProcessor.sendDeleteHeader);
+router.post('/transferHeader', apiHandler.headerProcessor.sendTransferHeader);
 //router.post('/getConsents', apiHandler.userProcessor.getConsents);
 //router.post('/subscribervalsget', apiHandler.userProcessor.subscribervalsget);
 

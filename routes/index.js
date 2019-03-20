@@ -135,24 +135,52 @@ router.get('/entity', function (req, res) {
 });
 
 router.get('/landingPage', function (req, res) {
+    //console.log("entity = ", entity);
     res.render('entityLanding', {});
-
 });
 
 
 router.get('/headers/:entity', function (req, res) {
     let entity = req.params.entity;
+    console.log("entity = ", entity);
     chain.getHeadersForEntity(entity, function (err, headers) {
         res.render('headers', {headers});
     })
 });
 
-router.get('/templates/:header', function (req, res) {
+router.get('/consent/:entity', function (req, res) {
+    let entity = req.params.entity;
+    console.log("In consents. entity = ", entity);
+    chain.getConsentForEntity(entity, function (err, consents) {
+        res.render('consent', {consents});
+    })
+});
+
+router.get('/content/:entity', function (req, res) {
+    let entity = req.params.entity;
+    console.log("In contents. entity = ", entity);
+    chain.getContentForEntity(entity, function (err, contents) {
+        res.render('content', {contents});
+    })
+});
+
+router.get('/header', function(req,res) {
+    let header = req.query.header;
+    console.log("header in index.js", header);
+    res.render('deleteheaders',{headerval: header});
+});
+
+router.get('/transferHeaders/:header', function(req,res) {
+    let header = req.params.header;
+    res.render('transferHeaders',{headerval: header});
+});
+
+/*router.get('/templates/:header', function (req, res) {
     let header = req.params.header;
     chain.getTemplatesForHeader(header, function (err, templates) {
         res.render('templates', {templates});
     })
-});
+});*/
 
 router.get('/backToScrubbingPage', function (req, res) {
     res.render('scrubbing', {});

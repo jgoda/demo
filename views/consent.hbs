@@ -7,11 +7,12 @@
         <ul class="collection">
             <li class="collection-header noBorder"><h4>Templates</h4></li>
             <div class="greyBorder">
-                {{#each templates}}
+                {{#each consents}}
                     <li class="collection-item avatar">
-                        <span class="title">{{this.contentTemplateID}}</span>
-                        <p>{{this.contentType}} <br>
-                            {{this.contentCategory}}
+                        <span class="title">{{this.consentTemplateID}}</span>
+                        <p><a href="/content?content={{this.contentTemplateID}}" class="secondary-content"><i class="material-icons">delete</i></a>
+                            <a href="/transferHeaders/{{this.headerstr}}" class="secondary-content"><i class="material-icons">description</i></a><br>
+                    
                         </p>
                     </li>
 
@@ -22,4 +23,3 @@
 
 
 </div>
-
