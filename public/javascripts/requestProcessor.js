@@ -180,7 +180,6 @@ function register() {
             setTimeout(() => {
                 window.location.href = '/login';
             }, 1000);
-
         }
         else
             M.toast({html: 'User already exists'})

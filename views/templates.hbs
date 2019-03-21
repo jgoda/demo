@@ -1,8 +1,11 @@
 <script>
 
-    function showEdit(id) {
+    function showEdit(id, contentType) {
         $('#template' + id).addClass('hide');
         $('#editTemplate' + id).removeClass('hide');
+        $('#templateTransaction' + id).prop('checked', contentType === 'Transactional');
+        $('#templatePromotional' + id).prop('checked', contentType === 'Promotional');
+        $('#templateService' + id).prop('checked', contentType === 'Service');
     }
 
     function closeView(id) {
@@ -13,6 +16,8 @@
     function check(id) {
         $('#template' + id).removeClass('hide');
         $('#editTemplate' + id).addClass('hide');
+        $('#templateMessage' + id).text($('#editTemplateText' + id).val());
+
     }
 </script>
 <div class="container">
@@ -29,19 +34,48 @@
                         {{this.contentCategory}}
                     </div>
                     <div class="collapsible-body">
-                        <p id="template{{@index}}">
-                            <span class="badge hoverable" onclick="showEdit('{{@index}}')"><i
+                        <div id="template{{@index}}">
+                            <span class="badge hoverable" onclick="showEdit('{{@index}}','{{this.contentType}}')"><i
                                     class="tiny material-icons">edit</i></span>
-                            {{this.contentTemplateMsg}}
-                        </p>
-                        <p id="editTemplate{{@index}}" class="hide">
-                            <span class="badge hoverable" onclick="closeView('{{@index}}')"><i
-                                    class="tiny material-icons">clear</i></span>
+                            <div id="templateMessage{{@index}}">{{this.contentTemplateMsg}}</div>
+                        </div>
+                        <div id="editTemplate{{@index}}" class="hide">
 
-                            <span class="badge hoverable" onclick="check('{{@index}}')"><i
-                                    class="tiny material-icons">check</i></span>
-                            <textarea rows="4" cols="50">{{this.contentTemplateMsg}}</textarea>
-                        </p>
+                            <textarea rows="4" cols="50" style="height: 6rem"
+                                      id="editTemplateText{{@index}}">{{this.contentTemplateMsg}}</textarea>
+
+                            <div class="row">
+                                <div class="col s4">
+                                    <label>
+                                        <input class="with-gap" name="group1" type="radio"
+                                               id="templateTransaction{{@index}}"/>
+                                        <span style="color: black;">Transactional</span>
+                                    </label>
+                                </div>
+                                <div class="col s4">
+                                    <label>
+                                        <input class="with-gap" name="group1" type="radio"
+                                               id="templatePromotional{{@index}}"/>
+                                        <span style="color: black;">Promotional</span>
+                                    </label>
+                                </div>
+                                <div class="col s4">
+                                    <label>
+                                        <input class="with-gap" name="group1" type="radio"
+                                               id="templateService{{@index}}"/>
+                                        <span style="color: black;">Service</span>
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div class="row" style="margin: 0;">
+                                <a class="waves-effect waves-light btn" onclick="check('{{@index}}')">update</a>
+                                <a class="waves-effect waves-light btn" onclick="closeView('{{@index}}')">cancel</a>
+                            </div>
+                            <div style="clear:both;"></div>
+
+                        </div>
                     </div>
                 </li>
             {{/each}}
