@@ -176,6 +176,7 @@ function processPreferencesFile(index, xlData, cb) {
         let participant = {
             $class: 'org.example.biznet.subscriber',
             'mobno': phone,
+            'tsp':"resource:org.example.biznet.TSP#TSP1",
             'uccInsurance': String(xlData[index]['uccInsurance']) === '1',
             'uccRealstate': String(xlData[index]['uccRealstate']) === '1',
             'uccEducation': String(xlData[index]['uccEducation']) === '1',
@@ -285,14 +286,6 @@ function updateEntityConsents(index, xlData, cb) {
                 if(!indvl['subscribersConsent'].includes(String(phone))) {
                     indvl['subscribersConsent'].push(String(phone));
                 }
-                let participant = {
-                    $class: 'org.example.biznet.contentTemplate',
-                    'contentTemplateMsg': indvl['contentTemplateMsg'],
-                    'subscribersConsent': indvl['subscribersConsent'],
-                    'contentType': indvl['contentType'],
-                    'contentCategory': indvl['contentCategory'],
-                    'header_owner': indvl['header_owner']
-                }
                 templateRequestObject['method'] = 'PUT';
                 templateRequestObject['body'] = participant;
                 templateRequestObject['json'] = true;
@@ -337,6 +330,7 @@ function updateSubscriberConsents(index, xlData, cb) {
             let participant = {
                 $class: 'org.example.biznet.subscriber',
                 'mobno': phone,
+                'tsp':'resource:org.example.biznet.TSP#TSP1',
                 'uccInsurance': false,
                 'uccRealstate': false,
                 'uccEducation': false,
@@ -384,6 +378,7 @@ function updateSubscriberConsents(index, xlData, cb) {
             }
             let participant = {
                 $class: 'org.example.biznet.subscriber',
+                'tsp':indvl['tsp'],
                 'uccInsurance': indvl['uccInsurance'],
                 'uccRealstate': indvl['uccRealstate'],
                 'uccEducation': indvl['uccEducation'],

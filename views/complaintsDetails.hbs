@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="container">
+        <h4>Details of Complaint</h4>
+        <table style="width:100%">
+            <tr>
+                <th>Parameter</th>
+                <th>Report</th>
+            </tr>
+            <tr>
+                <td>Complaint Number</td>
+                <td>{{compl.complaintID}}</td>
+            </tr>
+            <tr>
+                <td>Complainant</td>
+                <td>{{compl.complainant}}</td>
+            </tr>
+
+            <tr>
+                <td>Other complaints filed by Complainant</td>
+                <td>{{compl.complainant}}</td>
+            </tr>
+
+            <tr>
+                <td>Header against which Complaint is being made</td>
+                <td>{{compl.uccSender}}</td>
+            </tr>
+
+            <tr>
+                <td>Other Complaints filed against Sender/Entity</td>
+                <td>{{compl.complainant}}</td>
+            </tr>
+
+            <tr>
+                <td>Terminating Access Provider</td>
+                <td>{{compl.owner}}</td>
+            </tr>
+
+            <tr>
+                <td>Was the call as claimed by the complainant was made?</td>
+                <td> <button type="button">Yes</button> <button type="button">No</button> </td>
+            </tr>
+
+            <tr>
+                <td>Header registered with/Originating Access Provider</td>
+                <td>{{compl.complainant}}</td>
+            </tr>
+
+            <tr>
+                <td>Was the call made to the complainant scrubbed?</td>
+                <td><button type="button">Check</button> </td>
+            </tr>
+
+            <tr>
+                <td>VIDN for the subscriber when the call was made</td>
+                <td>{{compl.complainant}}</td>
+            </tr>
+
+            <tr>
+                <td>Scrubbing ID for the scrubbing when the call was done</td>
+                <td>{{compl.complainant}}</td>
+            </tr>
+
+            <tr>
+                <td>Scrubbed file generated for this call</td>
+                <td>{{compl.complainant}}</td>
+            </tr>
+
+            <tr>
+                <td>Complaint Status</td>
+                <td>{{compl.uccStatus}}</td>
+            </tr>
+
+        </table>
+    </div>
+</div>

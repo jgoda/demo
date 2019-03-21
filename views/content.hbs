@@ -10,14 +10,20 @@
             </li>
             <div class="greyBorder">
                 {{#each contents}}
-                <li class="collection-item avatar">
-                    <span class="title">{{this.contentTemplateID}}</span>
-                    <p>{{this.contentType}} <br>
-                        {{this.contentCategory}} <br>
-                        <div class="side-block">
-                            <a href="/content?content={{this.contentTemplateID}}" class="secondary-content"><i class="material-icons">delete</i></a>
-                            <a href="/transferHeaders/{{this.contentTemplateID}}" class="secondary-content"><i class="material-icons">description</i></a>
-                        </div>
+                <li class="collection-item">
+                   <div>
+                       {{this.contentTemplateID}}<a href="/content?content={{this.contentTemplateID}}" class="secondary-content"><i class="material-icons">delete</i><pre></a>
+                   </div> 
+                   <div>
+                       <a href="/getConsent?content={{this.contentTemplateID}}" class="secondary-content"><i class="material-icons">face</i></a>
+                   </div>
+                   <div>
+                       <a href="/edit?content={{this.contentTemplateID}}"
+                            class="secondary-content"><i class="material-icons">description</i></a>
+                   </div>
+                    <p>Type of message: {{this.contentType}} <br>
+                        Category of message: {{this.contentCategory}} <br>
+                        Text of message: {{this.contentTemplateMsg}}<br>
                     </p>
                 </li>
                 {{/each}}

@@ -1,3 +1,16 @@
+<script>
+
+function deleteHeader(headerId){
+    //$('.modal').modal('open');
+    var r = confirm("Are you sure you want to delete "+ headerId+" ?");
+if (r == true) {
+ sendDeleteHeader(headerId);
+}
+
+
+}
+
+</script>
 <div class="container">
     <div class="text-center heading-margin">
         <p>&nbsp;</p>
@@ -10,10 +23,10 @@
             </li>
             <div class="greyBorder">
                 {{#each headers}}
-                <li class="collection-item">
-                    <div>{{this.headerstr}}
-                        <a href="/header?header={{this.headerstr}}" class="secondary-content"><i class="material-icons">delete</i></a>
-                        <a href="/transferHeaders/{{this.headerstr}}" class="secondary-content"><i class="material-icons">send</i></a><br>
+                <li class="collection-item" id="deleteHeader{{{this.headerstr}}}">
+                    <div >{{this.headerstr}}
+                        <a class="secondary-content" onclick="deleteHeader('{{this.headerstr}}')"><i class="material-icons">delete</i></a>
+                        <a href="/transfer?header={{this.headerstr}}" class="secondary-content"><i class="material-icons">send</i></a><br>
                     </div>
                 </li>
 
@@ -35,6 +48,8 @@
 
             </div>
         </form>
+
+        
 
     </div>
 

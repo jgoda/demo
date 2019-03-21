@@ -1,0 +1,20 @@
+<div class="container">
+
+    <div class="categoryContainer">
+        <h4>Active Complaints list</h4>
+        
+        <ul class="collection">
+            <div class="greyBorder">
+                {{#each complaints}}
+                <li class="collection-item">
+                    <div>
+                        {{this.complaintID}}<a href="/complaintDetails?complaint={{this.complaintID}}" class="secondary-content"><i
+                                class="material-icons">send</i>
+                            </a>
+                   </div> 
+                   </li>
+                {{/each}}
+            </div>
+        </ul>
+    </div>
+</div>

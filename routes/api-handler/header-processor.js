@@ -10,6 +10,7 @@ exports.saveHeader = function (req, res) {
     console.log("saveHeader");
 
     let header = req.body.header;
+    let entity = req.body.entity;
 
     chainManager.getHeaderByHeaderName(header, function (err, data) {
         if (data) {
@@ -19,7 +20,7 @@ exports.saveHeader = function (req, res) {
             };
             return res.send(result);
         } else {
-            chainManager.saveHeader(header, function (err, data) {
+            chainManager.saveHeader(header, entity, function (err, data) {
                 if (err) {
                     let result = {
                         status: false,
@@ -39,8 +40,8 @@ exports.saveHeader = function (req, res) {
 
 exports.sendDeleteHeader = function(req, res) {
     console.log("delete header");
-    //let header = req.query.headerval;
-    let header = "HDR3";
+    let header = req.body.header;
+    //let header = "HDR4";
     console.log("header in header-processor", header);
     chainManager.sendDeleteHeader(header, function (err, data) {
         console.log(data);
@@ -101,3 +102,27 @@ exports.sendTransferHeader = function(req, res) {
         console.log('header transfer transaction',err,response);
     })*/
 }
+
+exports.sendDeleteTemplate = function(req, res) {
+    console.log("delete content template");
+    let template = req.query.templateval;
+    //let header = "HDR3";
+    console.log("header in header-processor", template);
+    chainManager.sendDeleteTemplate(template, function (err, data) {
+        console.log(data);
+        if(data) {
+            let result = {
+                status: false,
+                message: 'Deletion failed'
+            };
+            res.send(result);
+        }
+        else {
+            let result = {
+                status: true,
+                message: 'Header deleted'
+            };
+            res.send(result);
+        }
+    })
+};

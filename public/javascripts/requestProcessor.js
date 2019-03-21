@@ -231,10 +231,34 @@ function saveHeader() {
 
 }
 
-function sendDeleteHeader() {
+function sendDeleteHeader(headerId) {
     console.log("ajax call");
-    let header = $('#sendDeleteHeader').val();
+   
     this.makeAjaxCall('/api/sendDeleteHeader', {
+       header:headerId 
+    }, function (data) {
+        $('#deleteHeader'+headerId).addClass('hide');
+        M.toast({html: data['message']});
+    })
+
+}
+
+
+function sendTransferHeader() {
+    console.log("ajax call for transfer header");
+    let header = $('sendTransferHeader').val();
+    this.makeAjaxCall('/api/sendTransferHeader', {
+        header
+    }, function (data) {
+
+        M.toast({html: data['message']});
+    })
+}
+
+function sendDeleteTemplate() {
+    console.log("ajax call");
+    let header = $('#sendDeleteTemplate').val();
+    this.makeAjaxCall('/api/sendDeleteTemplate', {
         header
     }, function (data) {
 

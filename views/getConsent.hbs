@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="text-center heading-margin">
+        <p>Secure Subscriber Consent/p>
+    </div>
+
+    <div class="categoryContainer">
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">phone</i>
+                <input id="subscriberPhoneforConsent" type="number" class="validate">
+                <label for="icon_prefix">Phone number of the subscriber for consent</label>
+                <br>
+                <br>
+                <p>Consent Template ID to be sent</p>
+
+                <div class="greyBorder">
+                    {{#each consentTemplates}}
+                    <li class="collection-item">
+                        <div>{{this.consentTemplateID}}
+                            <a href="/sendConsentSMS?consentTemplateID={{this.consentTemplateID}}" class="secondary-content"><i
+                                    class="material-icons">send</i></a>
+                        </div>
+                    </li>
+
+                    {{/each}}
+                </div>
+
+
+            </div>
+        </div>
+        <a class="waves-effect waves-light btn" onclick="login()">Login</a>
+        <a class="register" href="/register"> Register ?</a>
+
+    </div>
+
+
+</div>

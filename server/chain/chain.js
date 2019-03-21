@@ -75,7 +75,7 @@ exports.getSubscriberDetails = function (phone, cb) {
 };
 
 exports.getConsentList = function (phone, cb) {
-    /*let subscriberRequestObject = {
+    let subscriberRequestObject = {
         url: 'http://localhost:3000/api/subscriber/' + phone,
         headers: {
             'Accept': 'application/json'
@@ -93,8 +93,7 @@ exports.getConsentList = function (phone, cb) {
             let indvl = JSON.parse(subscriberDetail);
             return cb(null, indvl['consentnos']);
         }
-    })*/
-    return cb(null, ["1", "2", "3"]);
+    });
 
 }
 
@@ -231,21 +230,103 @@ exports.getConsentForEntity = function (entity, cb) {
 exports.getHeaderByHeaderName = function (header, cb) {
     console.log("getHeaderbyHeaderName");
 
-    let url = 'http://localhost:3000/headers/' + header;
+    let url = 'http://localhost:3000/api/headers?filter=%7B%22where%22%3A%20%7B%22headerstr%22%3A%20%22' + header + '%22%7D%7D';
 
-    request.makeFetchCall(url, function (err, data) {
-        console.log(data);
-        cb(err, data);
+    request.makeFetchCall(url, function (err, data1) {
+        let data = JSON.parse(data1);
+        console.log("return data", data[0]);
+        console.log("typeof data", typeof data[0])
+        return cb(err, data[0]);
     })
 
 };
 
-exports.saveHeader = function (header, cb) {
+exports.getComplaintsbyTSP = function (TSPID, cb) {
+    console.log("getComplaintsbyTSP");
+
+    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22TAP%22%3A%20%22resource%3Aorg.example.biznet.TSP%23'+TSPID+'%22%7D%7D';
+
+    request.makeFetchCall(url, function (err, data1) {
+        let data = JSON.parse(data1);
+        console.log("return data", data);
+        console.log("typeof data", typeof data)
+        return cb(err, data);
+    });
+};
+
+exports.getComplaintDetails = function (compID, cb) {
+    console.log("getComplaintbyID");
+    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22complaintID%22%3A%20%22'+compID+'%22%7D%7D';
+    request.makeFetchCall(url, function (err, data1) {
+        let data = JSON.parse(data1);
+        let complainant = data[0]['complainant'].substr(1+data[0]['complainant'].indexOf("#"));
+        let tsp_owner = data[0]['TAP'].substr(1+data[0]['complainant'].indexOf("#"));
+        data[0]['complainant']=complainant;
+        data[0]['TAP']=tsp_owner;
+        console.log("return data", data[0]);
+        console.log("typeof data", typeof data[0])
+        return cb(err, data[0]);
+    });
+};
+
+exports.getContentTemplatebyName = function (template, cb) {
+    console.log("getContentTemplatebyName");
+
+    let url = 'http://localhost:3000/api/contentTemplate?filter=%7B%22where%22%3A%20%7B%22contentTemplateID%22%3A%20%22' + template + '%22%7D%7D';
+    console.log("url to get content template", url);
+    request.makeFetchCall(url, function (err, data1) {
+        let data = JSON.parse(data1);
+        console.log("return data", data[0]);
+        console.log("typeof data", typeof data[0])
+        return cb(err, data[0]);
+    })
+
+};
+
+exports.getConsentTemplatebyName = function (template, cb) {
+    console.log("getConsentTemplatebyName");
+
+    let url = 'http://localhost:3000/api/consentTemplate?filter=%7B%22where%22%3A%20%7B%22consentTemplateID%22%3A%20%22' + template + '%22%7D%7D';
+
+    request.makeFetchCall(url, function (err, data1) {
+        let data = JSON.parse(data1);
+        console.log("return data", data[0]);
+        console.log("typeof data", typeof data[0])
+        return cb(err, data[0]);
+    })
+
+};
+
+exports.getConsentTemplatesbyTemplateID = function (template, cb) {
+    console.log("getConsentTemplatebyTemplateID");
+    console.log("template", template);
+    let url = 'http://localhost:3000/api/contentTemplate?filter=%7B%22where%22%3A%20%7B%22contentTemplateID%22%3A%20%22' + template + '%22%7D%7D';
+
+    request.makeFetchCall(url, function (err, contentTemp1) {
+        let contentTemp = JSON.parse(contentTemp1);
+        console.log("contentTemp", contentTemp[0]);
+        let tm_owner = contentTemp[0]['telemarketer_owner'];
+        console.log("tm_owner", tm_owner);
+        var entityDet = tm_owner.substr(1 + tm_owner.indexOf("#"));
+        console.log("headerDet", entityDet);
+
+        let url1 = 'http://localhost:3000/api/consentTemplate?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%22resource%3Aorg.example.biznet.telemarketer%23' + entityDet + '%22%7D%7D';
+        console.log("url for getting contentTemplates by entity: ", url);
+        request.makeFetchCall(url1, function (err, contents1) {
+            let contents = JSON.parse(contents1);
+            console.log(contents);
+            cb(null, contents);
+        });
+    });
+};
+
+exports.saveHeader = function (header, entity, cb) {
     console.log("saveHeader");
+    let owner_str = 'resource:org.example.biznet.telemarketer#' + entity;
     let data = {
         "headerstr": header,
         "regMobNo": "",
-        "telemarketer_owner": [],
+        "telemarketer_owner": owner_str,
     };
     let saveHeader = {
         url: 'http://localhost:3000/api/headers',
@@ -256,7 +337,8 @@ exports.saveHeader = function (header, cb) {
         data: data,
         json: true
     };
-    request.fetchData(data, function (err, data) {
+
+    request.fetchData(saveHeader, function (err, data) {
         return cb(err, data);
     })
 };
@@ -264,15 +346,40 @@ exports.saveHeader = function (header, cb) {
 exports.sendDeleteHeader = function (header, cb) {
     console.log("sendDeleteHeader");
 
+<<<<<<< Updated upstream
     let sendDeleteHeader = {
         url: 'http://localhost:3000/api/headers/' + header,
+=======
+
+    let requestDeleteHdr = {
+        method: 'DELETE',
+        message: '',
+        url: 'http://localhost:3000/api/headers/'+header,
+        headers:
+        {
+            'Accept': 'application/json'
+        }
+        
+    };
+    request.fetchData(requestDeleteHdr, function (err, data) {
+        console.log('sendDeleteHeader', err, data);
+        return cb(err, data);
+    })
+};
+
+exports.sendDeleteTemplate = function (template, cb) {
+    console.log("sendDeleteTemplate");
+
+    let sendDeleteTemplate = {
+        url: 'http://localhost:3000/api/contentTemplate/' + template,
+>>>>>>> Stashed changes
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         json: true
     };
-    request.fetchData(sendDeleteHeader, function (err, data) {
+    request.fetchData(sendDeleteTemplate, function (err, data) {
         return cb(err, data);
     })
 };
@@ -465,6 +572,22 @@ exports.updateDay = function (phone, mon, tue, wed, thus, fri, sat, sun, nat, cb
             return cb(null, true);
         })*/
 };
+
+exports.getComplaintsByOwnerId=function(ownerId,cb){
+
+    let whereClause={
+        "where": {
+            "owner": "resource:org.example.biznet.TSP#"+ownerId
+        }
+    };
+    let url ='http://localhost:3000/api/complaint?filter='+encodeURIComponent(JSON.stringify(whereClause));
+
+    console.log("complaints url", url);
+    request.makeFetchCall(url,function(err,data){
+        console.log(err,data);
+        return cb(err,data);
+    })
+}
 
 
 

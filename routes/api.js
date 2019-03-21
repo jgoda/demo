@@ -21,6 +21,8 @@ router.post('/deScrubFile', apiHandler.fileProcessor.deScrubFile);
 router.post('/sendDeleteHeader', apiHandler.headerProcessor.sendDeleteHeader);
 router.post('/deleteHeader', apiHandler.headerProcessor.sendDeleteHeader);
 router.post('/transferHeader', apiHandler.headerProcessor.sendTransferHeader);
+router.post('/sendTransferHeader', apiHandler.headerProcessor.sendTransferHeader);
+router.post('/sendDeleteTemplate', apiHandler.headerProcessor.sendDeleteTemplate);
 //router.post('/getConsents', apiHandler.userProcessor.getConsents);
 //router.post('/subscribervalsget', apiHandler.userProcessor.subscribervalsget);
 

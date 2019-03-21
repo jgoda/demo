@@ -142,7 +142,7 @@ router.get('/landingPage', function (req, res) {
 
 
 router.get('/headers', function (req, res) {
-    let entity = req.params.entity;
+    let entity = req.query.entity;
     console.log("entity = ", entity);
     chain.getHeadersForEntity(entity, function (err, headers) {
         res.render('headers', {headers});
@@ -168,12 +168,46 @@ router.get('/content/:entity', function (req, res) {
 router.get('/header', function (req, res) {
     let header = req.query.header;
     console.log("header in index.js", header);
+<<<<<<< Updated upstream
     res.render('deleteheaders', {headerval: header});
 });
 
 router.get('/transferHeaders/:header', function (req, res) {
     let header = req.params.header;
     res.render('transferHeaders', {headerval: header});
+=======
+    chain.getHeaderByHeaderName(header, function (err,headers){
+        console.log("deleteheaders", headers);
+        res.render('deleteheaders',{headers});
+    })
+});
+
+router.get('/content', function(req,res) {
+    let content = req.query.content;
+    console.log("template in index.js", content);
+    chain.getContentTemplatebyName(content, function (err,templates){
+        console.log("deleteContent", templates);
+        res.render('deleteContent',{templates});
+    })
+});
+
+router.get('/getconsent', function(req,res) {
+    let template = req.query.content;
+    console.log("template in index.js", template);
+    chain.getConsentTemplatesbyTemplateID(template, function (err,consentTemplates){
+        console.log("getConsent", consentTemplates);
+        res.render('getConsent',{consentTemplates});
+    })
+});
+
+router.get('/transfer', function(req,res) {
+    let header = req.query.header;
+    console.log("header in index.js", header);
+    chain.getConsentTemplatebyName(header, function (err,headers){
+        console.log("deleteheaders", headers);
+        res.render('deleteheaders',{headers});
+    })
+>>>>>>> Stashed changes
 });
 
 router.get('/templates', function (req, res) {
@@ -194,6 +228,10 @@ router.get('/scrubbing', function (req, res) {
 
 router.get('/gotoEntity', function (req, res) {
     res.render('entity', {});
+});
+
+router.get('/gotoTSP', function (req, res) {
+    res.render('TSP', {});
 });
 
 router.get('/mainPage', function (req, res) {
@@ -220,6 +258,39 @@ router.get('/sender/login', function (req, res) {
 router.get('/senderlandingpage', function (req, res) {
     res.render('senderLandingPage', {});
 
+});
+
+router.get('/complaintStatus',function(req,res){
+    let owner = req.query.owner;
+processor.complaint.getComplaintsWithDetail(owner,function(err,complaints){
+
+        return res.send(complaints);
+});
+
+});
+
+router.get('/tspHome', function(req,res) {
+    let TSPID = req.query.TSP;
+    console.log("TSPID in index.js", TSPID);
+    res.render('TSP_main',{tspID: TSPID});
+});
+
+router.get('/tspComplaints', function(req,res) {
+    let TSPID = req.query.TSP;
+    console.log("TSPID in index.js", TSPID);
+    chain.getComplaintsbyTSP(TSPID, function (err,complaints){
+        console.log("tspComplaints", complaints);
+        res.render('tspComplaints',{complaints});
+    })
+});
+
+router.get('/complaintDetails', function(req,res) {
+    let compID = req.query.complaint;
+    console.log("TSPID in index.js", compID);
+    chain.getComplaintDetails(compID, function (err,compl){
+        console.log("complaintsDetails", compl);
+        res.render('complaintsDetails',{compl});
+    })
 });
 
 module.exports = router;

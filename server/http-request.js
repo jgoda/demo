@@ -64,10 +64,12 @@ exports.makeGetCall = function (url, cb) {
         cb(err, body)
     });
 };
+
 exports.makeFetchCall = function (url, cb) {
     let options={
         headers:{
-            "Accept":"application/json"
+            "Accept":"application/json",
+            'Content-Type': 'application/json'
         }
     };
     request.get(url, options, function (err, response, body) {
