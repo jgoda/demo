@@ -11,44 +11,142 @@ let request = require('../../server/http-request.js');
 let crypt = require('../../utils/crypt.js');
 
 
-
 /*Global Vars*/
 let logger = logManager.getLogger();
 
 exports.parseScrubFile = function (req, res) {
+    console.log('parseScrub', req.body);
     let file = req.files.scrubFile;
 
-    let food_scrub = [];
-    let entertainment_scrub = [];
-    let tourism_scrub = [];
-    let health_scrub = [];
-    let insurance_scrub = [];
-    let real_estate_scrub = [];
-    let education_scrub = [];
-    let goods_scrub = [];
+    let excelHeaders = [];
+    if (req.body.insurance === 'on') {
+        excelHeaders.push("uccInsurance")
+    }
+    if (req.body.realState === 'on') {
+        excelHeaders.push("uccRealstate")
+    }
+    if (req.body.education === 'on') {
+        excelHeaders.push("uccEducation")
+    }
+    if (req.body.health === 'on') {
+        excelHeaders.push("uccGood")
+    }
+    if (req.body.goods === 'on') {
+        excelHeaders.push("uccHealth")
+    }
+    if (req.body.ent === 'on') {
+        excelHeaders.push("uccEnt")
+    }
+    if (req.body.tourism === 'on') {
+        excelHeaders.push("uccTourism")
+    }
+    if (req.body.food === 'on') {
+        excelHeaders.push("uccFood")
+    }
+    if (req.body.voice === 'on') {
+        excelHeaders.push("mocVoice")
+    }
+    if (req.body.sms === 'on') {
+        excelHeaders.push("mocSMS")
+    }
+    if (req.body.ADrec === 'on') {
+        excelHeaders.push("mocADrec")
+    }
+    if (req.body.ADlive === 'on') {
+        excelHeaders.push("mocADlive")
+    }
+    if (req.body.robo === 'on') {
+        excelHeaders.push("mocRobo")
+    }
+    if (req.body.t1 === 'on') {
+        excelHeaders.push("bandT1")
+    }
+    if (req.body.t2 === 'on') {
+        excelHeaders.push("bandT2")
+    }
+    if (req.body.t3 === 'on') {
+        excelHeaders.push("bandT3")
+    }
+    if (req.body.t4 === 'on') {
+        excelHeaders.push("bandT4")
+    }
+    if (req.body.t5 === 'on') {
+        excelHeaders.push("bandT5")
+    }
+    if (req.body.t6 === 'on') {
+        excelHeaders.push("bandT6")
+    }
+    if (req.body.t7 === 'on') {
+        excelHeaders.push("bandT7")
+    }
+    if (req.body.t8 === 'on') {
+        excelHeaders.push("bandT8")
+    }
+    if (req.body.t9 === 'on') {
+        excelHeaders.push("bandT9")
+    }
+    if (req.body.mon === 'on') {
+        excelHeaders.push("dayMon")
+    }
+    if (req.body.tue === 'on') {
+        excelHeaders.push("dayTue")
+    }
+    if (req.body.wed === 'on') {
+        excelHeaders.push("dayWed")
+    }
+    if (req.body.thus === 'on') {
+        excelHeaders.push("dayThus")
+    }
+    if (req.body.fri === 'on') {
+        excelHeaders.push("dayFri")
+    }
+    if (req.body.sat === 'on') {
+        excelHeaders.push("daySat")
+    }
+    if (req.body.sun === 'on') {
+        excelHeaders.push("daySun")
+    }
+    if (req.body.nat === 'on') {
+        excelHeaders.push("datNat")
+    }
+
+    console.log(excelHeaders);
+
+    /* let food_scrub = [];
+     let entertainment_scrub = [];
+     let tourism_scrub = [];
+     let health_scrub = [];
+     let insurance_scrub = [];
+     let real_estate_scrub = [];
+     let education_scrub = [];
+     let goods_scrub = [];*/
+
 
     file.mv(uploadDir + file.name, function (err, data) {
 
         let xlData = excelProcessor.parseExcel(uploadDir + file.name, 0);
         let todayDateStr = utils.todayDateString();
-        processScrubFile(0, xlData, todayDateStr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub, [], function (err, result) {
-            console.log('data received',result);
-            excelProcessor.createExcelFromJson(uploadDir, 'insurance_scrubbing_output.xlsx', 'Insurance', insurance_scrub,Object.keys(insurance_scrub[0]));
-            excelProcessor.createExcelFromJson(uploadDir, 'realEstate_scrubbing_output.xlsx', 'RealEstate', real_estate_scrub,Object.keys(real_estate_scrub[0]));
-            excelProcessor.createExcelFromJson(uploadDir, 'education_scrubbing_output.xlsx', 'Education', education_scrub,Object.keys(education_scrub[0]));
-            excelProcessor.createExcelFromJson(uploadDir, 'health_scrubbing_output.xlsx', 'Health', health_scrub,Object.keys(health_scrub[0]));
-            excelProcessor.createExcelFromJson(uploadDir, 'consumerGoodsscrubbing_output.xlsx', 'ConsumerGoods', goods_scrub,Object.keys(goods_scrub[0]));
-            excelProcessor.createExcelFromJson(uploadDir, 'tourism_scrubbing_output.xlsx', 'Tourism', tourism_scrub,Object.keys(tourism_scrub[0]));
-            excelProcessor.createExcelFromJson(uploadDir, 'entertainment_scrubbing_output.xlsx', 'Entertainment', entertainment_scrub,Object.keys(entertainment_scrub[0]));
-            excelProcessor.createExcelFromJson(uploadDir, 'food_scrubbing_output.xlsx', 'Food', food_scrub,Object.keys(food_scrub[0]));
+        processFilteredScrubFile(0, xlData, [], function (err, result) {
+            console.log('data received', result);
+            let sheetHeaders = excelHeaders.length !== 0 ? excelHeaders : Object.keys(result[0]);
+            excelProcessor.createExcelFromJson(uploadDir, 'scrubbing_output.xlsx', 'Sheet', result, sheetHeaders);
+
+            /* excelProcessor.createExcelFromJson(uploadDir, 'insurance_scrubbing_output.xlsx', 'Insurance', insurance_scrub, Object.keys(insurance_scrub[0]));
+             excelProcessor.createExcelFromJson(uploadDir, 'education_scrubbing_output.xlsx', 'Education', education_scrub, Object.keys(education_scrub[0]));
+             excelProcessor.createExcelFromJson(uploadDir, 'health_scrubbing_output.xlsx', 'Health', health_scrub, Object.keys(health_scrub[0]));
+             excelProcessor.createExcelFromJson(uploadDir, 'consumerGoodsscrubbing_output.xlsx', 'ConsumerGoods', goods_scrub, Object.keys(goods_scrub[0]));
+             excelProcessor.createExcelFromJson(uploadDir, 'tourism_scrubbing_output.xlsx', 'Tourism', tourism_scrub, Object.keys(tourism_scrub[0]));
+             excelProcessor.createExcelFromJson(uploadDir, 'entertainment_scrubbing_output.xlsx', 'Entertainment', entertainment_scrub, Object.keys(entertainment_scrub[0]));
+             excelProcessor.createExcelFromJson(uploadDir, 'food_scrubbing_output.xlsx', 'Food', food_scrub, Object.keys(food_scrub[0]));
+      */
             console.log('end');
             res.redirect('/scrubFile?success=true');
         });
-        
+
     })
 };
 
-function processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub,result, cb) {
+function processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub, result, cb) {
     let dow = new Date().getDay();
     let _next_dow = [];
     let _month = ['mon', 'tue', 'wed', 'thus', 'fri', 'sat', 'sun', 'nat'];
@@ -60,9 +158,9 @@ function processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_
         let url = 'http://localhost:3000/api/subscriber/' + phone;
 
         request.makeFetchCall(url, function (err, subscriberDetail) {
-            console.log("makegetcall",err,subscriberDetail,typeof subscriberDetail);
+            console.log("makegetcall", err, subscriberDetail, typeof subscriberDetail);
             if (subscriberDetail) {
-                subscriberDetail=JSON.parse(subscriberDetail);
+                subscriberDetail = JSON.parse(subscriberDetail);
                 console.log('adding result');
                 var encryptedphnum = crypt.encrypt(todaystr.concat(phone));
                 let cell = {
@@ -91,43 +189,96 @@ function processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_
                     'datNat': subscriberDetail['datNat']
                 };
 
-                if(subscriberDetail['uccInsurance'])
-                {
+                if (subscriberDetail['uccInsurance']) {
                     insurance_scrub.push(cell);
                 }
-                if(subscriberDetail['uccRealstate'])
-                {
+                if (subscriberDetail['uccRealstate']) {
                     real_estate_scrub.push(cell);
                 }
-                if(subscriberDetail['uccEducation'])
-                {
+                if (subscriberDetail['uccEducation']) {
                     education_scrub.push(cell);
                 }
-                if(subscriberDetail['uccHealth'])
-                {
+                if (subscriberDetail['uccHealth']) {
                     health_scrub.push(cell);
                 }
-                if(subscriberDetail['uccGood'])
-                {
+                if (subscriberDetail['uccGood']) {
                     goods_scrub.push(cell);
                 }
-                if(subscriberDetail['uccEnt'])
-                {
+                if (subscriberDetail['uccEnt']) {
                     entertainment_scrub.push(cell);
                 }
-                if(subscriberDetail['uccTourism'])
-                {
+                if (subscriberDetail['uccTourism']) {
                     tourism_scrub.push(cell);
                 }
-                if(subscriberDetail['uccFood'])
-                {
+                if (subscriberDetail['uccFood']) {
                     food_scrub.push(cell);
                 }
                 result.push(cell);
                 console.log('added');
             }
             index++;
-            processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub,result, cb);
+            processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub, result, cb);
+        });
+    } else {
+        cb(null, result);
+    }
+}
+
+function processFilteredScrubFile(index, xlData, todaystr, result, cb) {
+    let dow = new Date().getDay();
+    let _next_dow = [];
+    let _month = ['mon', 'tue', 'wed', 'thus', 'fri', 'sat', 'sun', 'nat'];
+
+    console.log(index, xlData.length);
+    if (index < xlData.length) {
+        let phone = xlData[index]['numbers'];
+
+        let url = 'http://localhost:3000/api/subscriber/' + phone;
+
+        request.makeFetchCall(url, function (err, subscriberDetail) {
+            console.log("makegetcall", err, subscriberDetail, typeof subscriberDetail);
+            if (subscriberDetail) {
+                subscriberDetail = JSON.parse(subscriberDetail);
+                console.log('adding result');
+                var encryptedphnum = crypt.encrypt(todaystr.concat(phone));
+                let cell = {
+                    'phone': encryptedphnum,
+                    'uccInsurance': subscriberDetail['uccInsurance'],
+                    'uccRealstate': subscriberDetail['uccRealstate'],
+                    'uccEducation': subscriberDetail['uccEducation'],
+                    'uccGood': subscriberDetail['uccGood'],
+                    'uccHealth': subscriberDetail['uccHealth'],
+                    'uccEnt': subscriberDetail['uccEnt'],
+                    'uccTourism': subscriberDetail['uccTourism'],
+                    'uccFood': subscriberDetail['uccFood'],
+                    'mocVoice': subscriberDetail['mocVoice'],
+                    'mocSMS': subscriberDetail['mocSMS'],
+                    'mocADrec': subscriberDetail['mocADrec'],
+                    'mocADlive': subscriberDetail['mocADlive'],
+                    'mocRobo': subscriberDetail['mocRobo'],
+                    'bandT1': subscriberDetail['bandT1'],
+                    'bandT2': subscriberDetail['bandT2'],
+                    'bandT3': subscriberDetail['bandT3'],
+                    'bandT4': subscriberDetail['bandT4'],
+                    'bandT5': subscriberDetail['bandT5'],
+                    'bandT6': subscriberDetail['bandT6'],
+                    'bandT7': subscriberDetail['bandT7'],
+                    'bandT8': subscriberDetail['bandT8'],
+                    'bandT9': subscriberDetail['bandT9'],
+                    'dayMon': subscriberDetail['dayMon'],
+                    'dayTue': subscriberDetail['dayTue'],
+                    'dayWed': subscriberDetail['dayWed'],
+                    'dayThus': subscriberDetail['dayThus'],
+                    'dayFri': subscriberDetail['dayFri'],
+                    'daySat': subscriberDetail['daySat'],
+                    'daySun': subscriberDetail['daySun'],
+                    'datNat': subscriberDetail['datNat']
+                };
+                result.push(cell);
+                console.log('added');
+            }
+            index++;
+            processFilteredScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub, result, cb);
         });
     } else {
         cb(null, result);
@@ -159,24 +310,24 @@ function processPreferencesFile(index, xlData, cb) {
         let subscriberRequestObject = {
             url: 'http://localhost:3000/api/subscriber/' + phone,
             headers: {
-		'Accept': 'application/json'
+                'Accept': 'application/json'
             }
-            
+
         };
 
         let subscriberPostObject = {
             url: 'http://localhost:3000/api/subscriber/',
             headers: {
-		'Accept': 'application/json'
+                'Accept': 'application/json'
             }
-            
+
         };
 
-        console.log(xlData[index]['uccInsurance'],xlData[index]['uccRealstate'],xlData[index]['uccEducation']);
+        console.log(xlData[index]['uccInsurance'], xlData[index]['uccRealstate'], xlData[index]['uccEducation']);
         let participant = {
             $class: 'org.example.biznet.subscriber',
             'mobno': phone,
-            'tsp':"resource:org.example.biznet.TSP#TSP1",
+            'tsp': "resource:org.example.biznet.TSP#TSP1",
             'uccInsurance': String(xlData[index]['uccInsurance']) === '1',
             'uccRealstate': String(xlData[index]['uccRealstate']) === '1',
             'uccEducation': String(xlData[index]['uccEducation']) === '1',
@@ -213,8 +364,8 @@ function processPreferencesFile(index, xlData, cb) {
         subscriberRequestObject['method'] = 'GET';
 
         request.makeFetchCall(subscriberRequestObject['url'], function (err, subscriberDetail) {
-        console.log('[getsubscriberRequest]',err,subscriberDetail);
-        let indvl = JSON.parse(subscriberDetail);
+            console.log('[getsubscriberRequest]', err, subscriberDetail);
+            let indvl = JSON.parse(subscriberDetail);
             if (!subscriberDetail) {
                 subscriberPostObject['method'] = 'POST';
                 subscriberPostObject['body'] = participant;
@@ -225,12 +376,12 @@ function processPreferencesFile(index, xlData, cb) {
                     processPreferencesFile(index, xlData, cb);
                 });
             } else {
-                participant['consentnos']=indvl['consentnos'];
+                participant['consentnos'] = indvl['consentnos'];
                 subscriberRequestObject['method'] = 'PUT';
                 subscriberRequestObject['body'] = participant;
-		        subscriberRequestObject['json'] = true;
+                subscriberRequestObject['json'] = true;
                 request.fetchData(subscriberRequestObject, function (err, response) {
-		            console.log('[updatesubscriberRequest]',err,response);
+                    console.log('[updatesubscriberRequest]', err, response);
                     index++;
                     processPreferencesFile(index, xlData, cb);
                 })
@@ -261,20 +412,20 @@ exports.parseConsentsFile = function (req, res) {
 function processConsentsFile(index, xlData, cb) {
 
     updateSubscriberConsents(index, xlData, cb);
-  //  updateEntityConsents(index, xlData, cb);
+    //  updateEntityConsents(index, xlData, cb);
     logger.info('[processConsentsFile]', index, xlData.length);
 }
 
 function updateEntityConsents(index, xlData, cb) {
-    if(index < xlData.length) {
+    if (index < xlData.length) {
         let phone = xlData[index]['phone'];
         let templtID = xlData[index]['templateID'];
 
         let templateRequestObject = {
             url: 'http://localhost:3000/api/contentTemplate/' + templtID,
             headers: {
-		'Accept': 'application/json'
-            }  
+                'Accept': 'application/json'
+            }
         };
 
         templateRequestObject['method'] = 'GET';
@@ -283,15 +434,15 @@ function updateEntityConsents(index, xlData, cb) {
             }
             else {
                 let indvl = JSON.parse(templateDetail);
-                if(!indvl['subscribersConsent'].includes(String(phone))) {
+                if (!indvl['subscribersConsent'].includes(String(phone))) {
                     indvl['subscribersConsent'].push(String(phone));
                 }
                 templateRequestObject['method'] = 'PUT';
                 templateRequestObject['body'] = participant;
                 templateRequestObject['json'] = true;
                 request.fetchData(templateRequestObject, function (err, response) {
-                console.log('Template PUT response status: ', response.status);
-            });
+                    console.log('Template PUT response status: ', response.status);
+                });
             }
         });
         index++;
@@ -302,123 +453,123 @@ function updateEntityConsents(index, xlData, cb) {
 function updateSubscriberConsents(index, xlData, cb) {
     // console.log("Header value:", tmHeader);
 
-    if(index < xlData.length) {
+    if (index < xlData.length) {
         let phone = xlData[index]['phone'];
         logger.info('[processConsentsFile]', phone);
 
         let subscriberRequestObject = {
             url: 'http://localhost:3000/api/subscriber/' + phone,
             headers: {
-		'Accept': 'application/json'
+                'Accept': 'application/json'
             }
-            
+
         };
 
         let subscriberPostObject = {
             url: 'http://localhost:3000/api/subscriber/',
             headers: {
-		'Accept': 'application/json'
+                'Accept': 'application/json'
             }
-            
+
         };
 
         //add consent details to subscriber account
         subscriberRequestObject['method'] = 'GET';
         request.makeFetchCall(subscriberRequestObject['url'], function (err, subscriberDetail) {
-        //console.log('[getsubscriberRequest]',err,subscriberDetail);
-        if (!subscriberDetail) {
-            let participant = {
-                $class: 'org.example.biznet.subscriber',
-                'mobno': phone,
-                'tsp':'resource:org.example.biznet.TSP#TSP1',
-                'uccInsurance': false,
-                'uccRealstate': false,
-                'uccEducation': false,
-                'uccHealth': false,
-                'uccGood': false,
-                'uccEnt': false,
-                'uccTourism': false,
-                'uccFood': false,
-                'mocVoice': false,
-                'mocSMS': false,
-                'mocADrec': false,
-                'mocADlive': false,
-                'mocRobo': false,
-                'bandT1': false,
-                'bandT2': false,
-                'bandT3': false,
-                'bandT4': false,
-                'bandT5': false,
-                'bandT6': false,
-                'bandT7': false,
-                'bandT8': false,
-                'bandT9': false,
-                'dayMon': false,
-                'dayTue': false,
-                'dayWed': false,
-                'dayThus': false,
-                'dayFri': false,
-                'daySat': false,
-                'daySun': false,
-                'datNat': false,
-                'consentnos': [String(xlData[index]['templateID'])]
-            };
-            subscriberPostObject['method'] = 'POST';
-            subscriberPostObject['body'] = participant;
-            subscriberPostObject['json'] = true;
-            request.fetchData(subscriberPostObject, function (err, response) {
-                console.log('POST response status: ', response.status);
-                updateEntityConsents(index, xlData, cb);
-            });
-        }
-        else {
-            let indvl = JSON.parse(subscriberDetail); 
-            if(!indvl['consentnos'].includes(String(xlData[index]['templateID']))) {
-                indvl['consentnos'].push(String(xlData[index]['templateID']));
+            //console.log('[getsubscriberRequest]',err,subscriberDetail);
+            if (!subscriberDetail) {
+                let participant = {
+                    $class: 'org.example.biznet.subscriber',
+                    'mobno': phone,
+                    'tsp': 'resource:org.example.biznet.TSP#TSP1',
+                    'uccInsurance': false,
+                    'uccRealstate': false,
+                    'uccEducation': false,
+                    'uccHealth': false,
+                    'uccGood': false,
+                    'uccEnt': false,
+                    'uccTourism': false,
+                    'uccFood': false,
+                    'mocVoice': false,
+                    'mocSMS': false,
+                    'mocADrec': false,
+                    'mocADlive': false,
+                    'mocRobo': false,
+                    'bandT1': false,
+                    'bandT2': false,
+                    'bandT3': false,
+                    'bandT4': false,
+                    'bandT5': false,
+                    'bandT6': false,
+                    'bandT7': false,
+                    'bandT8': false,
+                    'bandT9': false,
+                    'dayMon': false,
+                    'dayTue': false,
+                    'dayWed': false,
+                    'dayThus': false,
+                    'dayFri': false,
+                    'daySat': false,
+                    'daySun': false,
+                    'datNat': false,
+                    'consentnos': [String(xlData[index]['templateID'])]
+                };
+                subscriberPostObject['method'] = 'POST';
+                subscriberPostObject['body'] = participant;
+                subscriberPostObject['json'] = true;
+                request.fetchData(subscriberPostObject, function (err, response) {
+                    console.log('POST response status: ', response.status);
+                    updateEntityConsents(index, xlData, cb);
+                });
             }
-            let participant = {
-                $class: 'org.example.biznet.subscriber',
-                'tsp':indvl['tsp'],
-                'uccInsurance': indvl['uccInsurance'],
-                'uccRealstate': indvl['uccRealstate'],
-                'uccEducation': indvl['uccEducation'],
-                'uccHealth': indvl['uccHealth'],
-                'uccGood': indvl['uccGood'],
-                'uccEnt': indvl['uccEnt'],
-                'uccTourism': indvl['uccTourism'],
-                'uccFood': indvl['uccFood'],
-                'mocVoice': indvl['mocVoice'],
-                'mocSMS': indvl['mocSMS'],
-                'mocADrec': indvl['mocADrec'],
-                'mocADlive': indvl['mocADlive'],
-                'mocRobo': indvl['mocRobo'],
-                'bandT1': indvl['bandT1'],
-                'bandT2': indvl['bandT2'],
-                'bandT3': indvl['bandT3'],
-                'bandT4': indvl['bandT4'],
-                'bandT5': indvl['bandT5'],
-                'bandT6': indvl['bandT6'],
-                'bandT7': indvl['bandT7'],
-                'bandT8': indvl['bandT8'],
-                'bandT9': indvl['bandT9'],
-                'dayMon': indvl['dayMon'],
-                'dayTue': indvl['dayTue'],
-                'dayWed': indvl['dayWed'],
-                'dayThus': indvl['dayThus'],
-                'dayFri': indvl['dayFri'],
-                'daySat': indvl['daySat'],
-                'daySun': indvl['daySun'],
-                'datNat': indvl['datNat'],
-                'consentnos': indvl['consentnos']
-            };
-            subscriberRequestObject['method'] = 'PUT';
-            subscriberRequestObject['body'] = participant;
-            subscriberRequestObject['json'] = true;
-            request.fetchData(subscriberRequestObject, function (err, response) {
-                console.log('PUT response status: ', response.status);
-                updateEntityConsents(index, xlData, cb);
-            });
-        }
+            else {
+                let indvl = JSON.parse(subscriberDetail);
+                if (!indvl['consentnos'].includes(String(xlData[index]['templateID']))) {
+                    indvl['consentnos'].push(String(xlData[index]['templateID']));
+                }
+                let participant = {
+                    $class: 'org.example.biznet.subscriber',
+                    'tsp': indvl['tsp'],
+                    'uccInsurance': indvl['uccInsurance'],
+                    'uccRealstate': indvl['uccRealstate'],
+                    'uccEducation': indvl['uccEducation'],
+                    'uccHealth': indvl['uccHealth'],
+                    'uccGood': indvl['uccGood'],
+                    'uccEnt': indvl['uccEnt'],
+                    'uccTourism': indvl['uccTourism'],
+                    'uccFood': indvl['uccFood'],
+                    'mocVoice': indvl['mocVoice'],
+                    'mocSMS': indvl['mocSMS'],
+                    'mocADrec': indvl['mocADrec'],
+                    'mocADlive': indvl['mocADlive'],
+                    'mocRobo': indvl['mocRobo'],
+                    'bandT1': indvl['bandT1'],
+                    'bandT2': indvl['bandT2'],
+                    'bandT3': indvl['bandT3'],
+                    'bandT4': indvl['bandT4'],
+                    'bandT5': indvl['bandT5'],
+                    'bandT6': indvl['bandT6'],
+                    'bandT7': indvl['bandT7'],
+                    'bandT8': indvl['bandT8'],
+                    'bandT9': indvl['bandT9'],
+                    'dayMon': indvl['dayMon'],
+                    'dayTue': indvl['dayTue'],
+                    'dayWed': indvl['dayWed'],
+                    'dayThus': indvl['dayThus'],
+                    'dayFri': indvl['dayFri'],
+                    'daySat': indvl['daySat'],
+                    'daySun': indvl['daySun'],
+                    'datNat': indvl['datNat'],
+                    'consentnos': indvl['consentnos']
+                };
+                subscriberRequestObject['method'] = 'PUT';
+                subscriberRequestObject['body'] = participant;
+                subscriberRequestObject['json'] = true;
+                request.fetchData(subscriberRequestObject, function (err, response) {
+                    console.log('PUT response status: ', response.status);
+                    updateEntityConsents(index, xlData, cb);
+                });
+            }
         });
     } else {
         cb(null, true);
@@ -431,14 +582,14 @@ exports.deScrubFile = function (req, res) {
     file.mv(uploadDir + file.name, function (err, data) {
 
         let xlData = excelProcessor.parseExcel(uploadDir + file.name, 0);
-        
+
         processdeScrubFile(0, xlData, [], function (err, result) {
-            console.log('data received',result);
-            excelProcessor.createExcelFromJson(uploadDir, 'de_scrubbing_output.xlsx', 'Sheet1', result,Object.keys(result[0]));
+            console.log('data received', result);
+            excelProcessor.createExcelFromJson(uploadDir, 'de_scrubbing_output.xlsx', 'Sheet1', result, Object.keys(result[0]));
             console.log('end');
             res.redirect('/deScrub?success=true');
         });
-        
+
     })
 };
 
@@ -449,46 +600,46 @@ function processdeScrubFile(index, xlData, result, cb) {
         console.log("in loop");
         let phoneno = crypt.decrypt(xlData[index]['phone']);
         let cell = {
-           'phone': phoneno.substring(phoneno.length-10),
-           'uccInsurance': xlData[index]['uccInsurance'],
-           'uccRealstate': xlData[index]['uccRealstate'],
-           'uccEducation': xlData[index]['uccEducation'],
-           'uccHealth': xlData[index]['uccHealth'],
-           'uccGood': xlData[index]['uccGood'],
-           'uccEnt': xlData[index]['uccEnt'],
-           'uccTourism': xlData[index]['uccTourism'],
-           'uccFood': xlData[index]['uccFood'],
-           'mocVoice': xlData[index]['mocVoice'],
-           'mocSMS': xlData[index]['mocSMS'],
-           'mocADrec': xlData[index]['mocADrec'],
-           'mocADlive': xlData[index]['mocADlive'],
-           'mocRobo': xlData[index]['mocRobo'],
-           'bandT1': xlData[index]['bandT1'],
-           'bandT2': xlData[index]['bandT2'],
-           'bandT3': xlData[index]['bandT3'],
-           'bandT4': xlData[index]['bandT4'],
-           'bandT5': xlData[index]['bandT5'],
-           'bandT6': xlData[index]['bandT6'],
-           'bandT7': xlData[index]['bandT7'],
-           'bandT8': xlData[index]['bandT8'],
-           'bandT9': xlData[index]['bandT9'],
-           'dayMon': xlData[index]['dayMon'],
-           'dayTue': xlData[index]['dayTue'],
-           'dayWed': xlData[index]['dayWed'],
-           'dayThus': xlData[index]['dayThus'],
-           'dayFri': xlData[index]['dayFri'],
-           'daySat': xlData[index]['daySat'],
-           'daySun': xlData[index]['daySun'],
-           'datNat': xlData[index]['datNat']
+            'phone': phoneno.substring(phoneno.length - 10),
+            'uccInsurance': xlData[index]['uccInsurance'],
+            'uccRealstate': xlData[index]['uccRealstate'],
+            'uccEducation': xlData[index]['uccEducation'],
+            'uccHealth': xlData[index]['uccHealth'],
+            'uccGood': xlData[index]['uccGood'],
+            'uccEnt': xlData[index]['uccEnt'],
+            'uccTourism': xlData[index]['uccTourism'],
+            'uccFood': xlData[index]['uccFood'],
+            'mocVoice': xlData[index]['mocVoice'],
+            'mocSMS': xlData[index]['mocSMS'],
+            'mocADrec': xlData[index]['mocADrec'],
+            'mocADlive': xlData[index]['mocADlive'],
+            'mocRobo': xlData[index]['mocRobo'],
+            'bandT1': xlData[index]['bandT1'],
+            'bandT2': xlData[index]['bandT2'],
+            'bandT3': xlData[index]['bandT3'],
+            'bandT4': xlData[index]['bandT4'],
+            'bandT5': xlData[index]['bandT5'],
+            'bandT6': xlData[index]['bandT6'],
+            'bandT7': xlData[index]['bandT7'],
+            'bandT8': xlData[index]['bandT8'],
+            'bandT9': xlData[index]['bandT9'],
+            'dayMon': xlData[index]['dayMon'],
+            'dayTue': xlData[index]['dayTue'],
+            'dayWed': xlData[index]['dayWed'],
+            'dayThus': xlData[index]['dayThus'],
+            'dayFri': xlData[index]['dayFri'],
+            'daySat': xlData[index]['daySat'],
+            'daySun': xlData[index]['daySun'],
+            'datNat': xlData[index]['datNat']
         };
         result.push(cell);
         console.log('added');
         index++;
         processdeScrubFile(index, xlData, result, cb);
-        }
-        else {
-            cb(null, result);
-        }
+    }
+    else {
+        cb(null, result);
+    }
 }
 
 function test() {

@@ -244,7 +244,7 @@ exports.getHeaderByHeaderName = function (header, cb) {
 exports.getComplaintsbyTSP = function (TSPID, cb) {
     console.log("getComplaintsbyTSP");
 
-    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22TAP%22%3A%20%22resource%3Aorg.example.biznet.TSP%23'+TSPID+'%22%7D%7D';
+    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22TAP%22%3A%20%22resource%3Aorg.example.biznet.TSP%23' + TSPID + '%22%7D%7D';
 
     request.makeFetchCall(url, function (err, data1) {
         let data = JSON.parse(data1);
@@ -256,13 +256,13 @@ exports.getComplaintsbyTSP = function (TSPID, cb) {
 
 exports.getComplaintDetails = function (compID, cb) {
     console.log("getComplaintbyID");
-    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22complaintID%22%3A%20%22'+compID+'%22%7D%7D';
+    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22complaintID%22%3A%20%22' + compID + '%22%7D%7D';
     request.makeFetchCall(url, function (err, data1) {
         let data = JSON.parse(data1);
-        let complainant = data[0]['complainant'].substr(1+data[0]['complainant'].indexOf("#"));
-        let tsp_owner = data[0]['TAP'].substr(1+data[0]['complainant'].indexOf("#"));
-        data[0]['complainant']=complainant;
-        data[0]['TAP']=tsp_owner;
+        let complainant = data[0]['complainant'].substr(1 + data[0]['complainant'].indexOf("#"));
+        let tsp_owner = data[0]['TAP'].substr(1 + data[0]['complainant'].indexOf("#"));
+        data[0]['complainant'] = complainant;
+        data[0]['TAP'] = tsp_owner;
         console.log("return data", data[0]);
         console.log("typeof data", typeof data[0])
         return cb(err, data[0]);
@@ -277,7 +277,7 @@ exports.getContentTemplatebyName = function (template, cb) {
     request.makeFetchCall(url, function (err, data1) {
         let data = JSON.parse(data1);
         console.log("return data", data[0]);
-        console.log("typeof data", typeof data[0])
+        console.log("typeof data", typeof data[0]);
         return cb(err, data[0]);
     })
 
@@ -346,20 +346,15 @@ exports.saveHeader = function (header, entity, cb) {
 exports.sendDeleteHeader = function (header, cb) {
     console.log("sendDeleteHeader");
 
-<<<<<<< Updated upstream
-    let sendDeleteHeader = {
-        url: 'http://localhost:3000/api/headers/' + header,
-=======
-
     let requestDeleteHdr = {
         method: 'DELETE',
         message: '',
-        url: 'http://localhost:3000/api/headers/'+header,
+        url: 'http://localhost:3000/api/headers/' + header,
         headers:
-        {
-            'Accept': 'application/json'
-        }
-        
+            {
+                'Accept': 'application/json'
+            }
+
     };
     request.fetchData(requestDeleteHdr, function (err, data) {
         console.log('sendDeleteHeader', err, data);
@@ -372,7 +367,6 @@ exports.sendDeleteTemplate = function (template, cb) {
 
     let sendDeleteTemplate = {
         url: 'http://localhost:3000/api/contentTemplate/' + template,
->>>>>>> Stashed changes
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -573,19 +567,19 @@ exports.updateDay = function (phone, mon, tue, wed, thus, fri, sat, sun, nat, cb
         })*/
 };
 
-exports.getComplaintsByOwnerId=function(ownerId,cb){
+exports.getComplaintsByOwnerId = function (ownerId, cb) {
 
-    let whereClause={
+    let whereClause = {
         "where": {
-            "owner": "resource:org.example.biznet.TSP#"+ownerId
+            "owner": "resource:org.example.biznet.TSP#" + ownerId
         }
     };
-    let url ='http://localhost:3000/api/complaint?filter='+encodeURIComponent(JSON.stringify(whereClause));
+    let url = 'http://localhost:3000/api/complaint?filter=' + encodeURIComponent(JSON.stringify(whereClause));
 
     console.log("complaints url", url);
-    request.makeFetchCall(url,function(err,data){
-        console.log(err,data);
-        return cb(err,data);
+    request.makeFetchCall(url, function (err, data) {
+        console.log(err, data);
+        return cb(err, data);
     })
 }
 
