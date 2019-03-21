@@ -48,6 +48,10 @@ button.category i {
     color: black;
 }
 
+.hide {
+    display: none;
+}
+
 .noBorder {
     border: none !important;
     outline: none !important;

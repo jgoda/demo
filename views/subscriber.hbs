@@ -1,3 +1,8 @@
+<script>
+    function removeConsent(id) {
+        $('#remove' + id).addClass('hide');
+    }
+</script>
 <div class="container">
     <header>
         <h1>Subscriber Account</h1>
@@ -9,11 +14,12 @@
     <div class="row">
         <div class="col-md-12">
             <ul class="nav nav-tabs">
-                <li class="nav-item"> <a href="" class="active nav-link" data-toggle="tab" data-target="#tabone">Consents</a>
+                <li class="nav-item"><a href="" class="active nav-link" data-toggle="tab"
+                                        data-target="#tabone">Consents</a>
                 </li>
-                <li class="nav-item"> <a class="nav-link" href="" data-toggle="tab" data-target="#tabtwo">Preferences</a>
+                <li class="nav-item"><a class="nav-link" href="" data-toggle="tab" data-target="#tabtwo">Preferences</a>
                 </li>
-                <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabthree">Complaint</a>
+                <li class="nav-item"><a href="" class="nav-link" data-toggle="tab" data-target="#tabthree">Complaint</a>
                 </li>
             </ul>
             <div class="tab-content mt-2">
@@ -23,9 +29,21 @@
                         <table id="consentsTable">
                             <tr>
                                 <th>Template ID</th>
-                                <th>Header</th>
+                                <th></th>
                                 <th></th>
                             </tr>
+                            {{#each consent}}
+                                <tr id="remove{{@index}}">
+                                    <td>{{this}}</td>
+                                    <td></td>
+                                    <td>
+                                        <span class="badge hoverable" onclick="removeConsent({{@index}})"><i
+                                                class="tiny material-icons">clear</i></span>
+
+                                    </td>
+                                </tr>
+                            {{/each}}
+
                         </table>
 
                     </div>
@@ -42,7 +60,7 @@
 
                             <div class="categoryContainer">
                                 <button class="category" type="button" data-toggle="collapse" data-target="#typeOfUcc"
-                                    aria-expanded="false" aria-controls="typeOfUcc">
+                                        aria-expanded="false" aria-controls="typeOfUcc">
                                     <span>Type Of UCC</span>
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </button>
@@ -156,8 +174,9 @@
                             </div>
 
                             <div class="categoryContainer">
-                                <button class="category" type="button" data-toggle="collapse" data-target="#uccModeOfCommunication"
-                                    aria-expanded="false" aria-controls="uccModeOfCommunication">
+                                <button class="category" type="button" data-toggle="collapse"
+                                        data-target="#uccModeOfCommunication"
+                                        aria-expanded="false" aria-controls="uccModeOfCommunication">
                                     <span>UCC Mode of communication</span>
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </button>
@@ -231,15 +250,17 @@
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
-                                    <a class="waves-effect waves-light btn" onclick="updateModeOfCommunication()">update</a>
+                                    <a class="waves-effect waves-light btn"
+                                       onclick="updateModeOfCommunication()">update</a>
 
                                 </div>
 
 
                             </div>
                             <div class="categoryContainer">
-                                <button class="category" type="button" data-toggle="collapse" data-target="#timeBandForCommunication"
-                                    aria-expanded="false" aria-controls="timeBandForCommunication">
+                                <button class="category" type="button" data-toggle="collapse"
+                                        data-target="#timeBandForCommunication"
+                                        aria-expanded="false" aria-controls="timeBandForCommunication">
                                     <span>UCC time-band for communication</span>
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </button>
@@ -363,8 +384,9 @@
 
                             </div>
                             <div class="categoryContainer">
-                                <button class="category" type="button" data-toggle="collapse" data-target="#dayTypeForReceivingCommunication"
-                                    aria-expanded="false" aria-controls="dayTypeForReceivingCommunication">
+                                <button class="category" type="button" data-toggle="collapse"
+                                        data-target="#dayTypeForReceivingCommunication"
+                                        aria-expanded="false" aria-controls="dayTypeForReceivingCommunication">
                                     <span>UCC Day type for receiving communication</span>
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </button>
@@ -490,55 +512,55 @@
                     <p>Choose the nature of your complaint regarding UCC caller:</p>
                     <p>
                         <label>
-                            <input class="with-gap" name="group1" type="radio" value="opt1" />
+                            <input class="with-gap" name="group1" type="radio" value="opt1"/>
                             <span class="colorBlack">I am not interested in caller’s products and my preferences
                                 reflect it</span>
                         </label>
                     </p>
                     <p>
                         <label>
-                            <input class="with-gap" name="group1" type="radio" value="opt2" />
+                            <input class="with-gap" name="group1" type="radio" value="opt2"/>
                             <span class="colorBlack">I am not interested in caller’s products, please update my
                                 preferences</span>
                         </label>
                     </p>
                     <p>
                         <label>
-                            <input class="with-gap" name="group1" type="radio" value="opt3" />
+                            <input class="with-gap" name="group1" type="radio" value="opt3"/>
                             <span class="colorBlack">Caller contacted via unacceptable mode, my preferences reflect
                                 it</span>
                         </label>
                     </p>
                     <p>
                         <label>
-                            <input class="with-gap" name="group1" type="radio" value="opt4" />
+                            <input class="with-gap" name="group1" type="radio" value="opt4"/>
                             <span class="colorBlack">Caller contacted via unacceptable mode, please update my
                                 preferences</span>
                         </label>
                     </p>
                     <p>
                         <label>
-                            <input class="with-gap" name="group1" type="radio" value="opt5" />
+                            <input class="with-gap" name="group1" type="radio" value="opt5"/>
                             <span class="colorBlack">Called contacted at unacceptable day and time and my
                                 preferences reflect it</span>
                         </label>
                     </p>
                     <p>
                         <label>
-                            <input class="with-gap" name="group1" type="radio" value="opt6" />
+                            <input class="with-gap" name="group1" type="radio" value="opt6"/>
                             <span class="colorBlack">Caller contacted at unacceptable day and time, please update
                                 my preferences</span>
                         </label>
                     </p>
                     <p>
                         <label>
-                            <input class="with-gap" name="group1" type="radio" value="opt7" />
+                            <input class="with-gap" name="group1" type="radio" value="opt7"/>
                             <span class="colorBlack">Caller was rude and unprofessional</span>
                         </label>
                     </p>
                     <p>
                         <label>
-                            <input class="with-gap" name="group1" type="radio" value="opt8" />
+                            <input class="with-gap" name="group1" type="radio" value="opt8"/>
                             <span class="colorBlack">Other</span>
                         </label>
                     </p>

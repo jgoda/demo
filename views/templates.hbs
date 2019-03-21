@@ -1,0 +1,53 @@
+<script>
+
+    function showEdit(id) {
+        $('#template' + id).addClass('hide');
+        $('#editTemplate' + id).removeClass('hide');
+    }
+
+    function closeView(id) {
+        $('#template' + id).removeClass('hide');
+        $('#editTemplate' + id).addClass('hide');
+    }
+
+    function check(id) {
+        $('#template' + id).removeClass('hide');
+        $('#editTemplate' + id).addClass('hide');
+    }
+</script>
+<div class="container">
+    <div class="text-center heading-margin">
+        <p>&nbsp;</p>
+    </div>
+
+    <div class="categoryContainer">
+        <ul class="collapsible">
+            {{#each templates}}
+                <li>
+                    <div class="collapsible-header">
+                        {{this.contentTemplateID}}<br/>
+                        {{this.contentCategory}}
+                    </div>
+                    <div class="collapsible-body">
+                        <p id="template{{@index}}">
+                            <span class="badge hoverable" onclick="showEdit('{{@index}}')"><i
+                                    class="tiny material-icons">edit</i></span>
+                            {{this.contentTemplateMsg}}
+                        </p>
+                        <p id="editTemplate{{@index}}" class="hide">
+                            <span class="badge hoverable" onclick="closeView('{{@index}}')"><i
+                                    class="tiny material-icons">clear</i></span>
+
+                            <span class="badge hoverable" onclick="check('{{@index}}')"><i
+                                    class="tiny material-icons">check</i></span>
+                            <textarea rows="4" cols="50">{{this.contentTemplateMsg}}</textarea>
+                        </p>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+
+
+</div>
+

@@ -74,8 +74,8 @@ exports.getSubscriberDetails = function (phone, cb) {
     })
 };
 
-exports.getConsentList = function(phone, cb){
-    let subscriberRequestObject = {
+exports.getConsentList = function (phone, cb) {
+    /*let subscriberRequestObject = {
         url: 'http://localhost:3000/api/subscriber/' + phone,
         headers: {
             'Accept': 'application/json'
@@ -93,7 +93,8 @@ exports.getConsentList = function(phone, cb){
             let indvl = JSON.parse(subscriberDetail);
             return cb(null, indvl['consentnos']);
         }
-    })
+    })*/
+    return cb(null, ["1", "2", "3"]);
 
 }
 
@@ -193,40 +194,39 @@ exports.updateSubscriberDetails = function (phone, inputDetails, number, cb) {
 };
 
 
-
 exports.saveSubscriberDetails = function (subscriberDetails, cb) {
 
 };
 
 exports.getHeadersForEntity = function (entity, cb) {
-    let url = 'http://localhost:3000/api/headers?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%20%22resource%3Aorg.example.biznet.telemarketer%23'+entity+'%22%7D%7D';
+    let url = 'http://localhost:3000/api/headers?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%20%22resource%3Aorg.example.biznet.telemarketer%23' + entity + '%22%7D%7D';
     console.log("url for getting headers by entity: ", url);
     request.makeFetchCall(url, function (err, headers1) {
         let headers = JSON.parse(headers1);
         console.log(headers);
         cb(null, headers);
     })
-  };
+};
 
-  exports.getContentForEntity = function (entity, cb) {
-    let url = 'http://localhost:3000/api/contentTemplate?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%22resource%3Aorg.example.biznet.telemarketer%23'+entity+'%22%7D%7D';
+exports.getContentForEntity = function (entity, cb) {
+    let url = 'http://localhost:3000/api/contentTemplate?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%22resource%3Aorg.example.biznet.telemarketer%23' + entity + '%22%7D%7D';
     console.log("url for getting contentTemplates by entity: ", url);
     request.makeFetchCall(url, function (err, contents1) {
         let contents = JSON.parse(contents1);
         console.log(contents);
         cb(null, contents);
     })
-  };
+};
 
-  exports.getConsentForEntity = function (entity, cb) {
-    let url = 'http://localhost:3000/api/consentTemplate?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%22resource%3Aorg.example.biznet.telemarketer%23'+entity+'%22%7D%7D';
+exports.getConsentForEntity = function (entity, cb) {
+    let url = 'http://localhost:3000/api/consentTemplate?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%22resource%3Aorg.example.biznet.telemarketer%23' + entity + '%22%7D%7D';
     console.log("url for getting consentTemplates by entity: ", url);
     request.makeFetchCall(url, function (err, consents1) {
         let consents = JSON.parse(consents1);
         console.log(consents);
         cb(null, consents);
     })
-  };
+};
 
 exports.getHeaderByHeaderName = function (header, cb) {
     console.log("getHeaderbyHeaderName");
@@ -263,9 +263,9 @@ exports.saveHeader = function (header, cb) {
 
 exports.sendDeleteHeader = function (header, cb) {
     console.log("sendDeleteHeader");
-    
+
     let sendDeleteHeader = {
-        url: 'http://localhost:3000/api/headers/'+header,
+        url: 'http://localhost:3000/api/headers/' + header,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -405,9 +405,9 @@ exports.getUserUCCDay = function (phone, cb) {
     })
 };
 
-exports.transferHeaderTransaction = function(headerTransferRequestObject, cb) {
+exports.transferHeaderTransaction = function (headerTransferRequestObject, cb) {
     request.fetchData(headerTransferRequestObject, function (err, response) {
-        console.log('header transfer transaction',err,response);
+        console.log('header transfer transaction', err, response);
         cb(err, response);
     })
 }

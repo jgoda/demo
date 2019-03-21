@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    $('.collapsible').collapsible();
+
     $('#allUccCategory').change(function () {
         let allChecked = $(this).is(':checked');
         $('#insurance').prop('checked', allChecked);

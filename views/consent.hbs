@@ -5,21 +5,25 @@
 
     <div class="categoryContainer">
         <ul class="collection">
-            <li class="collection-header noBorder"><h4>Templates</h4></li>
+            <li class="collection-header noBorder">
+                <h4>Templates</h4>
+            </li>
             <div class="greyBorder">
-                {{#each consents}}
+                {{#each contents}}
                     <li class="collection-item avatar">
-                        <span class="title">{{this.consentTemplateID}}</span>
-                        <p><a href="/content?content={{this.contentTemplateID}}" class="secondary-content"><i class="material-icons">delete</i></a>
-                            <a href="/transferHeaders/{{this.headerstr}}" class="secondary-content"><i class="material-icons">description</i></a><br>
-                    
+                        <span class="title">{{this.contentTemplateID}}</span>
+                        <p>{{this.contentType}} <br>
+                            {{this.contentCategory}} <br>
+                        <div class="side-block">
+                            <a href="/content?content={{this.contentTemplateID}}" class="secondary-content"><i
+                                    class="material-icons">delete</i></a>
+                            <a href="/transferHeaders/{{this.contentTemplateID}}" class="secondary-content"><i
+                                    class="material-icons">description</i></a>
+                        </div>
                         </p>
                     </li>
-
                 {{/each}}
             </div>
         </ul>
     </div>
-
-
 </div>

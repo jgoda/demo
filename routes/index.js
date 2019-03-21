@@ -9,7 +9,9 @@ let processor = require('../server/processor');
 
 /* GET home page. */
 router.get('/setting', function (req, res, next) {
-    res.render('subscriber', {title: 'Express'});
+    chain.getConsentList('', function (err, consent) {
+        res.render('subscriber', {consent});
+    });
 
 });
 router.get('/login', function (req, res) {
@@ -135,12 +137,11 @@ router.get('/entity', function (req, res) {
 });
 
 router.get('/landingPage', function (req, res) {
-    //console.log("entity = ", entity);
     res.render('entityLanding', {});
 });
 
 
-router.get('/headers/:entity', function (req, res) {
+router.get('/headers', function (req, res) {
     let entity = req.params.entity;
     console.log("entity = ", entity);
     chain.getHeadersForEntity(entity, function (err, headers) {
@@ -164,23 +165,23 @@ router.get('/content/:entity', function (req, res) {
     })
 });
 
-router.get('/header', function(req,res) {
+router.get('/header', function (req, res) {
     let header = req.query.header;
     console.log("header in index.js", header);
-    res.render('deleteheaders',{headerval: header});
+    res.render('deleteheaders', {headerval: header});
 });
 
-router.get('/transferHeaders/:header', function(req,res) {
+router.get('/transferHeaders/:header', function (req, res) {
     let header = req.params.header;
-    res.render('transferHeaders',{headerval: header});
+    res.render('transferHeaders', {headerval: header});
 });
 
-/*router.get('/templates/:header', function (req, res) {
-    let header = req.params.header;
+router.get('/templates', function (req, res) {
+    let header = req.query.header;
     chain.getTemplatesForHeader(header, function (err, templates) {
         res.render('templates', {templates});
     })
-});*/
+});
 
 router.get('/backToScrubbingPage', function (req, res) {
     res.render('scrubbing', {});

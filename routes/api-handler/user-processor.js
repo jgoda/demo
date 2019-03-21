@@ -47,11 +47,11 @@ exports.updateTypeUcc = function (req, res) {
     };
 
     var number = 1;
-    chainManager.updateSubscriberDetails(phone,subscriberDets, number, function (err, flag) {
+    chainManager.updateSubscriberDetails(phone, subscriberDets, number, function (err, flag) {
         if (flag === true) {
-            res.send({ success: true, message: 'Settings Updated' });
+            res.send({success: true, message: 'Settings Updated'});
         } else {
-            res.send({ success: false, message: 'User does not exists' });
+            res.send({success: false, message: 'User does not exists'});
         }
 
     });
@@ -96,11 +96,11 @@ exports.updateModeOfCommunication = function (req, res) {
 
     var number = 2;
     console.log(subscriberDets);
-    chainManager.updateSubscriberDetails(phone,subscriberDets, number, function (err, flag) {
+    chainManager.updateSubscriberDetails(phone, subscriberDets, number, function (err, flag) {
         if (flag === true) {
-            res.send({ success: true, message: 'Settings Updated' });
+            res.send({success: true, message: 'Settings Updated'});
         } else {
-            res.send({ success: false, message: 'User does not exists' });
+            res.send({success: false, message: 'User does not exists'});
         }
 
     });
@@ -144,11 +144,11 @@ exports.updateBand = function (req, res) {
     };
 
     var number = 3;
-    chainManager.updateSubscriberDetails(phone,subscriberDets, number, function (err, flag) {
+    chainManager.updateSubscriberDetails(phone, subscriberDets, number, function (err, flag) {
         if (flag === true) {
-            res.send({ success: true, message: 'Settings Updated' });
+            res.send({success: true, message: 'Settings Updated'});
         } else {
-            res.send({ success: false, message: 'User does not exists' });
+            res.send({success: false, message: 'User does not exists'});
         }
 
     });
@@ -192,11 +192,11 @@ exports.updateDay = function (req, res) {
     };
 
     var number = 4;
-    chainManager.updateSubscriberDetails(phone,subscriberDets, number, function (err, flag) {
+    chainManager.updateSubscriberDetails(phone, subscriberDets, number, function (err, flag) {
         if (flag === true) {
-            res.send({ success: true, message: 'Settings Updated' });
+            res.send({success: true, message: 'Settings Updated'});
         } else {
-            res.send({ success: false, message: 'User does not exists' });
+            res.send({success: false, message: 'User does not exists'});
         }
 
     });
@@ -209,28 +209,21 @@ exports.addUser = function (req, res) {
     chainManager.addUser(name, Number(phone), function (err, flag) {
         console.log(flag);
         if (flag === true) {
-            res.send({ success: true, message: 'User Added Successfully' });
+            res.send({success: true, message: 'User Added Successfully'});
         } else {
-            res.send({ success: false, message: 'User already exists' });
+            res.send({success: false, message: 'User already exists'});
         }
     });
 
 
 };
 
-exports.getConsents = function(reg, res) {
+exports.getConsents = function (reg, res) {
     let phone = req.body.phone;
     let conTable = req.body.consentsTable;
 
-    chainManager.getConsentList(phone, function(err, data){
-        var consentindex =0;
-        while(consentindex<data.length)
-        {
-            var row = table.insertRow(consentindex);
-            var cell1 = row.insertCell(0);
-            cell1.innerHTML = data[consentindex];
-            consentindex++
-        }
+    chainManager.getConsentList(phone, function (err, data) {
+        cb(err, data);
     })
 }
 
@@ -248,9 +241,9 @@ exports.login = function (req, res) {
     let phone = req.body.phone;
     chainManager.doesUserExist(phone, function (err, flag) {
         if (flag === true) {
-            res.send({ success: true, message: 'User already exists' });
+            res.send({success: true, message: 'User already exists'});
         } else {
-            res.send({ success: false, message: 'User does not exists' });
+            res.send({success: false, message: 'User does not exists'});
         }
     })
 };
@@ -267,9 +260,9 @@ exports.fileComplaint = function (req, res) {
 
     chainManager.lodgeComplaint(phone, UCCcaller, status, usrComment, function (err, flag) {
         if (flag === true) {
-            res.send({ success: true, message: 'Complaint filed successfully' });
+            res.send({success: true, message: 'Complaint filed successfully'});
         } else {
-            res.send({ success: false, message: 'User does not exists' });
+            res.send({success: false, message: 'User does not exists'});
         }
     });
 
