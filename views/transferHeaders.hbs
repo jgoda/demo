@@ -5,15 +5,22 @@
 
     <div class="categoryContainer">
         <p>Use this page to transfer a header owned by you to another entity</p><br><br>
-        <p>You have chosed to transfer the header with header ID {{headerval}}</p><br><br>
-        <p>Please note that this transfer is irreversible and any header so transferred can be restored back only with the permission of the new owner. Are you sure you want to transfer the header?</p><br><br>
-        
+        <p>Please note that this transfer is irreversible and any header so transferred can be restored back only with
+            the permission of the new owner. Are you sure you want to transfer the header?</p><br><br>
+
         <form action="/landingPage" method="get">
 
             <div class="row">
                 <div class="input-field col s12">
+                    <input id="transferHdr" type="text" class="validate">
+                    <label for="icon_prefix">Please re-enter the Header name</label> <br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
                     <input id="newEntityID" type="text" class="validate">
-                    <label for="icon_prefix">Please enter Entity ID of the entity to whom you wish to transfer the Header</label>
+                    <label for="icon_prefix">Please enter Entity ID of the entity to whom you wish to transfer the
+                        Header</label>
                 </div>
             </div>
             <div class="row">
@@ -22,7 +29,8 @@
                     <label for="icon_prefix">Please enter the OTP sent to your registered Mobile number</label>
                 </div>
             </div>
-            <a class="waves-effect waves-light btn" onclick='sendTransferHeader()'>Yes. Transfer the header to the selected entity.</a>
+            <a class="waves-effect waves-light btn" onclick='sendTransferHeader()'>Yes. Transfer the header to the
+                selected entity.</a>
             <a class="waves-effect waves-light btn" href="/landingPage">No. Take me back!</a>
         </form>
     </div>

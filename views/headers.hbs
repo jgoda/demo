@@ -7,7 +7,6 @@ if (r == true) {
  sendDeleteHeader(headerId);
 }
 
-
 }
 
 </script>
@@ -36,22 +35,13 @@ if (r == true) {
 
         </ul>
 
-        <form action="/api/saveHeader" enctype="multipart/form-data" method="post">
-            <div class="categoryContainer">
+       <div class="categoryContainer">
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="headerName" type="text" class="validate">
+                        <input id="headerName12" type="text" class="validate">
                     </div>
                 </div>
-                <button class="waves-effect waves-light btn">Save Header</button>
-
-
+                <button class="waves-effect waves-light btn" onclick=saveHeader()>Save Header</button>
             </div>
-        </form>
-
-        
-
     </div>
-
-
 </div>

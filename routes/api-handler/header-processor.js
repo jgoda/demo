@@ -9,8 +9,9 @@ exports.saveHeader = function (req, res) {
 
     console.log("saveHeader");
 
-    let header = req.body.header;
-    let entity = req.body.entity;
+    let header = req.body.header12;
+
+    console.log("header", header);
 
     chainManager.getHeaderByHeaderName(header, function (err, data) {
         if (data) {
@@ -20,7 +21,7 @@ exports.saveHeader = function (req, res) {
             };
             return res.send(result);
         } else {
-            chainManager.saveHeader(header, entity, function (err, data) {
+            chainManager.saveHeader(header, "1", function (err, data) {
                 if (err) {
                     let result = {
                         status: false,
@@ -38,14 +39,38 @@ exports.saveHeader = function (req, res) {
     })
 };
 
-exports.sendDeleteHeader = function(req, res) {
+exports.addConsentTemplate = function (req, res) {
+
+    console.log("addConsentTemplate");
+
+    let consentTemplateMsg = req.body.consentTemplateMsg;
+    let consentTemplateID = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+
+
+    chainManager.addConsentTemplate(consentTemplateID, consentTemplateMsg, function (err, data) {
+        if (err) {
+            let result = {
+                status: false,
+                message: 'Something went wrong'
+            };
+            return res.send(result);
+        }
+        let result = {
+            status: true,
+            message: 'Consent Template registered'
+        };
+        return res.send(result);
+    })
+};
+
+exports.sendDeleteHeader = function (req, res) {
     console.log("delete header");
     let header = req.body.header;
     //let header = "HDR4";
     console.log("header in header-processor", header);
     chainManager.sendDeleteHeader(header, function (err, data) {
         console.log(data);
-        if(data) {
+        if (data) {
             let result = {
                 status: false,
                 message: 'Deletion failed'
@@ -62,11 +87,11 @@ exports.sendDeleteHeader = function(req, res) {
     })
 };
 
-exports.sendTransferHeader = function(req, res) {
+exports.sendTransferHeader = function (req, res) {
     console.log("transfer header");
-    let header = 'resource:org.example.biznet.headers#'+req.body.headerval;
-    let newOwner = 'resource:org.example.biznet.telemarketer#'+req.body.newEntityID;
-    
+    let header = 'resource:org.example.biznet.headers#' + req.body.tfrheader;
+    let newOwner = 'resource:org.example.biznet.telemarketer#' + req.body.newEnt;
+
     let transferTransaction = {
         $class: 'org.example.biznet.headerTransfer',
         'regHeader': header,
@@ -76,14 +101,14 @@ exports.sendTransferHeader = function(req, res) {
     let headerTransferRequestObject = {
         url: 'http://localhost:3000/api/headerTransfer',
         headers: {
-		'Accept': 'application/json'
-            }
+            'Accept': 'application/json'
+        }
     };
     headerTransferRequestObject['method'] = 'POST';
     headerTransferRequestObject['body'] = transferTransaction;
     headerTransferRequestObject['json'] = true;
-    chainManager.transferHeaderTransaction(headerTransferRequestObject, function(err,data){
-        if(data){
+    chainManager.transferHeaderTransaction(headerTransferRequestObject, function (err, data) {
+        if (data) {
             let result = {
                 status: true,
                 message: 'Header transfer transaction completed'
@@ -103,14 +128,14 @@ exports.sendTransferHeader = function(req, res) {
     })*/
 }
 
-exports.sendDeleteTemplate = function(req, res) {
+exports.sendDeleteConsentTemplate = function (req, res) {
     console.log("delete content template");
-    let template = req.query.templateval;
+    let template = req.body.consentID;
     //let header = "HDR3";
     console.log("header in header-processor", template);
-    chainManager.sendDeleteTemplate(template, function (err, data) {
+    chainManager.sendDeleteConsentTemplate(template, function (err, data) {
         console.log(data);
-        if(data) {
+        if (data) {
             let result = {
                 status: false,
                 message: 'Deletion failed'
@@ -120,7 +145,55 @@ exports.sendDeleteTemplate = function(req, res) {
         else {
             let result = {
                 status: true,
-                message: 'Header deleted'
+                message: 'Consent Template deleted'
+            };
+            res.send(result);
+        }
+    })
+};
+
+exports.addContentTemplate = function (req, res) {
+
+    console.log("addContentTemplate");
+
+    let contentTemplateMsg = req.body.contentTemplateMsg;
+    let contentTemplateID = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+
+
+    chainManager.addContentTemplate(contentTemplateID, contentTemplateMsg, function (err, data) {
+        if (err) {
+            let result = {
+                status: false,
+                message: 'Something went wrong'
+            };
+            return res.send(result);
+        }
+        let result = {
+            status: true,
+            message: 'Content Template registered'
+        };
+        return res.send(result);
+    })
+};
+
+exports.sendDeleteContentTemplate = function (req, res) {
+    console.log("delete content template");
+    let template = req.body.contentId;
+    //let header = "HDR3";
+    console.log("header in header-processor", template);
+    chainManager.sendDeleteContentTemplate(template, function (err, data) {
+        console.log(data);
+        if (data) {
+            let result = {
+                status: false,
+                message: 'Deletion failed'
+            };
+            res.send(result);
+        }
+        else {
+            let result = {
+                status: true,
+                message: 'Content Template deleted'
             };
             res.send(result);
         }

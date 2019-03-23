@@ -1,5 +1,5 @@
 ENV:
-  PORT: '8080'
+  PORT: '8888'
   HOST: '0.0.0.0'
   ENV_NAME: 'dev'
 

@@ -28,6 +28,63 @@ exports.doesUserExist = function (phone, cb) {
     })
 };
 
+
+exports.addUser = function (name, phone, TSPvalue, cb) {
+    console.log('addUser', name, phone, TSPvalue);
+
+    let subscriberPostObject = {
+        url: 'http://localhost:3000/api/subscriber/',
+        headers: {
+            'Accept': 'application/json'
+        }
+    };
+
+    let participant = {
+        $class: 'org.example.biznet.subscriber',
+        'mobno': phone,
+        'tsp': 'resource:org.example.biznet.TSP#'+TSPvalue,
+        'uccInsurance': false,
+        'uccRealstate': false,
+        'uccEducation': false,
+        'uccHealth': false,
+        'uccGood': false,
+        'uccEnt': false,
+        'uccTourism': false,
+        'uccFood': false,
+        'mocVoice': false,
+        'mocSMS': false,
+        'mocADrec': false,
+        'mocADlive': false,
+        'mocRobo': false,
+        'bandT1': false,
+        'bandT2': false,
+        'bandT3': false,
+        'bandT4': false,
+        'bandT5': false,
+        'bandT6': false,
+        'bandT7': false,
+        'bandT8': false,
+        'bandT9': false,
+        'dayMon': false,
+        'dayTue': false,
+        'dayWed': false,
+        'dayThus': false,
+        'dayFri': false,
+        'daySat': false,
+        'daySun': false,
+        'datNat': false,
+        'consentnos': []
+    };
+
+    subscriberPostObject['method'] = 'POST';
+    subscriberPostObject['body'] = participant;
+    subscriberPostObject['json'] = true;
+    request.fetchData(subscriberPostObject, function (err, response) {
+        console.log('POST response status: ', response.status);
+        cb(null, true);
+    });
+}
+
 exports.getSubscriberDetails = function (phone, cb) {
     let subscriberRequestObject = {
         url: 'http://localhost:3000/api/subscriber/' + phone,
@@ -93,9 +150,8 @@ exports.getConsentList = function (phone, cb) {
             let indvl = JSON.parse(subscriberDetail);
             return cb(null, indvl['consentnos']);
         }
-    });
-
-}
+    })
+};
 
 exports.updateSubscriberDetails = function (phone, inputDetails, number, cb) {
     let subscriberRequestObject = {
@@ -110,6 +166,7 @@ exports.updateSubscriberDetails = function (phone, inputDetails, number, cb) {
         let indvl = JSON.parse(subscriberDetail);
         let participant = {
             $class: 'org.example.biznet.subscriber',
+            'tsp': 'resource:org.example.biznet.TSP#TSP1',
             'uccInsurance': indvl['uccInsurance'],
             'uccRealstate': indvl['uccRealstate'],
             'uccEducation': indvl['uccEducation'],
@@ -193,6 +250,7 @@ exports.updateSubscriberDetails = function (phone, inputDetails, number, cb) {
 };
 
 
+
 exports.saveSubscriberDetails = function (subscriberDetails, cb) {
 
 };
@@ -208,7 +266,7 @@ exports.getHeadersForEntity = function (entity, cb) {
 };
 
 exports.getContentForEntity = function (entity, cb) {
-    let url = 'http://localhost:3000/api/contentTemplate?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%22resource%3Aorg.example.biznet.telemarketer%23' + entity + '%22%7D%7D';
+    let url = 'http://localhost:3000/api/contentTemplate?filter=%7B%22where%22%3A%20%7B%22telemarketer_owner%22%3A%20%22resource%3Aorg.example.biznet.telemarketer%23'+entity+'%22%7D%7D';
     console.log("url for getting contentTemplates by entity: ", url);
     request.makeFetchCall(url, function (err, contents1) {
         let contents = JSON.parse(contents1);
@@ -254,6 +312,23 @@ exports.getComplaintsbyTSP = function (TSPID, cb) {
     });
 };
 
+exports.getSubscriberComplaints = function(phone, data2, cb) {
+    console.log("getSubscriberComplaints");
+    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22complainant%22%3A%20%22resource%3Aorg.example.biznet.subscriber%23'+phone+'%22%7D%7D';
+    request.makeFetchCall(url, function (err, data1) {
+        let data = JSON.parse(data1);
+        let complainant = data[0]['complainant'].substr(1 + data[0]['complainant'].indexOf("#"));
+        let tsp_owner = data[0]['TAP'].substr(1 + data[0]['complainant'].indexOf("#"));
+        data[0]['complainant'] = complainant;
+        data[0]['TAP'] = tsp_owner;
+        console.log("return data", data[0]);
+        console.log("typeof data", typeof data[0]);
+        let returnData = data2;
+        returnData['complaintDet'] = data[0];
+        return cb(err, returnData);
+    });
+};
+
 exports.getComplaintDetails = function (compID, cb) {
     console.log("getComplaintbyID");
     let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22complaintID%22%3A%20%22' + compID + '%22%7D%7D';
@@ -269,6 +344,17 @@ exports.getComplaintDetails = function (compID, cb) {
     });
 };
 
+exports.getComplaintsforSubscriber = function (phone, cb) { 
+    console.log("getComplaintfor Subscriber");
+    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22complainant%22%3A%20%22resource%3Aorg.example.biznet.subscriber%23'+phone+'%22%7D%7D';
+    request.makeFetchCall(url, function (err, data1) {
+        let data = JSON.parse(data1);
+        console.log("return data", data[0]);
+        console.log("typeof data", typeof data[0])
+        return cb(err, data[0]);
+    });
+}
+
 exports.getContentTemplatebyName = function (template, cb) {
     console.log("getContentTemplatebyName");
 
@@ -277,7 +363,7 @@ exports.getContentTemplatebyName = function (template, cb) {
     request.makeFetchCall(url, function (err, data1) {
         let data = JSON.parse(data1);
         console.log("return data", data[0]);
-        console.log("typeof data", typeof data[0]);
+        console.log("typeof data", typeof data[0])
         return cb(err, data[0]);
     })
 
@@ -322,23 +408,29 @@ exports.getConsentTemplatesbyTemplateID = function (template, cb) {
 
 exports.saveHeader = function (header, entity, cb) {
     console.log("saveHeader");
-    let owner_str = 'resource:org.example.biznet.telemarketer#' + entity;
-    let data = {
+    let owner_str = "resource:org.example.biznet.telemarketer#1"
+    let hdr = {
+        $class:"org.example.biznet.headers",
         "headerstr": header,
-        "regMobNo": "",
+        "regMobNo": "NA",
         "telemarketer_owner": owner_str,
+        "regTSP": "resource:org.example.biznet.TSP#TSP1"
     };
-    let saveHeader = {
+
+    let saveHeaderRequest = {
         url: 'http://localhost:3000/api/headers',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
-        data: data,
-        json: true
     };
 
-    request.fetchData(saveHeader, function (err, data) {
+    saveHeaderRequest['method'] = 'POST';
+    saveHeaderRequest['body'] = hdr;
+    saveHeaderRequest['json'] = true;
+
+    request.fetchData(saveHeaderRequest, function (err, data) {
+        console.log("saveHeader result",err, data);
         return cb(err, data);
     })
 };
@@ -346,38 +438,86 @@ exports.saveHeader = function (header, entity, cb) {
 exports.sendDeleteHeader = function (header, cb) {
     console.log("sendDeleteHeader");
 
-    let requestDeleteHdr = {
-        method: 'DELETE',
-        message: '',
-        url: 'http://localhost:3000/api/headers/' + header,
-        headers:
-            {
-                'Accept': 'application/json'
-            }
-
-    };
-    request.fetchData(requestDeleteHdr, function (err, data) {
+    let url = 'http://localhost:3000/api/headers/'+header;
+    request.makeDeleteCall(url, function (err, data) {
         console.log('sendDeleteHeader', err, data);
         return cb(err, data);
     })
 };
 
-exports.sendDeleteTemplate = function (template, cb) {
-    console.log("sendDeleteTemplate");
+exports.sendDeleteConsentTemplate = function (template, cb) {
+    console.log("sendDeleteConsentTemplate");
 
-    let sendDeleteTemplate = {
-        url: 'http://localhost:3000/api/contentTemplate/' + template,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        json: true
-    };
-    request.fetchData(sendDeleteTemplate, function (err, data) {
+    let url = 'http://localhost:3000/api/consentTemplate/'+template;
+    request.makeDeleteCall(url, function (err, data) {
+        console.log('sendDeleteConsentTemplate', err, data);
         return cb(err, data);
     })
 };
 
+exports.sendDeleteContentTemplate = function (template, cb) {
+    console.log("sendDeleteContentTemplate");
+
+    let url = 'http://localhost:3000/api/contentTemplate/'+template;
+    request.makeDeleteCall(url, function (err, data) {
+        console.log('sendDeleteContentTemplate', err, data);
+        return cb(err, data);
+    })
+};
+
+exports.addConsentTemplate = function(consentTemplateID, consentTemplateMsg, cb) {
+    let tmplt = {
+        $class:"org.example.biznet.consentTemplate",
+        "consentTemplateID": consentTemplateID,
+        "consentTemplateMsg": consentTemplateMsg,
+        "telemarketer_owner": "resource:org.example.biznet.telemarketer#1"
+    };
+
+    let saveconsentTemplateRequest = {
+        url: 'http://localhost:3000/api/consentTemplate',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    };
+
+    saveconsentTemplateRequest['method'] = 'POST';
+    saveconsentTemplateRequest['body'] = tmplt;
+    saveconsentTemplateRequest['json'] = true;
+
+    request.fetchData(saveconsentTemplateRequest, function (err, data) {
+        console.log("saveconsentTemplate result",err, data);
+        return cb(err, data);
+    })
+
+}
+
+exports.addContentTemplate = function(contentTemplateID, contentTemplateMsg, cb) {
+    let tmplt = {
+        $class:"org.example.biznet.contentTemplate",
+        "contentTemplateID": contentTemplateID,
+        "contentTemplateMsg": contentTemplateMsg,
+        "telemarketer_owner": "resource:org.example.biznet.telemarketer#1"
+    };
+
+    let savecontentTemplateRequest = {
+        url: 'http://localhost:3000/api/contentTemplate',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    };
+
+    savecontentTemplateRequest['method'] = 'POST';
+    savecontentTemplateRequest['body'] = tmplt;
+    savecontentTemplateRequest['json'] = true;
+
+    request.fetchData(savecontentTemplateRequest, function (err, data) {
+        console.log("savecontentTemplate result",err, data);
+        return cb(err, data);
+    })
+
+}
 
 exports.getTemplatesForHeader = function (header, cb) {
 

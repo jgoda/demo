@@ -13,6 +13,7 @@ exports.updateTypeUcc = function (req, res) {
     let phone = req.body.phone;
     let subscriberDets = {
         $class: 'org.example.biznet.subscriber',
+        'tsp': 'resource:org.example.biznet.TSP#TSP1',
         'uccInsurance': req.body.insurance,
         'uccRealstate': req.body.realState,
         'uccEducation': req.body.education,
@@ -61,6 +62,7 @@ exports.updateModeOfCommunication = function (req, res) {
     let phone = req.body.phone;
     let subscriberDets = {
         $class: 'org.example.biznet.subscriber',
+        'tsp': 'resource:org.example.biznet.TSP#TSP1',
         'uccInsurance': req.body.insurance,
         'uccRealstate': req.body.realState,
         'uccEducation': req.body.education,
@@ -110,6 +112,7 @@ exports.updateBand = function (req, res) {
     let phone = req.body.phone;
     let subscriberDets = {
         $class: 'org.example.biznet.subscriber',
+        'tsp': 'resource:org.example.biznet.TSP#TSP1',
         'uccInsurance': req.body.insurance,
         'uccRealstate': req.body.realState,
         'uccEducation': req.body.education,
@@ -158,6 +161,7 @@ exports.updateDay = function (req, res) {
     let phone = req.body.phone;
     let subscriberDets = {
         $class: 'org.example.biznet.subscriber',
+        'tsp': 'resource:org.example.biznet.TSP#TSP1',
         'uccInsurance': req.body.insurance,
         'uccRealstate': req.body.realState,
         'uccEducation': req.body.education,
@@ -205,8 +209,9 @@ exports.updateDay = function (req, res) {
 exports.addUser = function (req, res) {
     let phone = req.body.phone;
     let name = req.body.name;
+    let tsp = "TSP1";
 
-    chainManager.addUser(name, Number(phone), function (err, flag) {
+    chainManager.addUser(name, phone, tsp, function (err, flag) {
         console.log(flag);
         if (flag === true) {
             res.send({success: true, message: 'User Added Successfully'});

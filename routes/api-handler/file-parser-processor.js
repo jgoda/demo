@@ -18,127 +18,152 @@ exports.parseScrubFile = function (req, res) {
     console.log('parseScrub', req.body);
     let file = req.files.scrubFile;
 
-    let excelHeaders = [];
-    if (req.body.insurance === 'on') {
-        excelHeaders.push("uccInsurance")
-    }
-    if (req.body.realState === 'on') {
-        excelHeaders.push("uccRealstate")
-    }
-    if (req.body.education === 'on') {
-        excelHeaders.push("uccEducation")
-    }
-    if (req.body.health === 'on') {
-        excelHeaders.push("uccGood")
-    }
-    if (req.body.goods === 'on') {
-        excelHeaders.push("uccHealth")
-    }
-    if (req.body.ent === 'on') {
-        excelHeaders.push("uccEnt")
-    }
-    if (req.body.tourism === 'on') {
-        excelHeaders.push("uccTourism")
-    }
-    if (req.body.food === 'on') {
-        excelHeaders.push("uccFood")
-    }
+    let actualHdrs = [];
+    let excelHeaders = {
+        'mocVoice': false,
+        'mocSMS': false,
+        'mocADrec': false,
+        'mocADlive': false,
+        'mocRobo': false,
+        'bandT1': false,
+        'bandT2': false,
+        'bandT3': false,
+        'bandT4': false,
+        'bandT5': false,
+        'bandT6': false,
+        'bandT7': false,
+        'bandT8': false,
+        'bandT9': false,
+        'dayMon': false,
+        'dayTue': false,
+        'dayWed': false,
+        'dayThus': false,
+        'dayFri': false,
+        'daySat': false,
+        'daySun': false,
+        'datNat': false
+    };
+
     if (req.body.voice === 'on') {
-        excelHeaders.push("mocVoice")
+        excelHeaders["mocVoice"] = true;
+        actualHdrs.push("mocVoice");
     }
     if (req.body.sms === 'on') {
-        excelHeaders.push("mocSMS")
+        excelHeaders["mocSMS"] = true;
+        actualHdrs.push("mocSMS");
     }
     if (req.body.ADrec === 'on') {
-        excelHeaders.push("mocADrec")
+        excelHeaders["mocADrec"] = true;
+        actualHdrs.push("mocADrec");
     }
     if (req.body.ADlive === 'on') {
-        excelHeaders.push("mocADlive")
+        excelHeaders["mocADlive"] = true;
+        actualHdrs.push("mocADlive");
     }
     if (req.body.robo === 'on') {
-        excelHeaders.push("mocRobo")
+        excelHeaders["mocRobo"] = true;
+        actualHdrs.push("mocRobo");
     }
     if (req.body.t1 === 'on') {
-        excelHeaders.push("bandT1")
+        excelHeaders["bandT1"] = true;
+        actualHdrs.push("bandT1");
     }
     if (req.body.t2 === 'on') {
-        excelHeaders.push("bandT2")
+        excelHeaders["bandT2"] = true;
+        actualHdrs.push("bandT2");
     }
     if (req.body.t3 === 'on') {
-        excelHeaders.push("bandT3")
+        excelHeaders["bandT3"] = true;
+        actualHdrs.push("bandT3");
     }
     if (req.body.t4 === 'on') {
-        excelHeaders.push("bandT4")
+        excelHeaders["bandT4"] = true;
+        actualHdrs.push("bandT4");
     }
     if (req.body.t5 === 'on') {
-        excelHeaders.push("bandT5")
+        excelHeaders["bandT5"] = true;
+        actualHdrs.push("bandT5");
     }
     if (req.body.t6 === 'on') {
-        excelHeaders.push("bandT6")
+        excelHeaders["bandT6"] = true;
+        actualHdrs.push("bandT6");
     }
     if (req.body.t7 === 'on') {
-        excelHeaders.push("bandT7")
+        excelHeaders["bandT7"] = true;
+        actualHdrs.push("bandT7");
     }
     if (req.body.t8 === 'on') {
-        excelHeaders.push("bandT8")
+        excelHeaders["bandT8"] = true;
+        actualHdrs.push("bandT8");
     }
     if (req.body.t9 === 'on') {
-        excelHeaders.push("bandT9")
+        excelHeaders["bandT9"] = true;
+        actualHdrs.push("bandT9");
     }
     if (req.body.mon === 'on') {
-        excelHeaders.push("dayMon")
+        excelHeaders["dayMon"] = true;
+        actualHdrs.push("dayMon");
     }
     if (req.body.tue === 'on') {
-        excelHeaders.push("dayTue")
+        excelHeaders["dayTue"] = true;
+        actualHdrs.push("dayTue");
     }
     if (req.body.wed === 'on') {
-        excelHeaders.push("dayWed")
+        excelHeaders["dayWed"] = true;
+        actualHdrs.push("dayWed");
     }
     if (req.body.thus === 'on') {
-        excelHeaders.push("dayThus")
+        excelHeaders["dayThus"] = true;
+        actualHdrs.push("dayThus");
     }
     if (req.body.fri === 'on') {
-        excelHeaders.push("dayFri")
+        excelHeaders["dayFri"] = true;
+        actualHdrs.push("dayFri");
     }
     if (req.body.sat === 'on') {
-        excelHeaders.push("daySat")
+        excelHeaders["daySat"] = true;
+        actualHdrs.push("daySat");
     }
     if (req.body.sun === 'on') {
-        excelHeaders.push("daySun")
+        excelHeaders["daySun"] = true;
+        actualHdrs.push("daySun");
     }
     if (req.body.nat === 'on') {
-        excelHeaders.push("datNat")
+        excelHeaders["datNat"] = true;
+        actualHdrs.push("datNat");
     }
 
     console.log(excelHeaders);
 
-    /* let food_scrub = [];
-     let entertainment_scrub = [];
-     let tourism_scrub = [];
-     let health_scrub = [];
-     let insurance_scrub = [];
-     let real_estate_scrub = [];
-     let education_scrub = [];
-     let goods_scrub = [];*/
+    let food_scrub = [];
+    let entertainment_scrub = [];
+    let tourism_scrub = [];
+    let health_scrub = [];
+    let insurance_scrub = [];
+    let real_estate_scrub = [];
+    let education_scrub = [];
+    let goods_scrub = [];
 
 
     file.mv(uploadDir + file.name, function (err, data) {
 
         let xlData = excelProcessor.parseExcel(uploadDir + file.name, 0);
         let todayDateStr = utils.todayDateString();
-        processFilteredScrubFile(0, xlData, [], function (err, result) {
+        let result_arr = [];
+        processScrubFile(0, xlData, excelHeaders, todayDateStr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub, result_arr, function (err, result) {
             console.log('data received', result);
             let sheetHeaders = excelHeaders.length !== 0 ? excelHeaders : Object.keys(result[0]);
+            console.log("sheetHeaders", sheetHeaders);
             excelProcessor.createExcelFromJson(uploadDir, 'scrubbing_output.xlsx', 'Sheet', result, sheetHeaders);
 
-            /* excelProcessor.createExcelFromJson(uploadDir, 'insurance_scrubbing_output.xlsx', 'Insurance', insurance_scrub, Object.keys(insurance_scrub[0]));
-             excelProcessor.createExcelFromJson(uploadDir, 'education_scrubbing_output.xlsx', 'Education', education_scrub, Object.keys(education_scrub[0]));
-             excelProcessor.createExcelFromJson(uploadDir, 'health_scrubbing_output.xlsx', 'Health', health_scrub, Object.keys(health_scrub[0]));
-             excelProcessor.createExcelFromJson(uploadDir, 'consumerGoodsscrubbing_output.xlsx', 'ConsumerGoods', goods_scrub, Object.keys(goods_scrub[0]));
-             excelProcessor.createExcelFromJson(uploadDir, 'tourism_scrubbing_output.xlsx', 'Tourism', tourism_scrub, Object.keys(tourism_scrub[0]));
-             excelProcessor.createExcelFromJson(uploadDir, 'entertainment_scrubbing_output.xlsx', 'Entertainment', entertainment_scrub, Object.keys(entertainment_scrub[0]));
-             excelProcessor.createExcelFromJson(uploadDir, 'food_scrubbing_output.xlsx', 'Food', food_scrub, Object.keys(food_scrub[0]));
-      */
+            /* excelProcessor.createExcelFromJson(uploadDir, 'insurance_scrubbing_output.xlsx', 'Insurance', result, sheetHeaders);
+             excelProcessor.createExcelFromJson(uploadDir, 'education_scrubbing_output.xlsx', 'Education', result, sheetHeaders);
+             excelProcessor.createExcelFromJson(uploadDir, 'health_scrubbing_output.xlsx', 'Health', result, sheetHeaders);
+             excelProcessor.createExcelFromJson(uploadDir, 'consumerGoodsscrubbing_output.xlsx', 'ConsumerGoods', result, sheetHeaders);
+             excelProcessor.createExcelFromJson(uploadDir, 'tourism_scrubbing_output.xlsx', 'Tourism', result, sheetHeaders);
+             excelProcessor.createExcelFromJson(uploadDir, 'entertainment_scrubbing_output.xlsx', 'Entertainment', result, sheetHeaders);
+             excelProcessor.createExcelFromJson(uploadDir, 'food_scrubbing_output.xlsx', 'Food', result, sheetHeaders);*/
+
             console.log('end');
             res.redirect('/scrubFile?success=true');
         });
@@ -146,7 +171,7 @@ exports.parseScrubFile = function (req, res) {
     })
 };
 
-function processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub, result, cb) {
+function processScrubFile(index, xlData, excelHeaders, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub, result, cb) {
     let dow = new Date().getDay();
     let _next_dow = [];
     let _month = ['mon', 'tue', 'wed', 'thus', 'fri', 'sat', 'sun', 'nat'];
@@ -158,37 +183,80 @@ function processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_
         let url = 'http://localhost:3000/api/subscriber/' + phone;
 
         request.makeFetchCall(url, function (err, subscriberDetail) {
-            console.log("makegetcall", err, subscriberDetail, typeof subscriberDetail);
+            //console.log("makegetcall", err, subscriberDetail, typeof subscriberDetail);
             if (subscriberDetail) {
                 subscriberDetail = JSON.parse(subscriberDetail);
                 console.log('adding result');
                 var encryptedphnum = crypt.encrypt(todaystr.concat(phone));
-                let cell = {
-                    'phone': encryptedphnum,
-                    'mocVoice': subscriberDetail['mocVoice'],
-                    'mocSMS': subscriberDetail['mocSMS'],
-                    'mocADrec': subscriberDetail['mocADrec'],
-                    'mocADlive': subscriberDetail['mocADlive'],
-                    'mocRobo': subscriberDetail['mocRobo'],
-                    'bandT1': subscriberDetail['bandT1'],
-                    'bandT2': subscriberDetail['bandT2'],
-                    'bandT3': subscriberDetail['bandT3'],
-                    'bandT4': subscriberDetail['bandT4'],
-                    'bandT5': subscriberDetail['bandT5'],
-                    'bandT6': subscriberDetail['bandT6'],
-                    'bandT7': subscriberDetail['bandT7'],
-                    'bandT8': subscriberDetail['bandT8'],
-                    'bandT9': subscriberDetail['bandT9'],
-                    'dayMon': subscriberDetail['dayMon'],
-                    'dayTue': subscriberDetail['dayTue'],
-                    'dayWed': subscriberDetail['dayWed'],
-                    'dayThus': subscriberDetail['dayThus'],
-                    'dayFri': subscriberDetail['dayFri'],
-                    'daySat': subscriberDetail['daySat'],
-                    'daySun': subscriberDetail['daySun'],
-                    'datNat': subscriberDetail['datNat']
-                };
+                let cell = { 'phone': encryptedphnum };
+                if (excelHeaders["mocVoice"]) {
+                    cell['mocVoice'] = subscriberDetail['mocVoice'];
+                }
+                if (excelHeaders["mocSMS"]) {
+                    cell['mocSMS'] = subscriberDetail['mocSMS'];
+                }
+                if (excelHeaders["mocADrec"]) {
+                    cell['mocADrec'] = subscriberDetail['mocADrec'];
+                }
+                if (excelHeaders["mocADlive"]) {
+                    cell['mocADlive'] = subscriberDetail['mocADlive'];
+                }
+                if (excelHeaders["mocRobo"]) {
+                    cell['mocRobo'] = subscriberDetail['mocRobo'];
+                }
+                if (excelHeaders["bandT1"]) {
+                    cell['bandT1'] = subscriberDetail['bandT1'];
+                }
+                if (excelHeaders["bandT2"]) {
+                    cell['bandT2'] = subscriberDetail['bandT2'];
+                }
+                if (excelHeaders["bandT3"]) {
+                    cell['bandT3'] = subscriberDetail['bandT3'];
+                }
+                if (excelHeaders["bandT4"]) {
+                    cell['bandT4'] = subscriberDetail['bandT4'];
+                }
+                if (excelHeaders["bandT5"]) {
+                    cell['bandT5'] = subscriberDetail['bandT5'];
+                }
+                if (excelHeaders["bandT6"]) {
+                    cell['bandT6'] = subscriberDetail['bandT6'];
+                }
+                if (excelHeaders["bandT7"]) {
+                    cell['bandT7'] = subscriberDetail['bandT7'];
+                }
+                if (excelHeaders["bandT8"]) {
+                    cell['bandT8'] = subscriberDetail['bandT8'];
+                }
+                if (excelHeaders["bandT9"]) {
+                    cell['bandT9'] = subscriberDetail['bandT9'];
+                }
+                if (excelHeaders["dayMon"]) {
+                    cell['dayMon'] = subscriberDetail['dayMon'];
+                }
+                if (excelHeaders["dayTue"]) {
+                    cell['dayTue'] = subscriberDetail['dayTue'];
+                }
+                if (excelHeaders["dayWed"]) {
+                    cell['dayWed'] = subscriberDetail['dayWed'];
+                }
+                if (excelHeaders["dayThus"]) {
+                    cell['dayThus'] = subscriberDetail['dayThus'];
+                }
+                if (excelHeaders["dayFri"]) {
+                    cell['dayFri'] = subscriberDetail['dayFri'];
+                }
+                if (excelHeaders["daySat"]) {
+                    cell['daySat'] = subscriberDetail['daySat'];
+                }
+                if (excelHeaders["daySun"]) {
+                    cell['daySun'] = subscriberDetail['daySun'];
+                }
+                if (excelHeaders["datNat"]) {
+                    cell['datNat'] = subscriberDetail['datNat'];
+                }
 
+                console.log("cell= ", cell);
                 if (subscriberDetail['uccInsurance']) {
                     insurance_scrub.push(cell);
                 }
@@ -213,13 +281,20 @@ function processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_
                 if (subscriberDetail['uccFood']) {
                     food_scrub.push(cell);
                 }
+
                 result.push(cell);
-                console.log('added');
-            }
+
+                console.log("result", result);
+
+            };
+            console.log('added');
             index++;
-            processScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub, result, cb);
+            processScrubFile(index, xlData, excelHeaders, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub, result, cb);
+
         });
-    } else {
+    }
+    else {
+        console.log("came here");
         cb(null, result);
     }
 }
@@ -278,7 +353,7 @@ function processFilteredScrubFile(index, xlData, todaystr, result, cb) {
                 console.log('added');
             }
             index++;
-            processFilteredScrubFile(index, xlData, todaystr, insurance_scrub, real_estate_scrub, education_scrub, health_scrub, goods_scrub, entertainment_scrub, tourism_scrub, food_scrub, result, cb);
+            processFilteredScrubFile(index, xlData, todaystr, result, cb);
         });
     } else {
         cb(null, result);

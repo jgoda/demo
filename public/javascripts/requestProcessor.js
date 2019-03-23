@@ -171,6 +171,7 @@ function login() {
 function register() {
     let registerPhone = $('#registerPhone').val();
     let registerName = $('#registerName').val();
+    console.log('Ajax registerPhone',registerPhone);
     this.makeAjaxCall('/api/addUser', {
         phone: registerPhone, name: registerName
     }, function (data) {
@@ -221,15 +222,16 @@ function registerEntity() {
 }
 
 function saveHeader() {
-    let header = $('#saveHeader').val();
+    let headerName12 = $('#headerName12').val();
     this.makeAjaxCall('/api/header', {
-        header
+        header12: headerName12
     }, function (data) {
 
         M.toast({html: data['message']});
     })
 
 }
+
 
 function sendDeleteHeader(headerId) {
     console.log("ajax call");
@@ -243,12 +245,24 @@ function sendDeleteHeader(headerId) {
 
 }
 
+function sendDeleteConsentTemplate(consentId) {
+    console.log("ajax call");
+   
+    this.makeAjaxCall('/api/sendDeleteConsentTemplate', {
+       consentID:consentId 
+    }, function (data) {
+        $('#deleteConsentTemplate'+consentId).addClass('hide');
+        M.toast({html: data['message']});
+    })
+
+}
 
 function sendTransferHeader() {
     console.log("ajax call for transfer header");
-    let header = $('sendTransferHeader').val();
+    let tfrheader = $('#transferHdr').val();
+    let newEnt = $('#newEntityID').val();
     this.makeAjaxCall('/api/sendTransferHeader', {
-        header
+        tfrheader: tfrheader, newEnt:newEnt
     }, function (data) {
 
         M.toast({html: data['message']});
@@ -262,6 +276,18 @@ function sendDeleteTemplate() {
         header
     }, function (data) {
 
+        M.toast({html: data['message']});
+    })
+
+}
+
+function sendDeleteContentTemplate(contentId) {
+    console.log("ajax call");
+   
+    this.makeAjaxCall('/api/sendDeleteContentTemplate', {
+       contentID:contentId 
+    }, function (data) {
+        $('#deleteContentTemplate'+contentId).addClass('hide');
         M.toast({html: data['message']});
     })
 

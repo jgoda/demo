@@ -1,36 +1,23 @@
 <div class="container">
     <div class="text-center heading-margin">
-        <p>TRAI Register</p>
+        <p>Subscriber Register</p>
     </div>
-    <form action="/api/addUser" enctype="multipart/form-data" method="post">
         <div class="categoryContainer">
-        <div class="row">
-            <div class="input-field col s12">
-                <i class="material-icons prefix">phone</i>
-                <input id="registerPhone" type="number" class="validate">
-                <label for="icon_prefix">Phone</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">phone</i>
+                    <input id="registerPhone" type="number" class="validate">
+                    <label for="icon_prefix">Phone</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <i class="material-icons prefix">account_circle</i>
-                <input id="registerName" type="text" class="validate">
-                <label for="icon_prefix">Name</label>
-            </div>
-        </div>
-
-            <div>
-                
-                <select>
-                    <option TSPvalue="TSP1">TSP1</option>
-                    <option TSPvalue="TSP2">TSP2</option>
-                    <option TSPvalue="TSP3">TSP3</option>
-                    <option TSPvalue="TSP4">TSP4</option>
-                </select>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="registerName" type="text" class="validate">
+                    <label for="icon_prefix">Name</label>
+                </div>
             </div>
 
-        <button class="waves-effect waves-light btn" type="submit">Register</button>
-    </div>
-    </form>
+            <button class="waves-effect waves-light btn" onclick=register() type="submit">Register</button>
+        </div>
 </div>
-

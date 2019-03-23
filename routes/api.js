@@ -16,13 +16,14 @@ router.post('/scrubFile', apiHandler.fileProcessor.parseScrubFile);
 router.post('/prefUpdate', apiHandler.fileProcessor.parsePreferencesFile);
 router.post('/header', apiHandler.headerProcessor.saveHeader);
 router.post('/saveHeader', apiHandler.headerProcessor.saveHeader);
+router.post('/addConsentTemplate', apiHandler.headerProcessor.addConsentTemplate);
 router.post('/consentUpdate', apiHandler.fileProcessor.parseConsentsFile);
 router.post('/deScrubFile', apiHandler.fileProcessor.deScrubFile);
 router.post('/sendDeleteHeader', apiHandler.headerProcessor.sendDeleteHeader);
-router.post('/deleteHeader', apiHandler.headerProcessor.sendDeleteHeader);
-router.post('/transferHeader', apiHandler.headerProcessor.sendTransferHeader);
 router.post('/sendTransferHeader', apiHandler.headerProcessor.sendTransferHeader);
-router.post('/sendDeleteTemplate', apiHandler.headerProcessor.sendDeleteTemplate);
+router.post('/sendDeleteConsentTemplate', apiHandler.headerProcessor.sendDeleteConsentTemplate);
+router.post('/sendDeleteContentTemplate', apiHandler.headerProcessor.sendDeleteContentTemplate);
+router.post('/addContentTemplate', apiHandler.headerProcessor.addContentTemplate);
 //router.post('/getConsents', apiHandler.userProcessor.getConsents);
 //router.post('/subscribervalsget', apiHandler.userProcessor.subscribervalsget);
 

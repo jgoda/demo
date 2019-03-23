@@ -1,0 +1,361 @@
+<div class="container">
+    <div class="text-center heading-margin">
+        <p>&nbsp;</p>
+    </div>
+
+    <form action="/api/scrubFile" enctype="multipart/form-data" method="post">
+        <div class="container">
+            <h4>Scrubbing</h4>
+            <p>Please enter the Template ID, upload the file containing the list of numbers you wish to scrub and apply
+                your preferences for generating the scrubbed output</p>
+            <div class="input-field col s12">
+                <i class="material-icons prefix">phone</i>
+                <input id="templateID" type="text" class="validate">
+                <label for="icon_prefix">Template ID</label>
+            </div>
+        </div>
+
+
+
+        <div class="categoryContainer">
+            <button class="category" type="button" data-toggle="collapse" data-target="#uccModeOfCommunication"
+                aria-expanded="false" aria-controls="uccModeOfCommunication">
+                <span>UCC Mode of communication</span>
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </button>
+
+
+            <div class="collapse" id="uccModeOfCommunication">
+                <div class="optionContainer">
+                    <div class="switch">
+                        All modes
+                        <label>
+                            <input type="checkbox" id="allModeCommunication">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch ">
+                        Voice call
+                        <label>
+                            <input type="checkbox" id="voice" name="voice">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch ">
+                        SMS
+                        <label>
+                            <input type="checkbox" id="sms" name="sms">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        Auto-Dialer call with pre-recorded announcement
+                        <label>
+                            <input type="checkbox" id="ADrec" name="ADrec">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        Auto-dialer call with connectivity to live agent
+                        <label>
+                            <input type="checkbox" id="ADlive" name="ADlive">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        Robo calls
+                        <label>
+                            <input type="checkbox" id="robo" name="robo">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="categoryContainer">
+            <button class="category" type="button" data-toggle="collapse" data-target="#timeBandForCommunication"
+                aria-expanded="false" aria-controls="timeBandForCommunication">
+                <span>UCC time-band for communication</span>
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </button>
+
+
+            <div class="collapse" id="timeBandForCommunication">
+                <div class="optionContainer">
+                    <div class="switch">
+                        All time bands
+                        <label>
+                            <input type="checkbox" id="allBand">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch ">
+                        00:00 hrs to 06:00 hrs
+                        <label>
+                            <input type="checkbox" id="t1" name="t1">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch ">
+                        06:00 hrs to 08:00 hrs
+                        <label>
+                            <input type="checkbox" id="t2" name="t2">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        08:00 hrs to 10:00 hrs
+                        <label>
+                            <input type="checkbox" id="t3" name="t3">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        10:00 hrs to 12:00 hrs
+                        <label>
+                            <input type="checkbox" id="t4" name="t4">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        12:00 hrs to 14:00 hrs
+                        <label>
+                            <input type="checkbox" id="t5" name="t5">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        14:00 hrs to 16:00 hrs
+                        <label>
+                            <input type="checkbox" id="t6" name="t6">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        16:00 hrs to 18:00 hrs
+                        <label>
+                            <input type="checkbox" id="t7" name="t7">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        18:00 hrs to 21:00 hrs
+                        <label>
+                            <input type="checkbox" id="t8" name="t8">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        21:00 hrs to 24:00 hrs
+                        <label>
+                            <input type="checkbox" id="t9" name="t9">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="categoryContainer">
+            <button class="category" type="button" data-toggle="collapse" data-target="#dayTypeForReceivingCommunication"
+                aria-expanded="false" aria-controls="dayTypeForReceivingCommunication">
+                <span>UCC Day type for receiving communication</span>
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </button>
+
+
+            <div class="collapse" id="dayTypeForReceivingCommunication">
+                <div class="optionContainer">
+                    <div class="switch">
+                        All day types
+                        <label>
+                            <input type="checkbox" id="allDay">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch ">
+                        Monday
+                        <label>
+                            <input type="checkbox" id="mon" name="mon">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch ">
+                        Tuesday
+                        <label>
+                            <input type="checkbox" id="tue" name="tue">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        Wednesday
+                        <label>
+                            <input type="checkbox" id="wed" name="wed">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        Thursday
+                        <label>
+                            <input type="checkbox" id="thus" name="thus">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        Friday
+                        <label>
+                            <input type="checkbox" id="fri" name="fri">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        Saturday
+                        <label>
+                            <input type="checkbox" id="sat" name="sat">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        Sunday
+                        <label>
+                            <input type="checkbox" id="sun" name="sun">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="optionContainer">
+                    <div class="switch">
+                        Public holiday and national holiday
+                        <label>
+                            <input type="checkbox" id="nat" name="nat">
+                            <span class="lever"></span>
+
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="categoryContainer">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="loginPhone" type="file" name="scrubFile" class="validate">
+                </div>
+            </div>
+            <button class="waves-effect waves-light btn" type="submit" style="float: right">Upload</button>
+        </div>
+    </form>
+    {{#if success}}
+    <div class="categoryContainer">
+        <div class="row">
+            <div class="col s12 m6" style="padding: 0">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">UPLOADED</span>
+                        <p>Scrub file generated successfully. <a href="/scrubdownload" style="color: white">Download</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+</div>

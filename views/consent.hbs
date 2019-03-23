@@ -1,29 +1,35 @@
-<div class="container">
-    <div class="text-center heading-margin">
-        <p>&nbsp;</p>
-    </div>
+<script>
 
-    <div class="categoryContainer">
-        <ul class="collection">
+function deleteConsentTemplate(consentId){
+    //$('.modal').modal('open');
+    var r = confirm("Are you sure you want to delete "+ consentId+" ?");
+if (r == true) {
+ sendDeleteConsentTemplate(consentId);
+}
+<div class="container">
+    
+    <div class="container">
+
+
+        <ul class="collection with-header noBorder">
             <li class="collection-header noBorder">
-                <h4>Templates</h4>
+                <h4>Consent Templates</h4>
             </li>
             <div class="greyBorder">
-                {{#each contents}}
-                    <li class="collection-item avatar">
-                        <span class="title">{{this.contentTemplateID}}</span>
-                        <p>{{this.contentType}} <br>
-                            {{this.contentCategory}} <br>
-                        <div class="side-block">
-                            <a href="/content?content={{this.contentTemplateID}}" class="secondary-content"><i
-                                    class="material-icons">delete</i></a>
-                            <a href="/transferHeaders/{{this.contentTemplateID}}" class="secondary-content"><i
-                                    class="material-icons">description</i></a>
-                        </div>
-                        </p>
-                    </li>
-                {{/each}}
+                
+                <li class="collection-item">
+                    <div>Edit existing templates<a href="/headers?entity=1" class="secondary-content"><i class="material-icons">send</i></a>
+                    </div>
+                </li>
+
+                <li class="collection-item">
+                    <div>Add new template<a href="/consent/1" class="secondary-content"><i class="material-icons">send</i></a>
+                    </div>
+                </li>
+
             </div>
-        </ul>
+
+
+        </ul>     
     </div>
 </div>

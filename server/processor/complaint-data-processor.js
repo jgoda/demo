@@ -23,9 +23,6 @@ function getComplaintDetail(index,complaints,result,cb){
 
         complaint['tsp']=headerDetails['regTSP'];
         complaint['telemarketer_owner']=headerDetails['telemarketer_owner'];
-
-        
-
         });
     }else{
         return cb(result);

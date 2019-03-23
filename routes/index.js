@@ -47,6 +47,13 @@ router.get('/register', function (req, res) {
 
 });
 
+router.get('/custConsent', function (req, res) {
+    let contentTemplates = {'contentTemplateID': 'CONTENT1','contentTemplateID': 'CONTENT2','contentTemplateID': 'CONTENT3'}
+    let consentTemplates = {'consentTemplateID': 'CONSENT1','consentTemplateID': 'CONSENT2','consentTemplateID': 'CONSENT3'}
+    res.render('getConsent', {contentTemplates:contentTemplates, consentTemplates:consentTemplates});
+});
+
+
 router.get('/complaint', function (req, res) {
     res.render('complaints', {});
 
@@ -155,19 +162,19 @@ router.get('/headers', function (req, res) {
     })
 });
 
-router.get('/consent/:entity', function (req, res) {
-    let entity = req.params.entity;
+router.get('/consent', function (req, res) {
+    let entity = req.query.entityid;
     console.log("In consents. entity = ", entity);
     chain.getConsentForEntity(entity, function (err, consents) {
-        res.render('consent', {consents});
+        res.render('consentTemplate', {templates: consents});
     })
 });
 
-router.get('/content/:entity', function (req, res) {
-    let entity = req.params.entity;
+router.get('/content', function (req, res) {
+    let entity = req.query.entityid;
     console.log("In contents. entity = ", entity);
     chain.getContentForEntity(entity, function (err, contents) {
-        res.render('content', {contents});
+        res.render('content', {templates: contents});
     })
 });
 
@@ -181,8 +188,8 @@ router.get('/transferHeaders/:header', function (req, res) {
     let header = req.params.header;
     res.render('transferHeaders', {headerval: header});
     chain.getHeaderByHeaderName(header, function (err, headers) {
-        console.log("deleteheaders", headers);
-        res.render('deleteheaders', {headers});
+        console.log("transferHeaders", headers);
+        res.render('transferHeaders', {headers});
     })
 });
 
@@ -208,8 +215,8 @@ router.get('/transfer', function (req, res) {
     let header = req.query.header;
     console.log("header in index.js", header);
     chain.getConsentTemplatebyName(header, function (err, headers) {
-        console.log("deleteheaders", headers);
-        res.render('deleteheaders', {headers});
+        console.log("transferHeaders", headers);
+        res.render('transferHeaders', {headers});
     })
 });
 
@@ -221,12 +228,12 @@ router.get('/templates', function (req, res) {
 });
 
 router.get('/backToScrubbingPage', function (req, res) {
-    res.render('scrubbing', {});
+    res.render('scrubbing1', {});
 
 });
 
 router.get('/scrubbing', function (req, res) {
-    res.render('scrubbing', {});
+    res.render('scrubbing1', {});
 });
 
 router.get('/gotoEntity', function (req, res) {
@@ -245,13 +252,28 @@ router.get('/gotoSubscriber', function (req, res) {
     res.render('subscriber', {});
 });
 
+router.get('/fileComplaint', function (req, res) {
+    res.render('fileComplaint', {});
+});
+
+router.get('/handleConsents', function (req, res) {
+    res.render('handleConsents', {});
+});
+
+router.get('/handlePreferences', function (req, res) {
+    res.render('handlePreferences', {});
+});
+
 router.get('/sender/register', function (req, res) {
     res.render('senderRegister', {});
-
 });
 
 router.get('/gotoSender', function (req, res) {
     res.render('sender', {});
+});
+
+router.get('/gotoComplaints', function (req, res) {
+    res.render('complaints', {});
 });
 
 router.get('/sender/login', function (req, res) {
@@ -264,10 +286,10 @@ router.get('/senderlandingpage', function (req, res) {
 });
 
 router.get('/complaintStatus', function (req, res) {
-    let owner = req.query.owner;
-    processor.complaint.getComplaintsWithDetail(owner, function (err, complaints) {
-
-        return res.send(complaints);
+    let sub = req.body.phone;
+    console.log('in complaint status in index.js phone is', sub)
+    chain.getComplaintsforSubscriber(sub, function (err, complaints) {
+        res.render('complaintStatus',complaints);
     });
 
 });

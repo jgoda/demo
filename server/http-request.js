@@ -79,3 +79,15 @@ exports.makeFetchCall = function (url, cb) {
         return cb(err, null);
     });
 };
+
+exports.makeDeleteCall = function (url, cb) {
+    let options = {
+        headers:{
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    };
+    request.delete(url,options, function(err, response, body) {
+        return cb(err, null);
+    })
+};

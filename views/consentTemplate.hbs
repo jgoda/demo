@@ -20,18 +20,18 @@
 
     }
 
-    function deleteContentTemplate(id) {
+    function deleteConsentTemplate(id) {
         //$('.modal').modal('open');
         var r = confirm("Are you sure you want to delete " + id + " ?");
         if (r == true) {
-            sendDeleteContentTemplate(id);
+            sendDeleteConsentTemplate(id);
         }
     }
 
-    function addContentTemplate() {
-    let contentTemplateMsg = $('#newTemplate').val();
-    this.makeAjaxCall('/api/addContentTemplate', {
-        contentTemplateMsg
+    function addConsentTemplate() {
+    let consentTemplateMsg = $('#newTemplate').val();
+    this.makeAjaxCall('/api/addConsentTemplate', {
+        consentTemplateMsg
     }, function (data) {
 
         M.toast({html: data['message']});
@@ -58,8 +58,8 @@
     </div>
 
     <div class="categoryContainer">
-        <h4>Content Templates</h4>
-        <p>Please note that placeholders for variable text can be handled in the content template in the following
+        <h4>Consent Templates</h4>
+        <p>Please note that placeholders for variable text can be handled in the consent template in the following
             manner: <br>
             1. Date values can be included as #!dt!#<br>
             2. Numbers can be included as #!num!#<br>
@@ -68,21 +68,22 @@
             5. Reference numbers can be included as #!ref!#<br>
             6. Transaction IDs can be included as #!tr!#<br><br>
             </p>
-            <h6>View/Edit Content templates</h6>
+            <h6>View/Edit Consent templates</h6>
         <ul class="collapsible">
             {{#each templates}}
-            {{this.contentCategory}}
             <li>
                 <div class="collapsible-header">
-                    {{this.contentTemplateID}}<br />
+                    {{this.consentTemplateID}}
                 </div>
                 <div class="collapsible-body">
                     <div id="template{{@index}}">
-                        <div id="templateMessage{{@index}}">{{this.contentTemplateMsg}}</div>
-                    </div>
+                            <span class="badge hoverable" onclick="showEdit('{{@index}}','{{this.consentTemplateID}}')"><i
+                                    class="tiny material-icons">edit</i></span>
+                            <div id="templateMessage{{@index}}">{{this.consentTemplateMsg}}</div>
+                        </div>
                     <div id="editTemplate{{@index}}" class="hide">
 
-                        <textarea rows="4" cols="50" style="height: 6rem" id="editTemplateText{{@index}}">{{this.contentTemplateMsg}}</textarea>
+                        <textarea rows="4" cols="50" style="height: 6rem" id="editTemplateText{{@index}}">{{this.consentTemplateMsg}}</textarea>
 
                         <div class="row">
                             <div class="col s4">
@@ -109,7 +110,7 @@
                         <div class="row" style="margin: 0;">
                             <a class="waves-effect waves-light btn" onclick="check('{{@index}}')">update</a>
                             <a class="waves-effect waves-light btn" onclick="closeView('{{@index}}')">cancel</a>
-                            <a class="waves-effect waves-light btn" onclick="deleteContentTemplate('{{@index}}')">delete
+                            <a class="waves-effect waves-light btn" onclick="deleteConsentTemplate('{{this.consentTemplateID}}')">delete
                                 template</a>
                         </div>
                         <div style="clear:both;"></div>
@@ -122,9 +123,9 @@
     </div>
 
     <div class="categoryContainer">
-        <h6>Add New Content Template</h6>
+        <h6>Add New Consent Template</h6>
         <textarea rows="4" cols="50" style="height: 6rem" id="newTemplate">Add Template text</textarea>
-        <a class="waves-effect waves-light btn" onclick="addContentTemplate()">add</a>
+        <a class="waves-effect waves-light btn" onclick="addConsentTemplate()">add</a>
     </div>
 
 </div>

@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="text-center heading-margin">
+        <p>&nbsp;</p>
+    </div>
+
+    <div class="category container">
+    <h4 class="">Consents</h4>
+    <p>Please use this to view/revoke your existing consents</p>
+    <table id="consentsTable">
+        <tr>
+            <th>Template ID</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {{#each consent}}
+        <tr id="remove{{@index}}">
+            <td>{{this}}</td>
+            <td></td>
+            <td>
+                <span class="badge hoverable" onclick="removeConsent({{@index}})"><i class="tiny material-icons">clear</i></span>
+
+
+            </td>
+        </tr>
+        {{/each}}
+
+    </table>
+
+</div>
+</div>

@@ -11,25 +11,36 @@
                 <label for="icon_prefix">Phone number of the subscriber for consent</label>
                 <br>
                 <br>
-                <p>Consent Template ID to be sent</p>
-
+                <p>Content Template for which consent is sought</p>
                 <div class="greyBorder">
-                    {{#each consentTemplates}}
-                    <li class="collection-item">
-                        <div>{{this.consentTemplateID}}
-                            <a href="/sendConsentSMS?consentTemplateID={{this.consentTemplateID}}" class="secondary-content"><i
-                                    class="material-icons">send</i></a>
-                        </div>
-                    </li>
-
+                    {{#each contentTemplates}}
+                    <select>
+                        <option value="volvo">{{this.contentTemplateID}}</option>
+                    </select>
                     {{/each}}
                 </div>
-
-
+                <br>
+                <br>
+                <p>Consent Template ID to be sent</p>
+                <div class="greyBorder">
+                    {{#each consentTemplates}}
+                    <select>
+                        <option value="volvo">{{this.consentTemplateID}}</option>
+                    </select>
+                    {{/each}}
+                </div>
+                <br>
+                <br>
             </div>
         </div>
-        <a class="waves-effect waves-light btn" onclick="login()">Login</a>
-        <a class="register" href="/register"> Register ?</a>
+        <a class="waves-effect waves-light btn" onclick="">Send OTP</a>
+        <div class="categoryContainer">
+            <div class="input-field col s12">
+                <input id="otp" type="number" class="validate">
+                <label for="icon_prefix">OTP</label>
+            </div>
+        </div>
+        <a class="register" href=""> Register Consent</a>
 
     </div>
 
