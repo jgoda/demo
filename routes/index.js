@@ -324,7 +324,7 @@ router.get('/tspComplaints', function (req, res) {
             }
         }
         console.log("tspComplaints", complaints);
-        Tacc = "resource:org.example.biznet.TSP#" + TSPID;
+        let Tacc = "resource:org.example.biznet.TSP#" + TSPID;
         chain.getComplaintsbyTSPOAP(TSPID, function (err, complaints1) {
 
             for (let i = 0; i < complaints1.length; i++) {
@@ -351,12 +351,19 @@ router.get('/complaintDetails', function (req, res) {
 
 router.get('/confirmCall', function (req, res) {
     let compID = req.query.complaint;
-    res.render('complaintConfirmCall', {});
+    chain.getComplaintDetails(compID, function (err, compl) {
+        console.log("complaintsDetails", compl);
+        res.render('complaintConfirmCall', {compl});
+    })
+
 });
 
 router.get('/confirmScrubbing', function (req, res) {
     let compID = req.query.complaint;
-    res.render('complaintConfirmScrubbing', {});
+    chain.getComplaintDetails(compID, function (err, compl) {
+        console.log("complaintsDetails", compl);
+        res.render('complaintConfirmScrubbing', {compl});
+    })
 });
 
 module.exports = router;

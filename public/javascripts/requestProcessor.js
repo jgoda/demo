@@ -299,3 +299,51 @@ function submitComplaint() {
 
 
 }
+
+function resolvedbyOAP(complaintId) {
+
+    this.makeAjaxCall('/api/resolvedbyOAP', {
+        complaintId
+    }, function (data) {
+
+        M.toast({html: data['message']});
+
+    })
+
+}
+
+function closeComplaintbyOAP(complaintId) {
+
+    this.makeAjaxCall('/api/closeComplaintbyOAP', {
+        complaintId
+    }, function (data) {
+
+        M.toast({html: data['message']});
+
+    })
+
+}
+
+function callConfirmedComplainttoOAP(complaintId) {
+
+    this.makeAjaxCall('/api/callConfirmedComplainttoOAP', {
+        complaintId
+    }, function (data) {
+
+        M.toast({html: data['message']});
+
+    })
+
+}
+
+function closeComplaintbyTAP(complaintId) {
+
+    this.makeAjaxCall('/api/closeComplaintbyTAP', {
+        complaintId
+    }, function (data) {
+
+        M.toast({html: data['message']});
+
+    })
+
+}

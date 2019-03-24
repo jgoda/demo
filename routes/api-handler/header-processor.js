@@ -204,7 +204,7 @@ exports.sendDeleteContentTemplate = function (req, res) {
 exports.callConfirmedComplainttoOAP = function (req, res) {
     console.log("complaint fwd to OAP");
 
-    let complaintID = "wmejn"; //This detail needs to come from UI
+    let complaintID = req.body.complaintId; //This detail needs to come from UI
 
     chainManager.getComplaintbyID(complaintID, function (err, complaintDetails) {
         let newComplaintDetails = complaintDetails;
@@ -232,7 +232,7 @@ exports.callConfirmedComplainttoOAP = function (req, res) {
 exports.closeComplaintbyTAP = function (req, res) {
     console.log("close complaint by TAP");
 
-    let complaintID = "wmejn"; //This detail needs to come from UI
+    let complaintID = req.body.complaintId; //This detail needs to come from UI
 
     chainManager.getComplaintbyID(complaintID, function (err, complaintDetails) {
         let newComplaintDetails = complaintDetails;
@@ -259,7 +259,7 @@ exports.closeComplaintbyTAP = function (req, res) {
 
 exports.closeComplaintbyOAP = function (req, res) {
     console.log("close complaint by OAP");
-    let complaintID = "wmejn"; //This detail needs to come from UI
+    let complaintID = req.body.complaintId; //This detail needs to come from UI
 
 
     chainManager.getComplaintbyID(complaintID, function (err, complaintDetails) {
@@ -288,7 +288,7 @@ exports.closeComplaintbyOAP = function (req, res) {
 exports.resolvedbyOAP = function (req, res) {
     console.log("close complaint by OAP");
 
-    let complaintID = "wmejn"; //This detail needs to come from UI
+    let complaintID = req.body.complaintId; //This detail needs to come from UI
 
     chainManager.getComplaintbyID(complaintID, function (err, complaintDetails) {
         let newComplaintDetails = complaintDetails;
@@ -311,4 +311,4 @@ exports.resolvedbyOAP = function (req, res) {
             }
         });
     });
-}
+};

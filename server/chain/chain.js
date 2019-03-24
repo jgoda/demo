@@ -306,7 +306,7 @@ exports.getHeaderByHeaderName = function (header, cb) {
 };
 
 exports.getComplaintsbyTSPTAP = function (TSPID, cb) {
-/*    let data = [{
+    /*let data = [{
         '$class': 'org.example.biznet.complaint',
         complaintID: 'wmejn',
         uccHeader: 'HDR1',
@@ -390,13 +390,13 @@ exports.getComplaintsbyHeader = function (hdr, cb) {
     request.makeFetchCall(url, function (err, data1) {
         data = JSON.parse(data1);
         console.log("return data", data);
-        console.log("typeof data", typeof data)
+        console.log("typeof data", typeof data);
         return cb(err, data);
     });
 };
 
 exports.getComplaintsbyTSPOAP = function (TSPID, cb) {
-/*    let data = [{
+    /*let data = [{
         '$class': 'org.example.biznet.complaint',
         complaintID: 'wmejn',
         uccHeader: 'HDR1',
@@ -464,14 +464,21 @@ exports.getSubscriberComplaints = function (phone, data2, cb) {
 
 exports.getComplaintDetails = function (compID, cb) {
 
-    /*
-{
-"$class": "org.example.biznet.headers",
-"headerstr": "HDR1",
-"regMobNo": "string",
-"telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
-}
-*/
+    /*let data = {
+        '$class': 'org.example.biznet.complaint',
+        complaintID: 'wmejn',
+        uccHeader: 'HDR1',
+        OAP: 'TSP1',
+        complainee: 'resource:org.example.biznet.telemarketer#TM1',
+        rtn: [],
+        datentime: '12/03/2019 04:05:34',
+        description: 'blah blah',
+        uccStatus: 'TransferredtoOAP',
+        TAP: 'resource:org.example.biznet.TSP#TSP1',
+        complainant: 'resource:org.example.biznet.subscriber#9012345678'
+    };
+    return cb(null, data);*/
+
     console.log("getComplaintbyID");
     let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22complaintID%22%3A%20%22' + compID + '%22%7D%7D';
     request.makeFetchCall(url, function (err, data1) {
@@ -520,7 +527,7 @@ exports.getComplaintsforSubscriber = function (phone, cb) {
     request.makeFetchCall(url, function (err, data1) {
         let data = JSON.parse(data1);
         console.log("return data", data);
-        console.log("typeof data", typeof data)
+        console.log("typeof data", typeof data);
         return cb(err, data);
     });
 }
@@ -547,7 +554,7 @@ exports.getConsentTemplatebyName = function (template, cb) {
     request.makeFetchCall(url, function (err, data1) {
         let data = JSON.parse(data1);
         console.log("return data", data[0]);
-        console.log("typeof data", typeof data[0])
+        console.log("typeof data", typeof data[0]);
         return cb(err, data[0]);
     })
 
