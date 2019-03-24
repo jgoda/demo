@@ -269,7 +269,7 @@ exports.submitComplaint = function (req, res) {
             let uccComplainee = headerDetails['telemarketer_owner'];
             let uccTMname = uccComplainee.substr(1 + uccComplainee.indexOf("#"));
             chainManager.getTMbyTMname(uccTMname, function (err, TM_vals) {
-                let uccOAP = TM_vals['serviceProvider'];
+                let uccOAP = TM_vals['serviceProvider'].substr(1+TM_vals['serviceProvider'].indexOf('#'));
                 chainManager.lodgeComplaint(complaintID, uccHeader, uccOAP, uccComplainee, uccDateTime, uccStatus, uccTAP, complainant, function (err, data) {
                     /* JSON response
                     { '$class': 'org.example.biznet.complaint',
