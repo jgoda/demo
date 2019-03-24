@@ -307,15 +307,29 @@ exports.getHeaderByHeaderName = function (header, cb) {
 };
 
 exports.getComplaintsbyTSPTAP = function (TSPID, cb) {
-    /*[
-{
-"$class": "org.example.biznet.headers",
-"headerstr": "HDR1",
-"regMobNo": "string",
-"regTSP": "resource:org.example.biznet.TSP#TSP1",
-"telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
-}
-]*/
+/* [ { '$class': 'org.example.biznet.complaint',
+    complaintID: 'wmejn',
+    uccHeader: 'HDR1',
+    OAP: 'TSP1',
+    complainee: 'resource:org.example.biznet.telemarketer#TM1',
+    rtn: [],
+    datentime: '12/03/2019 04:05:34',
+    description: 'blah blah',
+    uccStatus: 'TransferredtoOAP',
+    TAP: 'resource:org.example.biznet.TSP#TSP1',
+    complainant: 'resource:org.example.biznet.subscriber#9012345678' },
+  { '$class': 'org.example.biznet.complaint',
+    complaintID: 'zvdtk',
+    uccHeader: 'HDR1',
+    OAP: 'TSP1',
+    complainee: 'resource:org.example.biznet.telemarketer#TM1',
+    rtn: [],
+    datentime: '12/03/2019 04:05:34',
+    description: 'blah blah',
+    uccStatus: 'Recorded',
+    TAP: 'resource:org.example.biznet.TSP#TSP1',
+    complainant: 'resource:org.example.biznet.subscriber#9012345678' } ]
+ */
 
     console.log("getComplaintsbyTSP");
 
@@ -379,15 +393,29 @@ exports.getComplaintsbyHeader = function (hdr, cb) {
 };
 
 exports.getComplaintsbyTSPOAP = function (TSPID, cb) {
-    /*[
-{
-"$class": "org.example.biznet.headers",
-"headerstr": "HDR1",
-"regMobNo": "string",
-"regTSP": "resource:org.example.biznet.TSP#TSP1",
-"telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
-}
-]*/
+/* [ { '$class': 'org.example.biznet.complaint',
+    complaintID: 'wmejn',
+    uccHeader: 'HDR1',
+    OAP: 'TSP1',
+    complainee: 'resource:org.example.biznet.telemarketer#TM1',
+    rtn: [],
+    datentime: '12/03/2019 04:05:34',
+    description: 'blah blah',
+    uccStatus: 'TransferredtoOAP',
+    TAP: 'resource:org.example.biznet.TSP#TSP1',
+    complainant: 'resource:org.example.biznet.subscriber#9012345678' },
+  { '$class': 'org.example.biznet.complaint',
+    complaintID: 'zvdtk',
+    uccHeader: 'HDR1',
+    OAP: 'TSP1',
+    complainee: 'resource:org.example.biznet.telemarketer#TM1',
+    rtn: [],
+    datentime: '12/03/2019 04:05:34',
+    description: 'blah blah',
+    uccStatus: 'Recorded',
+    TAP: 'resource:org.example.biznet.TSP#TSP1',
+    complainant: 'resource:org.example.biznet.subscriber#9012345678' } ]
+ */
 
     console.log("getComplaintsbyTSP");
 
