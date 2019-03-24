@@ -48,9 +48,17 @@ router.get('/register', function (req, res) {
 });
 
 router.get('/custConsent', function (req, res) {
-    let contentTemplates = {'contentTemplateID': 'CONTENT1','contentTemplateID': 'CONTENT2','contentTemplateID': 'CONTENT3'}
-    let consentTemplates = {'consentTemplateID': 'CONSENT1','consentTemplateID': 'CONSENT2','consentTemplateID': 'CONSENT3'}
-    res.render('getConsent', {contentTemplates:contentTemplates, consentTemplates:consentTemplates});
+    let contentTemplates = {
+        'contentTemplateID': 'CONTENT1',
+        'contentTemplateID': 'CONTENT2',
+        'contentTemplateID': 'CONTENT3'
+    }
+    let consentTemplates = {
+        'consentTemplateID': 'CONSENT1',
+        'consentTemplateID': 'CONSENT2',
+        'consentTemplateID': 'CONSENT3'
+    }
+    res.render('getConsent', {contentTemplates: contentTemplates, consentTemplates: consentTemplates});
 });
 
 
@@ -289,7 +297,7 @@ router.get('/complaintStatus', function (req, res) {
     let sub = req.body.phone;
     console.log('in complaint status in index.js phone is', sub)
     chain.getComplaintsforSubscriber(sub, function (err, complaints) {
-        res.render('complaintStatus',complaints);
+        res.render('complaintStatus', complaints);
     });
 
 });
@@ -304,11 +312,30 @@ router.get('/tspComplaints', function (req, res) {
     let TSPID = req.query.TSP;
     console.log("TSPID in index.js", TSPID);
     chain.getComplaintsbyTSPTAP(TSPID, function (err, complaints) {
+
+        for (let i = 0; i < complaints.length; i++) {
+            let complaint = complaints[i];
+            if (complaint['uccStatus'] === 'Recorded' && complaint['TAP'] === ('resource:org.example.biznet.TSP#' + TSPID)) {
+                complaint['confirmCall'] = true;
+                console.log('confirmCall');
+            } else if (complaint['uccStatus'] === 'TransferredtoOAP' && complaint['OAP'] === TSPID) {
+                complaint['confirmScrubbing'] = true;
+                console.log('confirmScrubbing');
+            }
+        }
         console.log("tspComplaints", complaints);
-        Tacc = "resource:org.example.biznet.TSP#"+TSPID;
-        OAP = complaints['OAP'];
-        chain.getComplaintsbyTSPOAP(TSPID, function(err, complaints1){
-            res.render('tspComplaints', {TSPID:Tacc, TAP_OAP:OAP, complaints:complaints, complaints1:complaints1});
+        Tacc = "resource:org.example.biznet.TSP#" + TSPID;
+        chain.getComplaintsbyTSPOAP(TSPID, function (err, complaints1) {
+
+            for (let i = 0; i < complaints1.length; i++) {
+                let complaint = complaints1[i];
+                if (complaint['uccStatus'] === 'Recorded' && complaint['TAP'] === ('resource:org.example.biznet.TSP#' + TSPID)) {
+                    complaint['confirmCall'] = true;
+                } else if (complaint['uccStatus'] === 'TransferredtoOAP' && complaint['OAP'] === TSPID) {
+                    complaint['confirmScrubbing'] = true;
+                }
+            }
+            res.render('tspComplaints', {TSPID: Tacc, complaints: complaints, complaints1: complaints1});
         })
     })
 });
@@ -322,14 +349,14 @@ router.get('/complaintDetails', function (req, res) {
     })
 });
 
-router.get('/confirmCall', function (req, res){
+router.get('/confirmCall', function (req, res) {
     let compID = req.query.complaint;
-    res.render('complaintConfirmCall',{});
+    res.render('complaintConfirmCall', {});
 });
 
-router.get('/confirmScrubbing', function (req, res){
+router.get('/confirmScrubbing', function (req, res) {
     let compID = req.query.complaint;
-    res.render('complaintConfirmScrubbing',{});
+    res.render('complaintConfirmScrubbing', {});
 });
 
 module.exports = router;

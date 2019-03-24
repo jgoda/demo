@@ -171,7 +171,7 @@ function login() {
 function register() {
     let registerPhone = $('#registerPhone').val();
     let registerName = $('#registerName').val();
-    console.log('Ajax registerPhone',registerPhone);
+    console.log('Ajax registerPhone', registerPhone);
     this.makeAjaxCall('/api/addUser', {
         phone: registerPhone, name: registerName
     }, function (data) {
@@ -186,27 +186,6 @@ function register() {
             M.toast({html: 'User already exists'})
     })
 
-}
-
-function submitComplaint() {
-
-    let complaintPhone = $('#complaintPhone').val();
-    let phone = $.jStorage.get("phone");
-    let option = $("input[name='group1']:checked").val();
-    this.makeAjaxCall('/api/complaint', {
-        phone: phone, UCCcaller: complaintPhone, complaint: option
-    }, function (data) {
-
-        if (data['success']) {
-            M.toast({html: 'Complaint Registered Successfully'});
-            setTimeout(() => {
-                window.location.href = '/setting';
-            }, 1000);
-
-        }
-        else
-            M.toast({html: 'User already exists'})
-    })
 }
 
 function registerEntity() {
@@ -235,11 +214,11 @@ function saveHeader() {
 
 function sendDeleteHeader(headerId) {
     console.log("ajax call");
-   
+
     this.makeAjaxCall('/api/sendDeleteHeader', {
-       header:headerId 
+        header: headerId
     }, function (data) {
-        $('#deleteHeader'+headerId).addClass('hide');
+        $('#deleteHeader' + headerId).addClass('hide');
         M.toast({html: data['message']});
     })
 
@@ -247,11 +226,11 @@ function sendDeleteHeader(headerId) {
 
 function sendDeleteConsentTemplate(consentId) {
     console.log("ajax call");
-   
+
     this.makeAjaxCall('/api/sendDeleteConsentTemplate', {
-       consentID:consentId 
+        consentID: consentId
     }, function (data) {
-        $('#deleteConsentTemplate'+consentId).addClass('hide');
+        $('#deleteConsentTemplate' + consentId).addClass('hide');
         M.toast({html: data['message']});
     })
 
@@ -262,7 +241,7 @@ function sendTransferHeader() {
     let tfrheader = $('#transferHdr').val();
     let newEnt = $('#newEntityID').val();
     this.makeAjaxCall('/api/sendTransferHeader', {
-        tfrheader: tfrheader, newEnt:newEnt
+        tfrheader: tfrheader, newEnt: newEnt
     }, function (data) {
 
         M.toast({html: data['message']});
@@ -283,22 +262,40 @@ function sendDeleteTemplate() {
 
 function sendDeleteContentTemplate(contentId) {
     console.log("ajax call");
-   
+
     this.makeAjaxCall('/api/sendDeleteContentTemplate', {
-       contentID:contentId 
+        contentID: contentId
     }, function (data) {
-        $('#deleteContentTemplate'+contentId).addClass('hide');
+        $('#deleteContentTemplate' + contentId).addClass('hide');
         M.toast({html: data['message']});
     })
 
 }
 
 function submitComplaint() {
-    console.log("ajax call");
+
+    let header = $('#complaintHeader').val();
+    let date = $('#complaintDate').val();
+    let time = $('#complaintTime').val();
+    let rtn = $('#rtnNumber').val();
+    let description = $('#description').val();
+    let dateTime = new Date(Date.parse(date + " " + time));
+    let phone = $.jStorage.get("phone");
+
     this.makeAjaxCall('/api/submitComplaint', {
+        phone, header, rtn, dateTime, description
     }, function (data) {
 
-        M.toast({html: data['message']});
+        if (data['success']) {
+            M.toast({html: 'Complaint Registered Successfully'});
+            setTimeout(() => {
+                window.location.href = '/setting';
+            }, 1000);
+
+        }
+        else
+            M.toast({html: 'User already exists'})
     })
+
 
 }

@@ -1,35 +1,133 @@
 <script>
 
-function deleteConsentTemplate(consentId){
-    //$('.modal').modal('open');
-    var r = confirm("Are you sure you want to delete "+ consentId+" ?");
-if (r == true) {
- sendDeleteConsentTemplate(consentId);
-}
+    function showEdit(id, contentType) {
+        $('#template' + id).addClass('hide');
+        $('#editTemplate' + id).removeClass('hide');
+        $('#templateTransaction' + id).prop('checked', contentType === 'Transactional');
+        $('#templatePromotional' + id).prop('checked', contentType === 'Promotional');
+        $('#templateService' + id).prop('checked', contentType === 'Service');
+    }
+
+    function closeView(id) {
+        $('#template' + id).removeClass('hide');
+        $('#editTemplate' + id).addClass('hide');
+    }
+
+    function check(id) {
+        $('#template' + id).removeClass('hide');
+        $('#editTemplate' + id).addClass('hide');
+        $('#templateMessage' + id).text($('#editTemplateText' + id).val());
+
+    }
+
+    function deleteConsentTemplate(id) {
+        //$('.modal').modal('open');
+        var r = confirm("Are you sure you want to delete " + id + " ?");
+        if (r == true) {
+            sendDeleteConsentTemplate(id);
+        }
+    }
+
+    function addConsentTemplate() {
+        let consentTemplateMsg = $('#newTemplate').val();
+        this.makeAjaxCall('/api/addConsentTemplate', {
+            consentTemplateMsg
+        }, function (data) {
+
+            M.toast({html: data['message']});
+        })
+    }
+
+    function makeAjaxCall(url, data, cb) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (data) {
+                return cb(data)
+            }
+        });
+    }
+
+</script>
 <div class="container">
-    
-    <div class="container">
-
-
-        <ul class="collection with-header noBorder">
-            <li class="collection-header noBorder">
-                <h4>Consent Templates</h4>
-            </li>
-            <div class="greyBorder">
-                
-                <li class="collection-item">
-                    <div>Edit existing templates<a href="/headers?entity=1" class="secondary-content"><i class="material-icons">send</i></a>
-                    </div>
-                </li>
-
-                <li class="collection-item">
-                    <div>Add new template<a href="/consent/1" class="secondary-content"><i class="material-icons">send</i></a>
-                    </div>
-                </li>
-
-            </div>
-
-
-        </ul>     
+    <div class="text-center heading-margin">
+        <p>&nbsp;</p>
     </div>
+
+    <div class="categoryContainer">
+        <h4>Consent Templates</h4>
+        <p>Please note that placeholders for variable text can be handled in the consent template in the following
+            manner: <br>
+            1. Date values can be included as #!dt!#<br>
+            2. Numbers can be included as #!num!#<br>
+            3. Names can be included as #!name!#<br>
+            4. Currency amounts can be included as #!inr!#<br>
+            5. Reference numbers can be included as #!ref!#<br>
+            6. Transaction IDs can be included as #!tr!#<br><br>
+        </p>
+        <h6>View/Edit Consent templates</h6>
+        <ul class="collapsible">
+            {{#each templates}}
+                <li>
+                    <div class="collapsible-header">
+                        {{this.consentTemplateID}}
+                    </div>
+                    <div class="collapsible-body">
+                        <div id="template{{@index}}">
+                            <div id="templateMessage{{@index}}">{{this.consentTemplateMsg}}</div>
+                        </div>
+                        <div id="editTemplate{{@index}}" class="hide">
+
+                            <textarea rows="4" cols="50" style="height: 6rem"
+                                      id="editTemplateText{{@index}}">{{this.consentTemplateMsg}}</textarea>
+
+                            <div class="row">
+                                <div class="col s4">
+                                    <label>
+                                        <input class="with-gap" name="group1" type="radio"
+                                               id="templateTransaction{{@index}}"/>
+                                        <span style="color: black;">Transactional</span>
+                                    </label>
+                                </div>
+                                <div class="col s4">
+                                    <label>
+                                        <input class="with-gap" name="group1" type="radio"
+                                               id="templatePromotional{{@index}}"/>
+                                        <span style="color: black;">Promotional</span>
+                                    </label>
+                                </div>
+                                <div class="col s4">
+                                    <label>
+                                        <input class="with-gap" name="group1" type="radio"
+                                               id="templateService{{@index}}"/>
+                                        <span style="color: black;">Service</span>
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div class="row" style="margin: 0;">
+                                <a class="waves-effect waves-light btn" onclick="check('{{@index}}')">update</a>
+                                <a class="waves-effect waves-light btn" onclick="closeView('{{@index}}')">cancel</a>
+                                <a class="waves-effect waves-light btn" onclick="deleteConsentTemplate('{{@index}}')">delete
+                                    template</a>
+                            </div>
+                            <div style="clear:both;"></div>
+
+                        </div>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <div class="categoryContainer">
+        <h6>Add New Consent Template</h6>
+        <textarea rows="4" cols="50" style="height: 6rem" id="newTemplate">Add Template text</textarea>
+        <a class="waves-effect waves-light btn" onclick="addConsentTemplate()">add</a>
+    </div>
+
 </div>
