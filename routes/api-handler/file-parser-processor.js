@@ -2,7 +2,7 @@
 
 /*Local Imports*/
 let logManager = require('../../utils/log-manager.js');
-//let chainManager = require('../../server/chain/chain.js');
+let chainManager = require('../../server/chain/chain.js');
 let processor = require('../../server/processor');
 let uploadDir = __dirname + "/../../scrubFolder/";
 let excelProcessor = require('../../utils/excel-parser.js');
@@ -667,6 +667,55 @@ exports.deScrubFile = function (req, res) {
 
     })
 };
+
+exports.makeSubscriberComplaintsExcel = function (req, res) {
+    let subscriberPh = "9012345678"; //This value needs to come from UI
+    chainManager.getComplaintsforSubscriber(subscriberPh, function (err, subsData) {
+        console.log('Complaints data for subscriber received', subsData);
+        excelProcessor.createExcelFromJson(uploadDir, 'subscriber_complaints_output.xlsx', 'Sheet', subsData, Object.keys(subsData[0]));
+        res.redirect('/deScrub?success=true'); //this redirect path needs to be changed
+    });
+}
+
+exports.makeEntityComplaintsExcel = function (req, res) {
+    let uccHeader = "HDR1"; //This value needs to come from UI
+    chainManager.getHeaderByHeaderName(uccHeader, function (err, headerData) {
+        let uccEntityName = headerData['telemarketer_owner'].substr(1 + headerData['telemarketer_owner'].indexOf('#'));
+        getComplaintsByEntity(uccEntityName, function (err, entsData) {
+            excelProcessor.createExcelFromJson(uploadDir, 'entities_complaints_output.xlsx', 'Sheet', entsData, Object.keys(entsData[0]));
+            res.redirect('/deScrub?success=true'); //this redirect path needs to be changed
+        });
+    });
+}
+
+function getComplaintsByEntity(entityID, cb) {
+    let complaintsList = [];
+    chainManager.getHeadersForEntity(entityID, function (err, headersList) {
+        var index = 0;
+        parseHeadersforComplaintsbyEntity(index, headersList, complaintsList, function (err, data) {
+            console.log("returned data in getComplaintsByEntity", data);
+            return cb(err, data);
+        })
+
+    });
+}
+
+function parseHeadersforComplaintsbyEntity(index, headersList, complaintsList, cb) {
+    console.log("index=", index);
+    console.log("complaintsList = ", complaintsList);
+    console.log("headersList=", headersList[index]);
+    if (index < headersList.length) {
+        chainManager.getComplaintsbyHeader(headersList[index]['headerstr'], function (err, indvHdrComplaints) {
+            complaintsList = complaintsList.concat(indvHdrComplaints);
+            index++;
+            parseHeadersforComplaintsbyEntity(index, headersList, complaintsList, cb);
+        });
+    }
+    else {
+        cb(null, complaintsList);
+    }
+};
+
 
 function processdeScrubFile(index, xlData, result, cb) {
     console.log("in descrub function");

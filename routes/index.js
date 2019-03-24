@@ -303,11 +303,13 @@ router.get('/tspHome', function (req, res) {
 router.get('/tspComplaints', function (req, res) {
     let TSPID = req.query.TSP;
     console.log("TSPID in index.js", TSPID);
-    chain.getComplaintsbyTSP(TSPID, function (err, complaints) {
+    chain.getComplaintsbyTSPTAP(TSPID, function (err, complaints) {
         console.log("tspComplaints", complaints);
         Tacc = "resource:org.example.biznet.TSP#"+TSPID;
         OAP = complaints['OAP'];
-        res.render('tspComplaints', {TSPID:Tacc, TAP_OAP:OAP, complaints:complaints});
+        chain.getComplaintsbyTSPOAP(TSPID, function(err, complaints1){
+            res.render('tspComplaints', {TSPID:Tacc, TAP_OAP:OAP, complaints:complaints, complaints1:complaints1});
+        })
     })
 });
 

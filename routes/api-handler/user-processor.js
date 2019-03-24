@@ -271,18 +271,6 @@ exports.submitComplaint = function (req, res) {
             chainManager.getTMbyTMname(uccTMname, function (err, TM_vals) {
                 let uccOAP = TM_vals['serviceProvider'].substr(1+TM_vals['serviceProvider'].indexOf('#'));
                 chainManager.lodgeComplaint(complaintID, uccHeader, uccOAP, uccComplainee, uccDateTime, uccStatus, uccTAP, complainant, function (err, data) {
-                    /* JSON response
-                    { '$class': 'org.example.biznet.complaint',
-                        complaintID: 'phxwc',
-                        uccHeader: 'HDR1',
-                        OAP: 'resource:org.example.biznet.TSP#TSP1',
-                        complainee: 'resource:org.example.biznet.telemarketer#TM1',
-                        rtn: [],
-                        datentime: '12/03/2019 04:05:34',
-                        uccStatus: 'Recorded',
-                        TAP: 'resource:org.example.biznet.TSP#TSP1',
-                        complainant: 'resource:org.example.biznet.subscriber#9012345678' }
-                    */
                     if (data) {
                         console.log("user processor true");
                         res.send({ success: true, message: 'Complaint Filed' });

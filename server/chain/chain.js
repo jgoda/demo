@@ -287,6 +287,11 @@ exports.getConsentForEntity = function (entity, cb) {
 };
 
 exports.getHeaderByHeaderName = function (header, cb) {
+
+    /* { '$class': 'org.example.biznet.headers',
+    headerstr: 'HDR1',
+    regMobNo: 'string',
+    telemarketer_owner: 'resource:org.example.biznet.telemarketer#TM1' } */
     console.log("getHeaderbyHeaderName");
 
 
@@ -301,26 +306,111 @@ exports.getHeaderByHeaderName = function (header, cb) {
 
 };
 
-exports.getComplaintsbyTSP = function (TSPID, cb) {
+exports.getComplaintsbyTSPTAP = function (TSPID, cb) {
+    /*[
+{
+"$class": "org.example.biznet.headers",
+"headerstr": "HDR1",
+"regMobNo": "string",
+"regTSP": "resource:org.example.biznet.TSP#TSP1",
+"telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
+}
+]*/
+
     console.log("getComplaintsbyTSP");
 
     let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22TAP%22%3A%20%22resource%3Aorg.example.biznet.TSP%23' + TSPID + '%22%7D%7D';
 
-    request.makeFetchCall(url, function (err, firstdata1) {
-        let firstdata = JSON.parse(firstdata1);
-        let url1 = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22OAP%22%3A%22' + TSPID + '%22%7D%7D';
-        request.makeFetchCall(url, function (err, newdata1) {
-            let newdata = JSON.parse(newdata1);
-            data = firstdata.concat(newdata);
-            console.log("return data", data);
-            console.log("typeof data", typeof data)
-            return cb(err, data);
+    request.makeFetchCall(url, function (err, data1) {
+        data = JSON.parse(data1);
+        console.log("return data", data);
+        console.log("typeof data", typeof data)
+        return cb(err, data);
+    });
+};
 
-        });
+exports.getComplaintsbyHeader = function (hdr, cb) {
+    /*[
+  {
+    "$class": "org.example.biznet.complaint",
+    "complaintID": "ckmme",
+    "uccHeader": "HDR1",
+    "OAP": "resource:org.example.biznet.TSP#TSP1",
+    "complainee": "resource:org.example.biznet.telemarketer#TM1",
+    "rtn": [],
+    "datentime": "12/03/2019 04:05:34",
+    "uccStatus": "Recorded",
+    "TAP": "resource:org.example.biznet.TSP#TSP1",
+    "complainant": "resource:org.example.biznet.subscriber#9012345678"
+  },
+  {
+    "$class": "org.example.biznet.complaint",
+    "complaintID": "eazha",
+    "uccHeader": "HDR1",
+    "OAP": "resource:org.example.biznet.TSP#TSP1",
+    "complainee": "resource:org.example.biznet.telemarketer#TM1",
+    "rtn": [],
+    "datentime": "12/03/2019 04:05:34",
+    "uccStatus": "Recorded",
+    "TAP": "resource:org.example.biznet.TSP#TSP1",
+    "complainant": "resource:org.example.biznet.subscriber#9012345678"
+  },
+  {
+    "$class": "org.example.biznet.complaint",
+    "complaintID": "kjsnv",
+    "uccHeader": "HDR1",
+    "OAP": "resource:org.example.biznet.TSP#TSP1",
+    "complainee": "resource:org.example.biznet.telemarketer#TM1",
+    "rtn": [],
+    "datentime": "12/03/2019 04:05:34",
+    "uccStatus": "Recorded",
+    "TAP": "resource:org.example.biznet.TSP#TSP1",
+    "complainant": "resource:org.example.biznet.subscriber#9012345678"
+  }*/
+
+    console.log("getComplaintsbyHeaders");
+    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22uccHeader%22%3A%22'+hdr+'%22%7D%7D';
+    request.makeFetchCall(url, function (err, data1) {
+        data = JSON.parse(data1);
+        console.log("return data", data);
+        console.log("typeof data", typeof data)
+        return cb(err, data);
+    });
+};
+
+exports.getComplaintsbyTSPOAP = function (TSPID, cb) {
+    /*[
+{
+"$class": "org.example.biznet.headers",
+"headerstr": "HDR1",
+"regMobNo": "string",
+"regTSP": "resource:org.example.biznet.TSP#TSP1",
+"telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
+}
+]*/
+
+    console.log("getComplaintsbyTSP");
+
+    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22OAP%22%3A%22' + TSPID + '%22%7D%7D';
+
+    request.makeFetchCall(url, function (err, data1) {
+        let data = JSON.parse(data1);
+        console.log("return data", data);
+        console.log("typeof data", typeof data)
+        return cb(err, data);
     });
 };
 
 exports.getSubscriberComplaints = function (phone, data2, cb) {
+    /*[
+{
+"$class": "org.example.biznet.headers",
+"headerstr": "HDR1",
+"regMobNo": "string",
+"regTSP": "resource:org.example.biznet.TSP#TSP1",
+"telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
+}
+]*/
     console.log("getSubscriberComplaints");
     let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22complainant%22%3A%20%22resource%3Aorg.example.biznet.subscriber%23' + phone + '%22%7D%7D';
     request.makeFetchCall(url, function (err, data1) {
@@ -338,6 +428,16 @@ exports.getSubscriberComplaints = function (phone, data2, cb) {
 };
 
 exports.getComplaintDetails = function (compID, cb) {
+
+    /*
+{
+"$class": "org.example.biznet.headers",
+"headerstr": "HDR1",
+"regMobNo": "string",
+"regTSP": "resource:org.example.biznet.TSP#TSP1",
+"telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
+}
+*/
     console.log("getComplaintbyID");
     let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22complaintID%22%3A%20%22' + compID + '%22%7D%7D';
     request.makeFetchCall(url, function (err, data1) {
@@ -353,13 +453,22 @@ exports.getComplaintDetails = function (compID, cb) {
 };
 
 exports.getComplaintsforSubscriber = function (phone, cb) {
+    /*[
+{
+"$class": "org.example.biznet.headers",
+"headerstr": "HDR1",
+"regMobNo": "string",
+"regTSP": "resource:org.example.biznet.TSP#TSP1",
+"telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
+}
+]*/
     console.log("getComplaintfor Subscriber");
     let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22complainant%22%3A%20%22resource%3Aorg.example.biznet.subscriber%23' + phone + '%22%7D%7D';
     request.makeFetchCall(url, function (err, data1) {
         let data = JSON.parse(data1);
-        console.log("return data", data[0]);
-        console.log("typeof data", typeof data[0])
-        return cb(err, data[0]);
+        console.log("return data", data);
+        console.log("typeof data", typeof data)
+        return cb(err, data);
     });
 }
 
@@ -415,6 +524,17 @@ exports.getConsentTemplatesbyTemplateID = function (template, cb) {
 };
 
 exports.getTMbyTMname = function (TMname, cb) {
+    /*{ '$class': 'org.example.biznet.telemarketer',
+  tmID: 'TM1',
+  callingLineID: 'string',
+  tmType: 'Individual',
+  tmName: 'string',
+  tmpasswd: 'string',
+  GSTID: 'string',
+  PANID: 'string',
+  tmAddr: 'string',
+  serviceProvider: 'resource:org.example.biznet.TSP#TSP1' }*/
+
     console.log("getTMbyTMname");
     let url = 'http://localhost:3000/api/telemarketer/' + TMname;
 
@@ -543,6 +663,19 @@ exports.addContentTemplate = function (contentTemplateID, contentTemplateMsg, cb
 }
 
 exports.lodgeComplaint = function (complaintID, uccHeader, uccOAP, uccComplainee, uccDateTime, uccStatus, uccTAP, complainant, cb) {
+    /* JSON response
+                    { '$class': 'org.example.biznet.complaint',
+                        complaintID: 'phxwc',
+                        uccHeader: 'HDR1',
+                        OAP: 'resource:org.example.biznet.TSP#TSP1',
+                        complainee: 'resource:org.example.biznet.telemarketer#TM1',
+                        rtn: [],
+                        datentime: '12/03/2019 04:05:34',
+                        uccStatus: 'Recorded',
+                        TAP: 'resource:org.example.biznet.TSP#TSP1',
+                        complainant: 'resource:org.example.biznet.subscriber#9012345678' }
+                    */
+
     let complaintDetails = {
         $class: "org.example.biznet.complaint",
         "complaintID": complaintID,
@@ -779,6 +912,7 @@ exports.getComplaintsByOwnerId = function (ownerId, cb) {
         return cb(err, data);
     })
 }
+
 
 
 

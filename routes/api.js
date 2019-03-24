@@ -25,6 +25,8 @@ router.post('/sendTransferHeader', apiHandler.headerProcessor.sendTransferHeader
 router.post('/sendDeleteConsentTemplate', apiHandler.headerProcessor.sendDeleteConsentTemplate);
 router.post('/sendDeleteContentTemplate', apiHandler.headerProcessor.sendDeleteContentTemplate);
 router.post('/addContentTemplate', apiHandler.headerProcessor.addContentTemplate);
+router.post('/makeSubscriberExcelComplaints', apiHandler.fileProcessor.makeSubscriberComplaintsExcel);
+router.post('/makeEntityComplaintsExcel', apiHandler.fileProcessor.makeEntityComplaintsExcel);
 //router.post('/getConsents', apiHandler.userProcessor.getConsents);
 //router.post('/subscribervalsget', apiHandler.userProcessor.subscribervalsget);
 
