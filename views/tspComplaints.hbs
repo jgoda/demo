@@ -2,18 +2,34 @@
 
     <div class="categoryContainer">
         <h4>Active Complaints list</h4>
-        
+
         <ul class="collection">
             <div class="greyBorder">
-                {{#each complaints}}
-                <li class="collection-item">
-                    <div>
-                        {{this.complaintID}}<a href="/complaintDetails?complaint={{this.complaintID}}" class="secondary-content"><i
-                                class="material-icons">send</i>
-                            </a>
-                   </div> 
-                   </li>
+                <table style="width:100%">
+                    <tr>
+                        <th>Complaint ID</th>
+                        <th>Complaint status</th>
+                        <th>Header</th>
+                        <th>View Details</th>
+                        <th>Action needed</th>
+                        <th>Automation check</th>
+                    </tr>
+                    {{#each complaints}}
+                <td>{{this.complaintID}}</td>
+                <td>{{this.uccStatus}}</td>
+                <td>{{this.uccHeader}}</td>
+                <td><a href="/complaintDetails?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">info</i></a></td>
+                <td>
+                    {% if {{this.uccStatus}}=="Recorded" and {{this.TAP}}=={{TSPID}}"%}
+                    <a href="/confirmCall?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">description</i></a>
+                    {%else if {{this.uccStatus}}=="TransferredtoOAP" and {{this.OAP}}=={{TSPID}}%}
+                    <a href="/confirmScrubbing?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">description</i></a>
+                    {%else%}
+                    <a href="" class="secondary-content"><i class="material-icons">highlight_off</i></a>
+                </td>
+                <td><a href="/confirmCall?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">description</i></a></td>
                 {{/each}}
+                </table>
             </div>
         </ul>
     </div>

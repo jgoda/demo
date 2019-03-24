@@ -292,3 +292,13 @@ function sendDeleteContentTemplate(contentId) {
     })
 
 }
+
+function submitComplaint() {
+    console.log("ajax call");
+    this.makeAjaxCall('/api/submitComplaint', {
+    }, function (data) {
+
+        M.toast({html: data['message']});
+    })
+
+}

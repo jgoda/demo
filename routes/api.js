@@ -11,7 +11,8 @@ router.post('/uccTime', apiHandler.userProcessor.updateBand);
 router.post('/uccDay', apiHandler.userProcessor.updateDay);
 router.post('/setting', apiHandler.userProcessor.getUserSettings);
 router.post('/login', apiHandler.userProcessor.login);
-router.post('/complaint', apiHandler.userProcessor.fileComplaint);
+router.post('/submitComplaint', apiHandler.userProcessor.submitComplaint)
+router.post('/complaint', apiHandler.userProcessor.submitComplaint);
 router.post('/scrubFile', apiHandler.fileProcessor.parseScrubFile);
 router.post('/prefUpdate', apiHandler.fileProcessor.parsePreferencesFile);
 router.post('/header', apiHandler.headerProcessor.saveHeader);

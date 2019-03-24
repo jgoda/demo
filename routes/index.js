@@ -305,7 +305,9 @@ router.get('/tspComplaints', function (req, res) {
     console.log("TSPID in index.js", TSPID);
     chain.getComplaintsbyTSP(TSPID, function (err, complaints) {
         console.log("tspComplaints", complaints);
-        res.render('tspComplaints', {complaints});
+        Tacc = "resource:org.example.biznet.TSP#"+TSPID;
+        OAP = complaints['OAP'];
+        res.render('tspComplaints', {TSPID:Tacc, TAP_OAP:OAP, complaints:complaints});
     })
 });
 

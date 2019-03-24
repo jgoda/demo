@@ -402,7 +402,7 @@ function processPreferencesFile(index, xlData, cb) {
         let participant = {
             $class: 'org.example.biznet.subscriber',
             'mobno': phone,
-            'tsp': "resource:org.example.biznet.TSP#TSP1",
+            'tsp': "resource:org.example.biznet.TSP#TSP2",
             'uccInsurance': String(xlData[index]['uccInsurance']) === '1',
             'uccRealstate': String(xlData[index]['uccRealstate']) === '1',
             'uccEducation': String(xlData[index]['uccEducation']) === '1',

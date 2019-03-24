@@ -98,6 +98,7 @@ exports.getSubscriberDetails = function (phone, cb) {
         let participant = JSON.parse(subscriberDetail);
         cb(err, {
             insurance: participant['uccInsurance'],
+            tsp: participant['tsp'],
             realState: participant['uccRealstate'],
             education: participant['uccEducation'],
             health: participant['uccHealth'],
@@ -287,12 +288,13 @@ exports.getConsentForEntity = function (entity, cb) {
 
 exports.getHeaderByHeaderName = function (header, cb) {
     console.log("getHeaderbyHeaderName");
+    
 
     let url = 'http://localhost:3000/api/headers?filter=%7B%22where%22%3A%20%7B%22headerstr%22%3A%20%22' + header + '%22%7D%7D';
 
     request.makeFetchCall(url, function (err, data1) {
         let data = JSON.parse(data1);
-        console.log("return data", data[0]);
+        console.log("return data", data);
         console.log("typeof data", typeof data[0])
         return cb(err, data[0]);
     })
@@ -406,6 +408,21 @@ exports.getConsentTemplatesbyTemplateID = function (template, cb) {
     });
 };
 
+exports.getTMbyTMname = function(TMname, cb) {
+    console.log("getTMbyTMname");
+    let url = 'http://localhost:3000/api/telemarketer/'+TMname;
+
+    request.makeFetchCall(url, function (err, tm_det) {
+        console.log("url for getting telemarketers by TM name: ", url);
+        request.makeFetchCall(url, function (err, result1) {
+            let results = JSON.parse(result1);
+            console.log(results);
+            cb(null, results);
+        });
+    });
+}
+
+
 exports.saveHeader = function (header, entity, cb) {
     console.log("saveHeader");
     let owner_str = "resource:org.example.biznet.telemarketer#1"
@@ -518,6 +535,40 @@ exports.addContentTemplate = function(contentTemplateID, contentTemplateMsg, cb)
     })
 
 }
+
+exports.lodgeComplaint = function(complaintID, uccHeader, uccOAP, uccComplainee, uccDateTime, uccStatus, uccTAP, complainant, cb) {
+    let complaintDetails = {
+        $class: "org.example.biznet.complaint",
+        "complaintID": complaintID,
+        "uccHeader": uccHeader,
+        "OAP": uccOAP,
+        "complainee": uccComplainee,
+        "rtn": [],
+        "datentime": uccDateTime,
+        "uccStatus": uccStatus,
+        "TAP": uccTAP,
+        "complainant": complainant
+    };
+
+    let lodgeComplaintRequest = {
+        url: 'http://localhost:3000/api/complaint',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    };
+
+    lodgeComplaintRequest['method'] = 'POST';
+    lodgeComplaintRequest['body'] = complaintDetails;
+    lodgeComplaintRequest['json'] = true;
+
+    request.fetchData(lodgeComplaintRequest, function (err, data) {
+        console.log("lodgeComplaintRequest result",err, data);
+        cb(err, data);
+    });
+}
+
+
 
 exports.getTemplatesForHeader = function (header, cb) {
 
