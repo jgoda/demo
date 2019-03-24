@@ -260,6 +260,7 @@ exports.submitComplaint = function (req, res) {
     let uccDateTime = "12/03/2019 04:05:34";//DateTime at which complaint was filed. Must come from UI
     let complaintID = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
     let uccStatus = "Recorded"; //If current DateTime is within 3 days of uccDateTime, uccStatus = Recorded, else uccStatus = convertertoReport
+    let uccDescription = "blah blah"; //must come from UI
 
     let complainant_phone = complainant.substr(1 + complainant.indexOf("#"));
     chainManager.getSubscriberDetails(complainant_phone, function (err, subscriberData) {
@@ -270,7 +271,7 @@ exports.submitComplaint = function (req, res) {
             let uccTMname = uccComplainee.substr(1 + uccComplainee.indexOf("#"));
             chainManager.getTMbyTMname(uccTMname, function (err, TM_vals) {
                 let uccOAP = TM_vals['serviceProvider'].substr(1+TM_vals['serviceProvider'].indexOf('#'));
-                chainManager.lodgeComplaint(complaintID, uccHeader, uccOAP, uccComplainee, uccDateTime, uccStatus, uccTAP, complainant, function (err, data) {
+                chainManager.lodgeComplaint(complaintID, uccDescription, uccHeader, uccOAP, uccComplainee, uccDateTime, uccStatus, uccTAP, complainant, function (err, data) {
                     if (data) {
                         console.log("user processor true");
                         res.send({ success: true, message: 'Complaint Filed' });

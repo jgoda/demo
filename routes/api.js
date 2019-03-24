@@ -27,6 +27,10 @@ router.post('/sendDeleteContentTemplate', apiHandler.headerProcessor.sendDeleteC
 router.post('/addContentTemplate', apiHandler.headerProcessor.addContentTemplate);
 router.post('/makeSubscriberExcelComplaints', apiHandler.fileProcessor.makeSubscriberComplaintsExcel);
 router.post('/makeEntityComplaintsExcel', apiHandler.fileProcessor.makeEntityComplaintsExcel);
+router.post('/callConfirmedComplainttoOAP', apiHandler.headerProcessor.callConfirmedComplainttoOAP);
+router.post('/closeComplaintbyTAP', apiHandler.headerProcessor.closeComplaintbyTAP);
+router.post('/closeComplaintbyOAP', apiHandler.headerProcessor.closeComplaintbyOAP);
+router.post('/resolvedbyOAP', apiHandler.headerProcessor.resolvedbyOAP);
 //router.post('/getConsents', apiHandler.userProcessor.getConsents);
 //router.post('/subscribervalsget', apiHandler.userProcessor.subscribervalsget);
 

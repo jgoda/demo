@@ -11,13 +11,12 @@
                 <td>{{compl.complaintID}}</td>
             </tr>
             <tr>
-                <td>Complainant</td>
-                <td>{{compl.complainant}}</td>
-            </tr>
-
-            <tr>
                 <td>Complaint Description</td>
                 <td>{{compl.description}}</td>
+            </tr>
+            <tr>
+                <td>Complainant</td>
+                <td>{{compl.complainant}}</td>
             </tr>
 
             <tr>
@@ -48,12 +47,28 @@
             </tr>
 
             <tr>
+                <td>VIDN for the subscriber when the call was made</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>Scrubbing ID for the scrubbing when the call was done</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>Scrubbed file generated for this call</td>
+                <td><a href="/complaintScrubDownload">Download</a></td>
+            </tr>
+
+            <tr>
                 <td>Complaint Status</td>
                 <td>{{compl.uccStatus}}</td>
             </tr>
 
         </table>
-        <button onclick="callConfirmedComplainttoOAP()">Confirm Call and transfer Complaint to OAP</button>
-        <button onclick="closeComplaintbyTAP()">Close Complaint</button>
+
+        <button onclick="resolvedbyOAP()">Confirm Call and transfer Complaint to OAP</button>
+        <button onclick="closeComplaintbyOAP()">Close Complaint</button>
     </div>
 </div>

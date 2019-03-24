@@ -322,4 +322,14 @@ router.get('/complaintDetails', function (req, res) {
     })
 });
 
+router.get('/confirmCall', function (req, res){
+    let compID = req.query.complaint;
+    res.render('complaintConfirmCall',{});
+});
+
+router.get('/confirmScrubbing', function (req, res){
+    let compID = req.query.complaint;
+    res.render('complaintConfirmScrubbing',{});
+});
+
 module.exports = router;

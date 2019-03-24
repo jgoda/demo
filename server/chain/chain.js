@@ -369,7 +369,7 @@ exports.getComplaintsbyHeader = function (hdr, cb) {
   }*/
 
     console.log("getComplaintsbyHeaders");
-    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22uccHeader%22%3A%22'+hdr+'%22%7D%7D';
+    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22uccHeader%22%3A%22' + hdr + '%22%7D%7D';
     request.makeFetchCall(url, function (err, data1) {
         data = JSON.parse(data1);
         console.log("return data", data);
@@ -446,6 +446,27 @@ exports.getComplaintDetails = function (compID, cb) {
         let tsp_owner = data[0]['TAP'].substr(1 + data[0]['complainant'].indexOf("#"));
         data[0]['complainant'] = complainant;
         data[0]['TAP'] = tsp_owner;
+        console.log("return data", data[0]);
+        console.log("typeof data", typeof data[0])
+        return cb(err, data[0]);
+    });
+};
+
+exports.getComplaintbyID = function (compID, cb) {
+
+    /*
+{
+"$class": "org.example.biznet.headers",
+"headerstr": "HDR1",
+"regMobNo": "string",
+"regTSP": "resource:org.example.biznet.TSP#TSP1",
+"telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
+}
+*/
+    console.log("getComplaintbyID");
+    let url = 'http://localhost:3000/api/complaint?filter=%7B%22where%22%3A%20%7B%22complaintID%22%3A%20%22' + compID + '%22%7D%7D';
+    request.makeFetchCall(url, function (err, data1) {
+        let data = JSON.parse(data1);
         console.log("return data", data[0]);
         console.log("typeof data", typeof data[0])
         return cb(err, data[0]);
@@ -662,7 +683,7 @@ exports.addContentTemplate = function (contentTemplateID, contentTemplateMsg, cb
 
 }
 
-exports.lodgeComplaint = function (complaintID, uccHeader, uccOAP, uccComplainee, uccDateTime, uccStatus, uccTAP, complainant, cb) {
+exports.lodgeComplaint = function (complaintID, uccDescription, uccHeader, uccOAP, uccComplainee, uccDateTime, uccStatus, uccTAP, complainant, cb) {
     /* JSON response
                     { '$class': 'org.example.biznet.complaint',
                         complaintID: 'phxwc',
@@ -679,6 +700,7 @@ exports.lodgeComplaint = function (complaintID, uccHeader, uccOAP, uccComplainee
     let complaintDetails = {
         $class: "org.example.biznet.complaint",
         "complaintID": complaintID,
+        "description": uccDescription,
         "uccHeader": uccHeader,
         "OAP": uccOAP,
         "complainee": uccComplainee,
@@ -913,8 +935,20 @@ exports.getComplaintsByOwnerId = function (ownerId, cb) {
     })
 }
 
+exports.updateComplaintStatus = function (complaintDetails, cb) {
 
+    let complaintUpdateRequest = {
+        url: 'http://localhost:3000/api/complaint/' + complaintDetails['complaintID'],
+        headers: {
+            'Accept': 'application/json'
+        }
+    };
 
-
-
-
+    complaintUpdateRequest['method'] = 'PUT';
+    complaintUpdateRequest['body'] = complaintDetails;
+    complaintUpdateRequest['json'] = true;
+    request.fetchData(complaintUpdateRequest, function (err, response) {
+        console.log('PUT response status: ', response.status);
+        return cb(err, response);
+    });
+}

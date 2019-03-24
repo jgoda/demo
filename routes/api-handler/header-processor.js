@@ -199,3 +199,116 @@ exports.sendDeleteContentTemplate = function (req, res) {
         }
     })
 };
+
+
+exports.callConfirmedComplainttoOAP = function (req, res) {
+    console.log("complaint fwd to OAP");
+
+    let complaintID = "wmejn"; //This detail needs to come from UI
+
+    chainManager.getComplaintbyID(complaintID, function (err, complaintDetails) {
+        let newComplaintDetails = complaintDetails;
+        newComplaintDetails['uccStatus'] = 'TransferredtoOAP';
+        chainManager.updateComplaintStatus(newComplaintDetails, function (err, data) {
+            console.log(err, data);
+            if (data) {
+                let result = {
+                    status: true,
+                    message: 'Complaint status updated'
+                };
+                res.send(result);
+            }
+            else {
+                let result = {
+                    status: false,
+                    message: 'Complaint status not updated'
+                };
+                res.send(result);
+            }
+        });
+    });
+};
+
+exports.closeComplaintbyTAP = function (req, res) {
+    console.log("close complaint by TAP");
+
+    let complaintID = "wmejn"; //This detail needs to come from UI
+
+    chainManager.getComplaintbyID(complaintID, function (err, complaintDetails) {
+        let newComplaintDetails = complaintDetails;
+        newComplaintDetails['uccStatus'] = 'ClosedbyTAP';
+        chainManager.updateComplaintStatus(newComplaintDetails, function (err, data) {
+            console.log(err, data);
+            if (data) {
+                let result = {
+                    status: true,
+                    message: 'Complaint status updated'
+                };
+                res.send(result);
+            }
+            else {
+                let result = {
+                    status: false,
+                    message: 'Complaint status not updated'
+                };
+                res.send(result);
+            }
+        });
+    });
+}
+
+exports.closeComplaintbyOAP = function (req, res) {
+    console.log("close complaint by OAP");
+    let complaintID = "wmejn"; //This detail needs to come from UI
+
+
+    chainManager.getComplaintbyID(complaintID, function (err, complaintDetails) {
+        let newComplaintDetails = complaintDetails;
+        newComplaintDetails['uccStatus'] = 'ClosedbyOAP';
+        chainManager.updateComplaintStatus(newComplaintDetails, function (err, data) {
+            console.log(err, data);
+            if (data) {
+                let result = {
+                    status: true,
+                    message: 'Complaint status updated'
+                };
+                res.send(result);
+            }
+            else {
+                let result = {
+                    status: false,
+                    message: 'Complaint status not updated'
+                };
+                res.send(result);
+            }
+        });
+    });
+}
+
+exports.resolvedbyOAP = function (req, res) {
+    console.log("close complaint by OAP");
+
+    let complaintID = "wmejn"; //This detail needs to come from UI
+
+    chainManager.getComplaintbyID(complaintID, function (err, complaintDetails) {
+        let newComplaintDetails = complaintDetails;
+        newComplaintDetails['uccStatus'] = 'Resolved';
+        chainManager.updateComplaintStatus(newComplaintDetails, function (err, data) {
+            console.log(err, data);
+            if (data) {
+                let result = {
+                    status: true,
+                    message: 'Complaint status updated'
+                };
+                res.send(result);
+            }
+            else {
+                let result = {
+                    status: false,
+                    message: 'Complaint status not updated'
+                };
+                res.send(result);
+            }
+        });
+    });
+}
