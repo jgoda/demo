@@ -435,7 +435,6 @@ exports.getSubscriberComplaints = function (phone, data2, cb) {
 "$class": "org.example.biznet.headers",
 "headerstr": "HDR1",
 "regMobNo": "string",
-"regTSP": "resource:org.example.biznet.TSP#TSP1",
 "telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
 }
 ]*/
@@ -462,7 +461,6 @@ exports.getComplaintDetails = function (compID, cb) {
 "$class": "org.example.biznet.headers",
 "headerstr": "HDR1",
 "regMobNo": "string",
-"regTSP": "resource:org.example.biznet.TSP#TSP1",
 "telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
 }
 */
@@ -487,7 +485,6 @@ exports.getComplaintbyID = function (compID, cb) {
 "$class": "org.example.biznet.headers",
 "headerstr": "HDR1",
 "regMobNo": "string",
-"regTSP": "resource:org.example.biznet.TSP#TSP1",
 "telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
 }
 */
@@ -507,7 +504,6 @@ exports.getComplaintsforSubscriber = function (phone, cb) {
 "$class": "org.example.biznet.headers",
 "headerstr": "HDR1",
 "regMobNo": "string",
-"regTSP": "resource:org.example.biznet.TSP#TSP1",
 "telemarketer_owner": "resource:org.example.biznet.telemarketer#TM1"
 }
 ]*/
@@ -604,9 +600,7 @@ exports.saveHeader = function (header, entity, cb) {
     let hdr = {
         $class: "org.example.biznet.headers",
         "headerstr": header,
-        "regMobNo": "NA",
         "telemarketer_owner": owner_str,
-        "regTSP": "resource:org.example.biznet.TSP#TSP1"
     };
 
     let saveHeaderRequest = {
