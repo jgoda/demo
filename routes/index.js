@@ -306,9 +306,8 @@ router.get('/tspComplaints', function (req, res) {
     chain.getComplaintsbyTSPTAP(TSPID, function (err, complaints) {
         console.log("tspComplaints", complaints);
         Tacc = "resource:org.example.biznet.TSP#"+TSPID;
-        OAP = complaints['OAP'];
         chain.getComplaintsbyTSPOAP(TSPID, function(err, complaints1){
-            res.render('tspComplaints', {TSPID:Tacc, TAP_OAP:OAP, complaints:complaints, complaints1:complaints1});
+            res.render('tspComplaints', {TSPID:Tacc, complaints:complaints, complaints1:complaints1});
         })
     })
 });
