@@ -15,20 +15,34 @@
                         <th>Automation check</th>
                     </tr>
                     {{#each complaints}}
-                <td>{{this.complaintID}}</td>
-                <td>{{this.uccStatus}}</td>
-                <td>{{this.uccHeader}}</td>
-                <td><a href="/complaintDetails?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">info</i></a></td>
-                <td>
-                    {% if {{this.uccStatus}}=="Recorded" and {{this.TAP}}=={{TSPID}}"%}
-                    <a href="/confirmCall?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">description</i></a>
-                    {%else if {{this.uccStatus}}=="TransferredtoOAP" and {{this.OAP}}=={{TSPID}}%}
-                    <a href="/confirmScrubbing?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">description</i></a>
-                    {%else%}
-                    <a href="" class="secondary-content"><i class="material-icons">highlight_off</i></a>
-                </td>
-                <td><a href="/confirmCall?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">description</i></a></td>
-                {{/each}}
+                        <tr>
+                            <td>{{this.complaintID}}</td>
+                            <td>{{this.uccStatus}}</td>
+                            <td>{{this.uccHeader}}</td>
+                            <td><a href="/complaintDetails?complaint={{this.complaintID}}" class="secondary-content"><i
+                                    class="material-icons">info</i></a></td>
+                            <td>
+                                {{#if this.confirmCall}}
+                                    <a href="/confirmCall?complaint={{this.complaintID}}" class="secondary-content"><i
+                                            class="material-icons">description</i></a>
+
+                                {{/if}}
+                                {{#if this.confirmScrubbing}}
+                                    <a href="/confirmScrubbing?complaint={{this.complaintID}}"
+                                       class="secondary-content"><i
+                                            class="material-icons">description</i></a>
+
+                                {{/if}}
+
+                                <!--
+                                                            <a href="" class="secondary-content"><i class="material-icons">highlight_off</i></a>
+                                -->
+                            </td>
+                            <td><a href="/confirmCall?complaint={{this.complaintID}}" class="secondary-content"><i
+                                    class="material-icons">description</i></a></td>
+                        </tr>
+
+                    {{/each}}
                 </table>
             </div>
         </ul>
@@ -49,20 +63,31 @@
                         <th>Automation check</th>
                     </tr>
                     {{#each complaints1}}
-                <td>{{this.complaintID}}</td>
-                <td>{{this.uccStatus}}</td>
-                <td>{{this.uccHeader}}</td>
-                <td><a href="/complaintDetails?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">info</i></a></td>
-                <td>
-                    {% if {{this.uccStatus}}=="Recorded" and {{this.TAP}}=={{TSPID}}"%}
-                    <a href="/confirmCall?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">description</i></a>
-                    {%else if {{this.uccStatus}}=="TransferredtoOAP" and {{this.OAP}}=={{TSPID}}%}
-                    <a href="/confirmScrubbing?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">description</i></a>
-                    {%else%}
-                    <a href="" class="secondary-content"><i class="material-icons">highlight_off</i></a>
-                </td>
-                <td><a href="/confirmCall?complaint={{this.complaintID}}" class="secondary-content"><i class="material-icons">description</i></a></td>
-                {{/each}}
+                        <tr>
+                            <td>{{this.complaintID}}</td>
+                            <td>{{this.uccStatus}}</td>
+                            <td>{{this.uccHeader}}</td>
+                            <td><a href="/complaintDetails?complaint={{this.complaintID}}" class="secondary-content"><i
+                                    class="material-icons">info</i></a></td>
+                            <td>
+                                {{#if this.confirmCall}}
+                                    <a href="/confirmCall?complaint={{this.complaintID}}" class="secondary-content"><i
+                                            class="material-icons">description</i></a>
+                                {{/if}}
+                                {{#if this.confirmScrubbing}}
+                                    <a href="/confirmScrubbing?complaint={{this.complaintID}}"
+                                       class="secondary-content"><i
+                                            class="material-icons">description</i></a>
+                                {{/if}}
+
+                                <!--
+                                                            <a href="" class="secondary-content"><i class="material-icons">highlight_off</i></a>
+                                -->
+                            </td>
+                            <td><a href="/confirmCall?complaint={{this.complaintID}}" class="secondary-content"><i
+                                    class="material-icons">description</i></a></td>
+                        </tr>
+                    {{/each}}
                 </table>
             </div>
         </ul>

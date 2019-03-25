@@ -1,20 +1,35 @@
 <div class="container">
     <div class="text-center heading-margin">
         <p>&nbsp;</p>
-        
+
     </div>
 
     <div class="categoryContainer">
         <h4 class="">File a Complaint</h4>
         <p>Please use this page to file a new complaint</p>
         Header/Number from which you received an unwanted commercial call:<br>
-        <input type="text" name="complaintHeader"><br>
-        Date of call:<br>
-        <input type="text" name="complaintDate">
-        Time of call:<br>
-        <input type="text" name="complaintTime">
-        Any RTN number?:<br>
-        <input type="text" name="complaintDateTime">
+        <div class="input-field col s12">
+            <input id="complaintHeader" type="text" class="validate" name="complaintHeader">
+            <label for="complaintHeader">Header</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="complaintDate" type="text" class="datepicker" name="complaintDate">
+            <label for="complaintDate">Date of call</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="complaintTime" type="text" class="timepicker" name="complaintTime">
+            <label for="complaintTime">Time of call</label>
+        </div>
+
+        <div class="input-field col s12">
+            <input id="rtnNumber" type="text" class="validate" name="rtnNumber">
+            <label for="complaintHeader"> Any RTN number?</label>
+        </div>
+        <div class="input-field col s12">
+            <div>Complaint Description</div>
+            <textarea id="description" class="validate" name="description"></textarea>
+        </div>
+
         <a class="waves-effect waves-light btn" onclick="submitComplaint()">File Complaint</a>
     </div>
 

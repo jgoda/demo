@@ -3,7 +3,10 @@ $(document).ready(function () {
     $('.collapsible').collapsible();
 
     $('.modal').modal();
-    
+
+    $('.datepicker').datepicker();
+    $('.timepicker').timepicker();
+
     $('#allUccCategory').change(function () {
         let allChecked = $(this).is(':checked');
         $('#insurance').prop('checked', allChecked);
